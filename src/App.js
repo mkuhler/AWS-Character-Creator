@@ -32,8 +32,8 @@ function CharacterSheet() {
     doc.line(10, 24, 50, 24);
     doc.line(70, 24, 120, 24);
 
-    doc.setFontSize(12);
-    doc.setTextColor(1);
+    doc.setFontSize(10);
+    doc.setTextColor(102, 102, 102);
     doc.text("Character Name", 10, 16);
     doc.text("Race", 10, 30);
     doc.text("Class & Level", 70, 30);
