@@ -38,7 +38,7 @@ function CharacterSheet() {
     doc.text("Race", 10, 30);
     doc.text("Class & Level", 70, 30);
     
-    doc.save("charactersheet.pdf");
+    doc.save(`${fname}_charactersheet.pdf`);
     console.log('Saved');
   }
 
