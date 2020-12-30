@@ -96,7 +96,7 @@ function CharacterSheet() {
 
             <div class="col-md-4">
               <label>Level: </label>
-              <input type="number" id="level" name="level" value={Math.max(0, level)} onChange={e => setLevel(e.target.value)}></input>
+              <input type="number" id="level" name="level" value={Math.max(0, level)} onChange={e => setLevel(Math.max(0, e.target.value))}></input>
             </div>
 
           </div>
