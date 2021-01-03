@@ -14,8 +14,7 @@ function ProgressBar() {
 }
 
 function CharacterSheet() {
-  const [fname, setFname] = useState("");
-  const [lname, setLname] = useState("");
+  const [name, setName] = useState("");
   const [race, setRace] = useState("");
   const [charclass, setCharclass] = useState("");
   const [level, setLevel] = useState(1);
@@ -24,7 +23,7 @@ function CharacterSheet() {
     const doc = new jsPDF();
     /*doc.text(`Class: ${charclass}`, 10, 20);*/
     
-    doc.text(`${fname} ${lname}`, 10, 10);
+    doc.text(`${name}`, 10, 10);
     doc.text(`${charclass}`, 10, 22);
     doc.text(`${race} - ${level}`, 70, 22);
 
@@ -38,7 +37,7 @@ function CharacterSheet() {
     doc.text("Race", 10, 30);
     doc.text("Class & Level", 70, 30);
     
-    doc.save(`${fname}_charactersheet.pdf`);
+    doc.save(`${name}_charactersheet.pdf`);
     console.log('Saved');
   }
 
@@ -50,14 +49,12 @@ function CharacterSheet() {
           <div class="row">
 
             <div class="col-md-6">
-              <label>Character Name: </label>
-              <input type="text" id="fname" name="fname" onChange={e => setFname(e.target.value)}></input>
-              &nbsp;
-              <input type="text" id="lname" name="lname" onChange={e => setLname(e.target.value)}></input>
+              <label>Character Name</label>
+              <input type="text" id="name" name="fname" onChange={e => setName(e.target.value)}></input>
             </div>
 
             <div class="col-md-4">
-              <label>Race: </label>
+              <label>Race</label>
               <input list="races" name="race" id="race" onChange={e => setRace(e.target.value)}></input>
 
               <datalist id="races">
@@ -78,7 +75,7 @@ function CharacterSheet() {
           <div class="row">
 
             <div class="col-md-6">
-            <label>Class: </label>
+            <label>Class</label>
               <input list="classes" name="charClass" id="charClass" onChange={e => setCharclass(e.target.value)}></input>
 
               <datalist id="classes">
@@ -95,7 +92,7 @@ function CharacterSheet() {
             </div>
 
             <div class="col-md-4">
-              <label>Level: </label>
+              <label>Level</label>
               <input type="number" id="level" name="level" value={Math.max(0, level)} onChange={e => setLevel(Math.max(0, e.target.value))}></input>
             </div>
 
