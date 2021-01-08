@@ -52,12 +52,12 @@ function CharacterSheet() {
 
           <div class="form-row">
             <div class="form-group col-sm-6">
-              <label for="name">Character Name</label> <br />
+              <label for="name">Character Name</label>
               <input type="text" class="form-control" id="name" name="fname" onChange={e => setName(e.target.value)}></input>
             </div>
 
             <div class="form-group col-sm-6">
-              <label>Race</label> <br />
+              <label>Race</label>
               <input list="races" class="form-control" name="race" id="race" onChange={e => setRace(e.target.value)}></input>
 
               <datalist id="races">
@@ -76,7 +76,7 @@ function CharacterSheet() {
 
           <div class="form-row">
             <div class="form-group col-sm-6">
-            <label>Class</label><br />
+            <label>Class</label>
               <input list="classes" class="form-control" name="charClass" id="charClass" onChange={e => setCharclass(e.target.value)}></input>
 
               <datalist id="classes">
@@ -93,34 +93,33 @@ function CharacterSheet() {
             </div>
 
             <div class="form-group col-sm-6">
-              <label>Level</label><br />
+              <label>Level</label>
               <input type="number" class="form-control" id="level" name="level" value={Math.max(0, level)} onChange={e => setLevel(Math.max(0, e.target.value))}></input>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-group col-sm-3">
-              <label>Height</label><br />
+              <label>Height</label>
               <input type="text" class="form-control" id="height" name="height" onChange={e => setHeight(e.target.value)}></input>
             </div>
 
             <div class="form-group col-sm-3">
-              <label>Weight</label><br />
+              <label>Weight</label>
               <input type="text" class="form-control" id="weight" name="weight" onChange={e => setWeight(e.target.value)}></input>
             </div>
 
             <div class="form-group col-sm-3">
-              <label>Age</label><br />
+              <label>Age</label>
               <input type="text" class="form-control" id="age" name="age" onChange={e => setAge(e.target.value)}></input>
             </div>
 
             <div class="form-group col-sm-3">
-              <label>Gender</label><br />
+              <label>Gender</label>
               <input type="text" class="form-control" id="gender" name="gender" onChange={e => setGender(e.target.value)}></input>
             </div>
           </div>
           
-          <br />
           <input type="submit" class="btn btn-primary" value="Save as PDF"></input>
         </div>
         
