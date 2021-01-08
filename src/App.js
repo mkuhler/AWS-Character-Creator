@@ -3,14 +3,28 @@ import './App.css';
 import React, {useState, useEffect} from "react";
 import { jsPDF } from "jspdf";
 
+import charClassData from "./data";
 
-function ProgressBar() {
-  return(
-    <div class="progress">
-    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-  </div>
-  );
+function InfoCard(props) {
+  /* Search for the selected class in charClass data and retrieve information */
+  const charClassInfo = charClassData.find(charClass => charClass.name === props.name);
 
+  if (charClassInfo) {
+    return (
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{props.name}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">+2 Class Bonus</h6>
+          <ul>{charClassInfo.class_bonus.map(class_bonus => <li>{class_bonus}</li>)}</ul>
+          <h6 class="card-subtitle mb-2 text-muted">Backgrounds</h6>
+          <ul>{charClassInfo.backgrounds.map(background => <li>{background}</li>)}</ul>
+          <a href={"https://www.13thagesrd.com/classes/" + props.name} class="card-link" target="_blank">Learn more {'>'}</a>
+        </div>
+      </div>
+    );
+  } else {
+    return (<div></div>);
+  }
 }
 
 function CharacterSheet() {
@@ -46,10 +60,9 @@ function CharacterSheet() {
   }
 
   return (
-    <form onSubmit={savePDF}>
-
-        <div id="cs_1" class="container">
-
+    <div id="cs_1" class="container-fluid">
+        <div class="row">
+        <form class="col-med" onSubmit={savePDF}>
           <div class="form-row">
             <div class="form-group col-sm-6">
               <label for="name">Character Name</label>
@@ -72,7 +85,7 @@ function CharacterSheet() {
                 <option value="Half-elf" />
               </datalist>
             </div>
-          </div>
+          </div> {/* END FORM ROW */}
 
           <div class="form-row">
             <div class="form-group col-sm-6">
@@ -96,7 +109,7 @@ function CharacterSheet() {
               <label>Level</label>
               <input type="number" class="form-control" id="level" name="level" value={Math.max(0, level)} onChange={e => setLevel(Math.max(0, e.target.value))}></input>
             </div>
-          </div>
+          </div> {/* END FORM ROW */}
 
           <div class="form-row">
             <div class="form-group col-sm-3">
@@ -118,12 +131,16 @@ function CharacterSheet() {
               <label>Gender</label>
               <input type="text" class="form-control" id="gender" name="gender" onChange={e => setGender(e.target.value)}></input>
             </div>
-          </div>
-          
+          </div> {/* END FORM ROW */}
+
           <input type="submit" class="btn btn-primary" value="Save as PDF"></input>
-        </div>
-        
-    </form>
+        </form>
+
+        <div id="info" class="col-sm">
+          <InfoCard name={charclass} />
+        </div> {/* END INFO */}
+      </div> {/* END ROW */}
+    </div> 
   );
 }
 
