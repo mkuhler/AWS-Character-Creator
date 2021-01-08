@@ -18,6 +18,10 @@ function CharacterSheet() {
   const [race, setRace] = useState("");
   const [charclass, setCharclass] = useState("");
   const [level, setLevel] = useState(1);
+  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
 
   function savePDF (e) {
     const doc = new jsPDF();
@@ -44,18 +48,17 @@ function CharacterSheet() {
   return (
     <form onSubmit={savePDF}>
 
-        <div id="cs_1" class="form-group">
+        <div id="cs_1" class="container">
 
-          <div class="row">
-
-            <div class="col-md-6">
-              <label>Character Name</label>
-              <input type="text" id="name" name="fname" onChange={e => setName(e.target.value)}></input>
+          <div class="form-row">
+            <div class="form-group col-sm-6">
+              <label for="name">Character Name</label> <br />
+              <input type="text" class="form-control" id="name" name="fname" onChange={e => setName(e.target.value)}></input>
             </div>
 
-            <div class="col-md-4">
-              <label>Race</label>
-              <input list="races" name="race" id="race" onChange={e => setRace(e.target.value)}></input>
+            <div class="form-group col-sm-6">
+              <label>Race</label> <br />
+              <input list="races" class="form-control" name="race" id="race" onChange={e => setRace(e.target.value)}></input>
 
               <datalist id="races">
                 <option value="Alleykin" />
@@ -69,14 +72,12 @@ function CharacterSheet() {
                 <option value="Half-elf" />
               </datalist>
             </div>
-
           </div>
 
-          <div class="row">
-
-            <div class="col-md-6">
-            <label>Class</label>
-              <input list="classes" name="charClass" id="charClass" onChange={e => setCharclass(e.target.value)}></input>
+          <div class="form-row">
+            <div class="form-group col-sm-6">
+            <label>Class</label><br />
+              <input list="classes" class="form-control" name="charClass" id="charClass" onChange={e => setCharclass(e.target.value)}></input>
 
               <datalist id="classes">
                 <option value="Barbarian" />
@@ -91,16 +92,36 @@ function CharacterSheet() {
               </datalist>
             </div>
 
-            <div class="col-md-4">
-              <label>Level</label>
-              <input type="number" id="level" name="level" value={Math.max(0, level)} onChange={e => setLevel(Math.max(0, e.target.value))}></input>
+            <div class="form-group col-sm-6">
+              <label>Level</label><br />
+              <input type="number" class="form-control" id="level" name="level" value={Math.max(0, level)} onChange={e => setLevel(Math.max(0, e.target.value))}></input>
             </div>
-
           </div>
 
+          <div class="form-row">
+            <div class="form-group col-sm-3">
+              <label>Height</label><br />
+              <input type="text" class="form-control" id="height" name="height" onChange={e => setHeight(e.target.value)}></input>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label>Weight</label><br />
+              <input type="text" class="form-control" id="weight" name="weight" onChange={e => setWeight(e.target.value)}></input>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label>Age</label><br />
+              <input type="text" class="form-control" id="age" name="age" onChange={e => setAge(e.target.value)}></input>
+            </div>
+
+            <div class="form-group col-sm-3">
+              <label>Gender</label><br />
+              <input type="text" class="form-control" id="gender" name="gender" onChange={e => setGender(e.target.value)}></input>
+            </div>
+          </div>
           
           <br />
-          <input type="submit" value="Save as PDF"></input>
+          <input type="submit" class="btn btn-primary" value="Save as PDF"></input>
         </div>
         
     </form>
