@@ -15,7 +15,14 @@ function InfoCard(props) {
         <div class="card-body">
           <h5 class="card-title">{props.name}</h5>
           <h6 class="card-subtitle mb-2 text-muted">+2 Class Bonus</h6>
-          <ul>{charClassInfo.class_bonus.map(class_bonus => <li>{class_bonus}</li>)}</ul>
+
+            {charClassInfo.class_bonus.map(class_bonus => 
+               <div class="form-check">
+                <input class="form-check-input" type="radio" name="classBonus" id={class_bonus} value={class_bonus} />
+                <label class="form-check-label" for="classBonus">{class_bonus}</label>
+              </div>
+            )}
+
           <h6 class="card-subtitle mb-2 text-muted">Backgrounds</h6>
           <ul>{charClassInfo.backgrounds.map(background => <li>{background}</li>)}</ul>
           <a href={"https://www.13thagesrd.com/classes/" + props.name} class="card-link" target="_blank">Learn more {'>'}</a>
@@ -36,6 +43,12 @@ function CharacterSheet() {
   const [weight, setWeight] = useState("");
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
+  const [abilityScores, setAbilityScores] = useState([{ability: 'str', score:0, modifier:0}, 
+                                                      {ability: 'con', score:0, modifier:0}, 
+                                                      {ability: 'dex', score:0, modifier:0}, 
+                                                      {ability: 'int', score:0, modifier:0}, 
+                                                      {ability: 'wis', score:0, modifier:0}, 
+                                                      {ability: 'cha', score:0, modifier:0}]);
 
   function savePDF (e) {
     const doc = new jsPDF();
@@ -62,7 +75,8 @@ function CharacterSheet() {
   return (
     <div id="cs_1" class="container-fluid">
         <div class="row">
-        <form class="col-med" onSubmit={savePDF}>
+        <form class="col-8" onSubmit={savePDF}>
+          <h4>Basic Information</h4>
           <div class="form-row">
             <div class="form-group col-sm-6">
               <label for="name">Character Name</label>
@@ -133,10 +147,38 @@ function CharacterSheet() {
             </div>
           </div> {/* END FORM ROW */}
 
+          <hr />
+          <div class="form-row">
+            <div class="form-group col-sm-3">
+              <h4>Ability Scores</h4> 
+            </div>
+            <div class="form-group col-sm-3">
+              <button type="button" class="btn btn-outline-secondary">Roll</button>
+            </div>
+          </div>
+
+          <div class="form-row">
+            {abilityScores.map((abilityScore, index) => 
+                <div class="form-group col">
+                <label>{abilityScore.ability}</label>
+                <input type="number" class="form-control" id={abilityScore.ability} name={abilityScore.ability} value = {abilityScore.score}></input>
+              </div>
+            )} 
+          </div> {/* END FORM ROW */}
+
+          <div class="form-row">
+            {abilityScores.map((abilityScore, index) => 
+                <div class="form-group col">
+                <input type="number" class="form-control" id={abilityScore.ability} name={abilityScore.ability} value = {abilityScore.modifier}></input>
+              </div>
+            )} 
+          </div> {/* END FORM ROW */}
+
           <input type="submit" class="btn btn-primary" value="Save as PDF"></input>
         </form>
 
         <div id="info" class="col-sm">
+          <InfoCard name={race} />
           <InfoCard name={charclass} />
         </div> {/* END INFO */}
       </div> {/* END ROW */}
@@ -154,7 +196,6 @@ function App() {
       <div className="content">
         <CharacterSheet />
       </div>
-
     </div>
   );
 }
