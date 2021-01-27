@@ -1,35 +1,42 @@
 import logo from './logo.svg';
 import './App.css';
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, Component} from 'react';
 import { jsPDF } from 'jspdf';
-
-import AppContext from './components/AppContext';
+import charsheet from './CharSheetData';
 import charClassData from './data';
 
-// Component using charSheet from AppContext
-const InfoCard = () => {
-  const charSheetContext = useContext(AppContext);
-
-  return (
-    <h1>Test: {charSheetContext.test}</h1>
-  );
+class Form extends React.Component {
+  render() {
+    return(
+      <form>
+        <h1>{this.props.charsheet}</h1>
+        <input type='text' onChange={this.props.updateName}/>
+      </form>
+      
+    )
+  }
 };
 
-export const App = () => {
-  // Character sheet global variables
-  const [test, setTest] = useState(0);
+class App extends Component {
+  /* Initializing local state */
+  constructor(props) {
+    super(props)
+    this.state = { data : charsheet }
+  }
 
-  // Character sheet object
-  const charSheet = {
-    test: 1,
-    setTest,
-  };
+  render() {
+    return(
+      <div>
+        <Form charsheet = {this.state.data.name} updateName={this.updateName} />
+      </div>
+    );
+  }
 
-  return(
-    <AppContext.Provider value = {charSheet}>
-      <InfoCard />
-    </AppContext.Provider>
-  );
+  updateCharsheet = e => this.setState({data : e.target.value})
+  updateName = e => this.setState(
+    {data : {
+      name: e.target.value
+    }})
 };
 
 export default App;
