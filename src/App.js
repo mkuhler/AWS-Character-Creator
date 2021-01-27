@@ -9,7 +9,7 @@ class Form extends React.Component {
   render() {
     return(
       <form>
-        <h1>{this.props.charsheet}</h1>
+        <h1>{this.props.charName}</h1>
         <input type='text' onChange={this.props.updateName}/>
       </form>
       
@@ -27,7 +27,7 @@ class App extends Component {
   render() {
     return(
       <div>
-        <Form charsheet = {this.state.data.name} updateName={this.updateName} />
+        <Form charName = {this.state.data.name} updateName={this.updateName} />
       </div>
     );
   }
