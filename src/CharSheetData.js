@@ -18,7 +18,7 @@ const charsheet = {
             clas_bonus_chosen: "" // which of the two bonus options the user selects, no defualt?
         },
 
-        level: "", // ***** level actually needs to be a string to allow for novie tiers, no default? N0 (lowest possible level) by default?
+        level: "", // ***** level actually needs to be a string to allow for novice tiers, no default? N0 (lowest possible level) by default?
 
         race_info: { // similar to class the user has 2 bonus options tied to that class
             race: "", // ***** elf, dragonborn, etc. no defualt?
@@ -76,7 +76,7 @@ const charsheet = {
         saving_throws_hard: 16,
         saving_throws_optional: "", // optional descriptive text for user to include some mention of their character specific calculations
 
-        death_saves_max: 0, // ***** not sure how to calculate,in tim's sheet these are skulls / checkboxes for user to scratch off, a number may suffice but wouldn't be as visually appealling
+        death_saves_max: 0, // ***** not sure how to calculate. in Tim's sheets these are skulls / checkboxes for user to scratch off, a number may suffice but wouldn't be as visually appealling
         death_saves_current: "", // DO NOT SHOW THIS FIELD TO USER. final sheet should have this always be blank so user can write in values
     }, // end of 3rd page
 
@@ -107,79 +107,18 @@ const charsheet = {
     }, // end of 4th page
 
 
-    /* commenting out powers page until we have a seperate class/data type for powers (?)
+    // commenting out powers page until we have a seperate class/data type for powers (?)
 
     // powers may have to be their own class / data type so that we may more easily keep adding more ?
     // Most powers seem to have a name, one or more frequencies and a description typically consisting of information such: an action type, a range, a target, an effect and an "other" array of strings
     // that serves as a catch all for any misc information a power may have that isnt covered by the previous fields
     character_powers: { // 5th page, deals with information relating to powers
 
-        powers: [ // an array of power objects (?)
+        // an array of power objects, see below. Not sure if this will work ???
+        powers: [new power, new power]
 
-            power: {
-
-                power_name: "", // *****
-
-                // powers will have 2 frequencies, the second will be "None" by default, and can be changed by the user
-                // this allows for a 2nd frequency without it being required, if None, do not print on sheet, but keep track of in data
-
-                 // likely best handled by a drop down list, options (in order of priority) are: At-Will, Cyclical, Battle-Based, Recharge, Daily, and Other
-                // i.e. if color coding a power that is Battle-Based and daily, color it as a Battle-Based power
-                power_frequency_1: "", // *****
-                power_uses_1: -1, // -1 means "infinite use" such as an At-Will or Cyclical power; Battle-Based needs an int from 1-5, Recharge from 1-20, Daily from 1-5, Other is up to the player
-
-                power_frequency_2: "None", // not applicatble by default, i.e. only one frequncy
-                power_uses_2: 0,
-
-                power_description: {
-
-                    power_action_type: "Standard Action", // Standard action is default if not specified, other options like "Ranged Spell", Close-Quarters Spell", etc.
-                    power_range: "", // no defualt, something like "One nearby enemy", "Enemy with most hitpoints", etc.
-
-                    power_target: "", // all powers I've seen have a target at least, but maybe allow this to be blank just in case
-                    power_attack: "", // can be left blank as not all powers have an attack
-                    power_hit: "", // can be left blank
-                    power_miss: "", // can be left blank
-
-                    power_other: ["", ""] // array of strings (?) so the user can write any information not covered above
-                }
-
-            },
-
-            power: {
-
-                power_name: "", // *****
-
-                // powers will have 2 frequencies, the second will be "None" by default, and can be changed by the user
-                // this allows for a 2nd frequency without it being required, if None, do not print on sheet, but keep track of in data
-
-                // likely best handled by a drop down list, options (in order of priority) are: At-Will, Cyclical, Battle-Based, Recharge, Daily, and Other
-                // i.e. if color coding a power that is Battle-Based and daily, color it as a Battle-Based power
-                power_frequency_1: "", // *****
-                power_uses_1: -1, // -1 means "infinite use" such as an At-Will or Cyclical power; Battle-Based needs an int from 1-5, Recharge from 1-20, Daily from 1-5, Other is up to the player
-
-                power_frequency_2: "None", // not applicatble by default, i.e. only one frequncy
-                power_uses_2: 0,
-
-                power_description: {
-
-                    power_action_type: "Standard Action", // Standard action is default if not specified, other options like "Ranged Spell", Close-Quarters Spell", etc.
-                    power_range: "", // no defualt, something like "One nearby enemy", "Enemy with most hitpoints", etc.
-
-                    power_target: "", // all powers I've seen have a target at least, but maybe allow this to be blank just in case
-                    power_attack: "", // can be left blank as not all powers have an attack
-                    power_hit: "", // can be left blank
-                    power_miss: "", // can be left blank
-
-                    power_other: ["", ""] // array of strings (?) so the user can write any information not covered above
-                }
-
-            }, // .... additional powers, will likely need to allow user to create new fields as they need them
-
-        ]
-
-    } // end 5th page
-    */
+    }, // end 5th page
+    
 
 
     incremental_advances: { // 6th apge dealing with incremental advances, I thought it may be best to have this page be after powers/etc. because incremental advances are related to those things
@@ -213,7 +152,8 @@ const charsheet = {
     }, // end of 7th page
 
 
-    /* maybe not for P0
+    /*
+    // maybe not for P0
     additional_text_boxes: { // 8th page where the user can create additional text boxes with a title of their choice?
 
         text_boxes: [ // array of text boxes
@@ -232,10 +172,41 @@ const charsheet = {
 
         ]
 
-    }
-
+    } // end of 8th page
  */
 
+
+}
+
+// a separate object for powers, character power would be an array of these
+// frankly I'm not sure if this is the correct way to do this
+const power = {
+
+    power_name: "", // *****
+
+    // powers will have 2 frequencies, the second will be "None" by default, and can be changed by the user
+    // this allows for a 2nd frequency without it being required, if None, do not print on sheet, but keep track of in data
+
+    // likely best handled by a drop down list, options (in order of priority) are: At-Will, Cyclical, Battle-Based, Recharge, Daily, and Other
+    // i.e. if color coding a power that is Battle-Based and daily, color it as a Battle-Based power
+    power_frequency_1: "", // *****
+    power_uses_1: -1, // -1 means "infinite use" such as an At-Will or Cyclical power; Battle-Based needs an int from 1-5, Recharge from 1-20, Daily from 1-5, Other is up to the player
+
+    power_frequency_2: "None", // not applicatble by default, i.e. only one frequncy
+    power_uses_2: 0,
+
+    power_description: {
+
+        power_action_type: "Standard Action", // Standard action is default if not specified, other options like "Ranged Spell", Close-Quarters Spell", etc.
+        power_range: "", // no defualt, something like "One nearby enemy", "Enemy with most hitpoints", etc.
+
+        power_target: "", // all powers I've seen have a target at least, but maybe allow this to be blank just in case
+        power_attack: "", // can be left blank as not all powers have an attack
+        power_hit: "", // can be left blank
+        power_miss: "", // can be left blank
+
+        power_other: ["", ""] // array of strings (?) so the user can write any information not covered above
+    }
 
 }
 
