@@ -115,7 +115,7 @@ const charsheet = {
     character_powers: { // 5th page, deals with information relating to powers
 
         // an array of power objects, see below. Not sure if this will work ???
-        powers: [new power, new power]
+        powers: []
 
     }, // end 5th page
     
