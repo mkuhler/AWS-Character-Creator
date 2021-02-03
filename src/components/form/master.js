@@ -34,6 +34,17 @@ class MasterForm extends React.Component{
     this.setState({ [input ]  : event.target.value })
   }
 
+
+  updateCharacterSheet = e => this.setState(
+     {data : {
+       basic_info: {
+         name: e.target.value
+     }
+   }
+   })
+
+
+
   render(){
 
       const {step} = this.state;
@@ -42,7 +53,8 @@ class MasterForm extends React.Component{
           return <CharacterDetails
                   nextStep = {this.nextStep}
                   handleChange = {this.handleChange}
-                  data = {this.state.data}/>
+                  data = {this.state.data}
+                  updateCharacterSheet = {this.updateCharacterSheet}/>
         // case 2:
         //   return <Test
         //           nextStep = {this.nextStep}

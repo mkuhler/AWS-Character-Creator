@@ -3,14 +3,18 @@ import React from 'react';
 
 class CharacterDetails extends React.Component{
 
-
+//this.props.data.basic_info.name returns Madison
 
   render() {
-    const {state} = this.props;
-     return(
+      console.log(this.props.data.basic_info.name);
+      return(
+        <form onSubmit={this.props.nextStep}>
+          <label>{this.props.data.basic_info.name}</label>
+          <input type='text' onChange={this.props.updateCharacterSheet}/>
 
-       <h1>{this.state.data.basic_info.name} </h1>
-     );
+        <input type='submit' value='Next'/>
+      </form>
+      );
 
      }
 
