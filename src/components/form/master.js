@@ -1,4 +1,6 @@
 import React from 'react';
+import CharacterDetails from './characterdetails.js';
+
 import charsheet from './CharSheetData.js';
 //import the rest of form components
 
@@ -33,24 +35,26 @@ class MasterForm extends React.Component{
   }
 
   render(){
-    return(
+
       const {step} = this.state;
       switch(step){
         case 1:
           return <CharacterDetails
                   nextStep = {this.nextStep}
                   handleChange = {this.handleChange}
-                  data = {this.state.data}
-                  />
-        case 2:
-          return <Test
-                  nextStep = {this.nextStep}
-                  handleChange = {this.handleChange}
-                  data = {this.state.data}
-                  />
-              }
+                  data = {this.state.data}/>
+        // case 2:
+        //   return <Test
+        //           nextStep = {this.nextStep}
+        //           handleChange = {this.handleChange}
+        //           data = {this.state.data}
+        //           />
 
-            );
+                }
+
+
+
+
   }
 }
 

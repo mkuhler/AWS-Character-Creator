@@ -4,21 +4,17 @@ import React from 'react';
 class CharacterDetails extends React.Component{
 
 
+
   render() {
-     if (this.props.currentStep !== 1){
-       return null
-     }
-     console.log(this.props.charSheet.name);
+    const {state} = this.props;
      return(
-       <form onSubmit={this.props.nextStep}>
-         <label>{this.props.charSheet.name}</label>
-         <input type='text' onChange={this.props.updateCharsheet}/>
 
-         <input type='submit' value='Next'/>
-       </form>
+       <h1>{this.state.data.basic_info.name} </h1>
+     );
 
-     )}
- };
+     }
 
 
 }
+
+export default CharacterDetails;
