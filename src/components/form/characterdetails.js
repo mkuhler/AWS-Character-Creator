@@ -10,7 +10,7 @@ class CharacterDetails extends React.Component{
       return(
         <form onSubmit={this.props.nextStep}>
           <label>{this.props.data.basic_info.name}</label>
-          <input type='text' onChange={this.props.updateCharacterSheet}/>
+          <input type='text' id="name" onChange={this.props.updateCharacterSheet}/>
 
         <input type='submit' value='Next'/>
       </form>
