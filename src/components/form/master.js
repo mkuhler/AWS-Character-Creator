@@ -12,6 +12,10 @@ class MasterForm extends React.Component{
       step: 1,
       data: charsheet
     };
+
+  this.handleChange = this.handleChange.bind(this)
+
+
   }
 
   nextStep = () => {
@@ -30,18 +34,28 @@ class MasterForm extends React.Component{
     })
   }
 
-  handleChange = input => event => {
-    this.setState({ [input ]  : event.target.value })
+
+  handleChange(event){
+    const{name, value} = event.target
+    //Custom attributes need to be grabbed from the DOM api
+    const category = event.target.id
+    const subcategory = event.target.getAttribute('subcategory')
+
+    if(subcategory != null){
+      this.state.data.[category].[subcategory].[name] = value
+    }else{
+      this.state.data.[category].[name] = value
+    }
+    console.log(event.target.id)
+
+    //console.log(subcategory)
+    //console.log(category)
+    this.state.data.[category].[name] = value
+    console.log(this.state.data.basic_info)
   }
 
 
-  updateCharacterSheet = e => this.setState(
-     {data : {
-       basic_info: {
-         name: e.target.value
-     }
-   }
-   })
+
 
 
 
@@ -54,7 +68,7 @@ class MasterForm extends React.Component{
                   nextStep = {this.nextStep}
                   handleChange = {this.handleChange}
                   data = {this.state.data}
-                  updateCharacterSheet = {this.updateCharacterSheet}/>
+                  />
         // case 2:
         //   return <Test
         //           nextStep = {this.nextStep}

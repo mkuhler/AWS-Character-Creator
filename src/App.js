@@ -6,6 +6,7 @@ import Hello from './components/hello.js'
 import MasterForm from './components/form/master.js'
 import { jsPDF } from "jspdf";
 import charClassData from "./data";
+import {Container, Row, Col} from "react-bootstrap"
 
 
 class App extends React.Component {
@@ -17,8 +18,13 @@ class App extends React.Component {
     return (
       <div>
         <Header />
+        <Container>
+          <Row>
+            <Col><MasterForm /></Col>
+          </Row>
+        </Container>
 
-        <MasterForm />
+
       </div>
 
     );
