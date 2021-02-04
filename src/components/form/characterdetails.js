@@ -9,14 +9,13 @@ class CharacterDetails extends React.Component{
       console.log(this.props.data.basic_info);
       return(
         <Form>
-          <Form.Group controlId="formBasicEmail">
+          <Form.Group controlId="basic_info">
             <Form.Label>Character Name</Form.Label>
             <Form.Control type="text"
                           name="name"
-                          category="basic_info"
                           onChange={this.props.handleChange}/>
             <Form.Label>Race</Form.Label>
-            <Form.Control as="select" category="basic_info" subcategory="race_info" name="race" onChange={this.props.handleChange}>
+            <Form.Control as="select" subcategory="race_info" name="race" onChange={this.props.handleChange}>
               <option>Alleykin</option>
               <option>Arcanite</option>
               <option>Beastblooded</option>
@@ -27,6 +26,26 @@ class CharacterDetails extends React.Component{
               <option>Gnome</option>
               <option>Half-elf</option>
             </Form.Control>
+
+            <Form.Label>Class</Form.Label>
+            <Form.Control as="select" subcategory="class_info" name="class" onChange={this.props.handleChange}>
+              <option>Barbarian</option>
+              <option>Bard</option>
+              <option>Cleric</option>
+              <option>Fighter</option>
+              <option>Paladin</option>
+              <option>Dwarf</option>
+              <option>Ranger</option>
+              <option>Rogue</option>
+              <option>Sorcerer</option>
+              <option>Wizard</option>
+            </Form.Control>
+
+            <Form.Label>Level</Form.Label>
+            <Form.Control type="text"
+                          name="level"
+                          placeholder="1"
+                          onChange={this.props.handleChange}/>
           </Form.Group>
         <Button variant="primary">Next</Button>
       </Form>

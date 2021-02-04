@@ -38,7 +38,7 @@ class MasterForm extends React.Component{
   handleChange(event){
     const{name, value} = event.target
     //Custom attributes need to be grabbed from the DOM api
-    const category = event.target.getAttribute('category')
+    const category = event.target.id
     const subcategory = event.target.getAttribute('subcategory')
 
     if(subcategory != null){
