@@ -30,6 +30,12 @@ header {
   font-size: calc(10px + 1vmin);
   color: white;
 }
+
+footer {
+  text-align: center;
+  padding: 15px;
+}
+
 .App-link {
   color: #61dafb;
 }
