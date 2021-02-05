@@ -30,35 +30,34 @@ const charsheet = {
         weight: "",
 
         age: "", // similar to height/weight, age and gender are two separate fields but are displayed in the same box on the final sheet
-        gender: ""
+        gender: "",
+
+            // may need to calculate scores by factors including race, class, selected bonuses, etc.
+        ability_scores: { // 2nd page, includes information on ability scores and modifiers
+
+            strength: 10, // ints need a defualt value, 10 or 0 by default?
+            constituion: 10,
+            dexterity: 10, // ***** all required
+            intelligence: 10,
+            wisdom: 10,
+            charisma: 10,
+
+            // modifiers corresponding to each ability. Modifiers are generally equal to the number of levels above or below 10 / 2 rounded down, (ex a score of 12 is a modifier of 1, a score of 5 is a mod of -2)
+            // we should calculate this in the app, but give the user teh ability to
+            strength_mod: 0, // 0 by default
+            constitution_mod: 0,
+            dexterity_mod: 0,
+            intelligence_mod: 0, // ****** all required
+            wisdom_mod: 0,
+            charisma_mod: 0
+        }
+
 
     }, // end of first page / basic info
 
 
-    // may need to calculate scores by factors including race, class, selected bonuses, etc.
-    ability_scores: { // 2nd page, includes information on ability scores and modifiers
-
-        strength: 10, // ints need a defualt value, 10 or 0 by default?
-        constituion: 10,
-        dexterity: 10, // ***** all required
-        intelligence: 10,
-        wisdom: 10,
-        charisma: 10,
-
-        // modifiers corresponding to each ability. Modifiers are generally equal to the number of levels above or below 10 / 2 rounded down, (ex a score of 12 is a modifier of 1, a score of 5 is a mod of -2)
-        // we should calculate this in the app, but give the user teh ability to
-        strength_mod: 0, // 0 by default
-        constitution_mod: 0, 
-        dexterity_mod: 0,
-        intelligence_mod: 0, // ****** all required
-        wisdom_mod: 0,
-        charisma_mod: 0
-
-    }, // end of 2nd page /  ability scores
-
-
     // maybe call this something else?
-    character_attributes: { // 3rd page, deals with attributes relating to initiative, hitpoints, saving throws, recoveries, death saves
+    character_attributes: { // 2nd page, deals with attributes relating to initiative, hitpoints, saving throws, recoveries, death saves
 
         initiative: 0, // ***** should we calculate this? Level is a string to accommodate novice tiers so that may hinder things. generally (always?) a positive number
         initiative_description: "Level + Dex Mod", // has a default value, but user can change as some classes/races have different methods for calculating
@@ -78,10 +77,10 @@ const charsheet = {
 
         death_saves_max: 0, // ***** not sure how to calculate. in Tim's sheets these are skulls / checkboxes for user to scratch off, a number may suffice but wouldn't be as visually appealling
         death_saves_current: "", // DO NOT SHOW THIS FIELD TO USER. final sheet should have this always be blank so user can write in values
-    }, // end of 3rd page
+    }, // end of 2nd page
 
 
-    background_talents: { // 4th page, deals with information related to icon relationships, "one unique thing", backgrounds, and talents and features 
+    background_talents: { // 3rd page, deals with information related to icon relationships, "one unique thing", backgrounds, and talents and features 
 
         // an array of tuples, each tuple has a string for a name, an int value for relationship tier, and a string value for the relationship being negative/positive
         // example - icon relationships [("Great Gold Wyrm", 1, "positive"), ("Darkness Between Starts", 2, "negative")]
@@ -104,24 +103,22 @@ const charsheet = {
         // no real limit on the number a character can have
         talents_and_features: ["", ""]
 
-    }, // end of 4th page
+    }, // end of 3rd page
 
-
-    // commenting out powers page until we have a seperate class/data type for powers (?)
 
     // powers may have to be their own class / data type so that we may more easily keep adding more ?
     // Most powers seem to have a name, one or more frequencies and a description typically consisting of information such: an action type, a range, a target, an effect and an "other" array of strings
     // that serves as a catch all for any misc information a power may have that isnt covered by the previous fields
-    character_powers: { // 5th page, deals with information relating to powers
+    character_powers: { // 4th page, deals with information relating to powers
 
         // an array of power objects, see below. Not sure if this will work ???
         powers: []
 
-    }, // end 5th page
+    }, // end 4th page
     
 
 
-    incremental_advances: { // 6th apge dealing with incremental advances, I thought it may be best to have this page be after powers/etc. because incremental advances are related to those things
+    incremental_advances: { // 5th apge dealing with incremental advances, I thought it may be best to have this page be after powers/etc. because incremental advances are related to those things
 
         // values in incremental advances will have at minimum a boolean keeping track of if that advance is selected or not
         // some values may require a string for the name of the advance and as such are represented as tuples - (bool, "str")
@@ -136,11 +133,11 @@ const charsheet = {
         skills: (false, ""),
         icon_relation: false
 
-    }, // end of 6th page
+    }, // end of 5th page
 
 
 
-    inventory_feats_and_journal : { // 7th page
+    inventory_feats_and_journal : { // 6th page
 
         inventory: ["", ""], // array of strings
 
@@ -149,12 +146,12 @@ const charsheet = {
         journal_and_background_story: "", // array of strins instead ?
 
         feats: ["", ""] // array of strings, generally the name of the feat and the tier, example - "Elemental Healer (A)"
-    }, // end of 7th page
+    }, // end of 6th page
 
 
     /*
-    // maybe not for P0
-    additional_text_boxes: { // 8th page where the user can create additional text boxes with a title of their choice?
+    // maybe not for P0 ?
+    additional_text_boxes: { // 7th page where the user can create additional text boxes with a title of their choice?
 
         text_boxes: [ // array of text boxes
 
@@ -172,7 +169,7 @@ const charsheet = {
 
         ]
 
-    } // end of 8th page
+    } // end of 7th page
  */
 
 

@@ -12,8 +12,8 @@ class Step1 extends React.Component {
     }
     console.log(this.props.charSheet.name);
     return(
-      <form onSubmit={this.props.nextStep}>
-        <label>{this.props.charSheet.name}</label>
+        <form onSubmit={this.props.nextStep}>
+            <label>{this.props.charSheet.basic_info.name}</label>
         <input type='text' onChange={this.props.updateCharsheet}/>
 
         <input type='submit' value='Next'/>
@@ -80,9 +80,14 @@ class App extends Component {
 
   updateCharsheet = e => this.setState({data : e.target.value})
   updateName = e => this.setState(
-    {data : {
-      name: e.target.value
-    }})
+      {
+          data: {
+              basic_info: {
+                  name: e.target.value
+              }
+          }
+      }
+  )
 };
 
 export default App;
