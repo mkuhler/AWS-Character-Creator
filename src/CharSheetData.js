@@ -30,30 +30,31 @@ const charsheet = {
         weight: "",
 
         age: "", // similar to height/weight, age and gender are two separate fields but are displayed in the same box on the final sheet
-        gender: "",
-
-            // may need to calculate scores by factors including race, class, selected bonuses, etc.
-        ability_scores: { // 2nd page, includes information on ability scores and modifiers
-
-            strength: 10, // ints need a defualt value, 10 or 0 by default?
-            constituion: 10,
-            dexterity: 10, // ***** all required
-            intelligence: 10,
-            wisdom: 10,
-            charisma: 10,
-
-            // modifiers corresponding to each ability. Modifiers are generally equal to the number of levels above or below 10 / 2 rounded down, (ex a score of 12 is a modifier of 1, a score of 5 is a mod of -2)
-            // we should calculate this in the app, but give the user teh ability to
-            strength_mod: 0, // 0 by default
-            constitution_mod: 0,
-            dexterity_mod: 0,
-            intelligence_mod: 0, // ****** all required
-            wisdom_mod: 0,
-            charisma_mod: 0
-        }
+        gender: ""
 
 
-    }, // end of first page / basic info
+    }, 
+
+    // still on first page
+    // may need to calculate scores by factors including race, class, selected bonuses, etc.
+    ability_scores: { // 2nd page, includes information on ability scores and modifiers
+
+        strength: 10, // ints need a defualt value, 10 or 0 by default?
+        constituion: 10,
+        dexterity: 10, // ***** all required
+        intelligence: 10,
+        wisdom: 10,
+        charisma: 10,
+
+        // modifiers corresponding to each ability. Modifiers are generally equal to the number of levels above or below 10 / 2 rounded down, (ex a score of 12 is a modifier of 1, a score of 5 is a mod of -2)
+        // we should calculate this in the app, but give the user teh ability to
+        strength_mod: 0, // 0 by default
+        constitution_mod: 0,
+        dexterity_mod: 0,
+        intelligence_mod: 0, // ****** all required
+        wisdom_mod: 0,
+        charisma_mod: 0
+    }, // end of 1st page
 
 
     // maybe call this something else?
