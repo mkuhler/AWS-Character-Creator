@@ -50,7 +50,7 @@ class MasterForm extends React.Component{
 
     //console.log(subcategory)
     //console.log(category)
-    this.state.data.[category].[name] = value
+    //this.state.data.[category].[name] = value
     console.log(this.state.data.basic_info)
   }
 
