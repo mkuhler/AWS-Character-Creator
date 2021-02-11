@@ -1,4 +1,6 @@
 import React from 'react';
+import {Container, Row, Col} from 'react-bootstrap';
+import InfoCard from './infocard.js';
 import CharacterDetails from './characterdetails.js';
 
 import charsheet from './CharSheetData.js';
@@ -55,32 +57,37 @@ class MasterForm extends React.Component{
   }
 
 
-
-
-
-
   render(){
-
       const {step} = this.state;
       switch(step){
         case 1:
-          return <CharacterDetails
-                  nextStep = {this.nextStep}
-                  handleChange = {this.handleChange}
-                  data = {this.state.data}
-                  />
-        // case 2:
-        //   return <Test
-        //           nextStep = {this.nextStep}
-        //           handleChange = {this.handleChange}
-        //           data = {this.state.data}
-        //           />
+          return <Container>
+            <Row>
 
-                }
+              <Col xs={8}>
+              <CharacterDetails
+                nextStep = {this.nextStep}
+                handleChange = {this.handleChange}
+                data = {this.state.data}
+                />
+              </Col>
 
+              <Col xs={4}> 
+              <InfoCard key = {this.state.data.basic_info.class_info}/>
+              </Col>
 
+            </Row>
+   
+            </Container>
+        case 2:
+          // return <Test
+          //         nextStep = {this.nextStep}
+          //         handleChange = {this.handleChange}
+          //         data = {this.state.data}
+          //         />
 
-
+          //      }
+      }
   }
 }
 
