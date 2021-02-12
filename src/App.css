@@ -19,6 +19,13 @@
   color: white;
 }
 
+.Button {
+  padding: 15px;
+  align-self: 'flex-end';
+  float: right;
+  margin-left:500px
+}
+
 header {
   background-color: #282c34;
   text-align: center;
@@ -30,6 +37,12 @@ header {
   font-size: calc(10px + 1vmin);
   color: white;
 }
+
+footer {
+  text-align: center;
+  padding: 15px;
+}
+
 .App-link {
   color: #61dafb;
 }
