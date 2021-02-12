@@ -2,7 +2,7 @@ import React from 'react';
 import {Container, Row, Col} from 'react-bootstrap';
 import InfoCard from './infocard.js';
 import CharacterDetails from './characterdetails.js';
-
+import PrintPDF from "./PrintPDF.js";
 import charsheet from './CharSheetData.js';
 //import the rest of form components
 
@@ -71,13 +71,14 @@ class MasterForm extends React.Component{
                 data = {this.state.data}
                 />
               </Col>
-
-              <Col xs={4}> 
-              <InfoCard key = {this.state.data.basic_info.class_info}/>
+              <Col xs={4}>
+              <InfoCard data = {this.state.data.basic_info.class_info}/>
               </Col>
-
+              <PrintPDF
+                data = {this.state.data}
+              />
             </Row>
-   
+
             </Container>
         case 2:
           // return <Test

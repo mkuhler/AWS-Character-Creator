@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 
 class InfoCard extends React.Component{
     render() {
-        console.log(this.props.key)
+        console.log(this.props.data)
         return(
         <Card>
         <Card.Body>
