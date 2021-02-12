@@ -93,51 +93,53 @@ class CharacterDetails extends React.Component{
 
             <br></br>
             <h3>Ability Scores</h3>
+
             <Col xs={5}>
-                  <Form.Control as="select" subcategory="class_info" name="class" onChange={this.props.abilityGenMethod}>
+                  <Form.Control as="select" onChange={this.props.abilityGenMethod}>
                           <option>Rolled/Manual</option>
                           <option>Point Buy</option>
                   </Form.Control>
             </Col>
+            <br></br>
           <Form.Row>
                 <Col xs={2}>
-                    <Form.Label>STR</Form.Label>
-                    <Form.Control type="text"
+                  <Form.Label style={{marginLeft:40, fontSize: 15}}>STR</Form.Label>
+                  <Form.Control type="text"
                           name="strength"
                           defaultValue={charsheet.ability_scores.strength}
                               onChange={this.props.handleChange} />
                 </Col>
                 <Col xs={2}>
-                    <Form.Label>CON</Form.Label>
-                    <Form.Control type="text"
+                  <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>CON</Form.Label>
+                  <Form.Control type="text"
                           name="constitution"
                           defaultValue={charsheet.ability_scores.constitution}
                           onChange={this.props.handleChange} />
                 </Col>
                 <Col xs={2}>
-                    <Form.Label>DEX</Form.Label>
-                    <Form.Control type="text"
+                  <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>DEX</Form.Label>
+                  <Form.Control type="text"
                           name="dexterity"
                           defaultValue={charsheet.ability_scores.dexterity}
                           onChange={this.props.handleChange} />
                 </Col>
                 <Col xs={2}>
-                    <Form.Label>INT</Form.Label>
-                    <Form.Control type="text"
+                  <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>INT</Form.Label>
+                  <Form.Control type="text"
                           name="intelligence"
                           defaultValue={charsheet.ability_scores.intelligence}
                           onChange={this.props.handleChange} />
                 </Col>
                 <Col xs={2}>
-                  <Form.Label>WIS</Form.Label>
+                  <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>WIS</Form.Label>
                   <Form.Control type="text"
                           name="wisdom"
                           defaultValue={charsheet.ability_scores.wisdom}
                           onChange={this.props.handleChange} />
                 </Col>
                 <Col xs={2}>
-                    <Form.Label>CHA</Form.Label>
-                    <Form.Control type="text"
+                  <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>CHA</Form.Label>
+                  <Form.Control type="text"
                           name="charisma"
                           defaultValue={charsheet.ability_scores.charisma}
                           onChange={this.props.handleChange} />
@@ -147,7 +149,7 @@ class CharacterDetails extends React.Component{
             <br></br>
             <Form.Row>
                 <Col xs={2}>
-                    <Form.Label>--</Form.Label>
+                    <Form.Label style={{ marginLeft: 40, fontWeight: "bold", fontSize: 20 }}>--</Form.Label>
                     <Form.Control as="select" onChange={this.props.abilitySelectionHandler}>
                         <option>--</option>
                         <option>STR</option>
@@ -159,7 +161,7 @@ class CharacterDetails extends React.Component{
                     </Form.Control>
             </Col>
             <Col xs={2}>
-                    <Form.Label>--</Form.Label>
+                    <Form.Label style={{ marginLeft: 40, fontWeight: "bold", fontSize: 20 }}>--</Form.Label>
                     <Form.Control as="select" onChange={this.props.abilitySelectionHandler}>
                         <option>--</option>
                         <option>STR</option>
@@ -171,7 +173,7 @@ class CharacterDetails extends React.Component{
                     </Form.Control>
             </Col>
             <Col xs={2}>
-                    <Form.Label>--</Form.Label>
+                    <Form.Label style={{ marginLeft: 40, fontWeight: "bold", fontSize: 20 }}>--</Form.Label>
                     <Form.Control as="select" onChange={this.props.abilitySelectionHandler}>
                         <option>--</option>
                         <option>STR</option>
@@ -183,7 +185,7 @@ class CharacterDetails extends React.Component{
                     </Form.Control>
             </Col>
             <Col xs={2}>
-                    <Form.Label>--</Form.Label>
+                    <Form.Label style={{ marginLeft: 40, fontWeight: "bold", fontSize: 20 }}>--</Form.Label>
                     <Form.Control as="select" onChange={this.props.abilitySelectionHandler}>
                         <option>--</option>
                         <option>STR</option>
@@ -195,7 +197,7 @@ class CharacterDetails extends React.Component{
                     </Form.Control>
             </Col>
             <Col xs={2}>
-                    <Form.Label>--</Form.Label>
+                    <Form.Label style={{marginLeft:40, fontWeight: "bold", fontSize: 20}}>--</Form.Label>
                     <Form.Control as="select" onChange={this.props.abilitySelectionHandler}>
                         <option>--</option>
                         <option>STR</option>
@@ -207,7 +209,7 @@ class CharacterDetails extends React.Component{
                     </Form.Control>
             </Col>
             <Col xs={2}>
-                    <Form.Label>--</Form.Label>
+                    <Form.Label style={{ marginLeft: 40, fontWeight: "bold", fontSize: 20 }}>--</Form.Label>
                     <Form.Control as="select" onChange={this.props.abilitySelectionHandler}>
                         <option>--</option>
                         <option>STR</option>
@@ -219,9 +221,9 @@ class CharacterDetails extends React.Component{
                     </Form.Control>
                 </Col>
             </Form.Row>
-          <Button style={{ width: "100px", marginTop: 20, backgroundColor: "#12A924", marginLeft: 305}}>Roll</Button>
+            <Button style={{ width: "100px", marginTop: 20, marginLeft: 305, backgroundColor: "#12A924", borderColor: "#12A924"}}>Roll</Button>
           </Form.Group>
-              <Button style={{float:"right"}} variant="primary">Next</Button>
+          <Button style={{float:"right", marginBottom: 10}} variant="primary">Next</Button>
       </Form>
       );
 
