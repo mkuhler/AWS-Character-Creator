@@ -6,15 +6,27 @@ import charsheet from './CharSheetData.js';
 
 export default class PrintPDF extends  React.Component{
 
-// lengthy_entry = (entry) =>{
-//   if(charsheet.basic_info.entry.length)
-// }
+lengthy_entry = (entry) =>{
+    if(entry.length > 24){
+      var difference = entry.length - 24;
+      console.log(difference/2);
+
+      return difference/2
+    }
+    else
+      return 0
+}
 
 pdfGenerator = () =>{
   var doc = new jsPDF('p', 'pt');
+  var name = charsheet.basic_info.name;
+  var name_length = this.lengthy_entry(name);
+
+  this.lengthy_entry(name);
+  doc.setFontSize(12-name_length);
+  doc.text(10, 28, name);
 
   doc.setFontSize(12);
-  doc.text(10, 28, charsheet.basic_info.name);
   doc.text(10, 68, charsheet.basic_info.race_info.race);
   // doc.text(10, 22, "CHARACTER");
   // doc.text(70, 22, "RACE-LEVEL");
@@ -34,8 +46,8 @@ pdfGenerator = () =>{
 }
 
 render(){
-    const entry = charsheet.basic_info.name;
-    console.log(entry.length);
+    var length = 0;
+
     return(
       <div className="Button">
         <Button variant="outline-primary" onClick={this.pdfGenerator}>Print PDF</Button>
