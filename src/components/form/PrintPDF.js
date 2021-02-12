@@ -7,10 +7,9 @@ import charsheet from './CharSheetData.js';
 export default class PrintPDF extends  React.Component{
 
 lengthy_entry = (entry) =>{
-    if(entry.length > 24){
+    if(entry.length > 24)
+    {
       var difference = entry.length - 24;
-      console.log(difference/2);
-
       return difference/2
     }
     else
@@ -20,10 +19,8 @@ lengthy_entry = (entry) =>{
 pdfGenerator = () =>{
   var doc = new jsPDF('p', 'pt');
   var name = charsheet.basic_info.name;
-  var name_length = this.lengthy_entry(name);
 
-  this.lengthy_entry(name);
-  doc.setFontSize(12-name_length);
+  doc.setFontSize(12-this.lengthy_entry(name));
   doc.text(10, 28, name);
 
   doc.setFontSize(12);
@@ -39,8 +36,6 @@ pdfGenerator = () =>{
   doc.text(10, 45, "CHARACTER NAME").line(10,32,150,32);
   doc.text(10, 85, "RACE").line(10,72,150,72);
   // doc.text(70, 30, "Class & Level");
-
-
 
   doc.save("My_Character.pdf")
 }
