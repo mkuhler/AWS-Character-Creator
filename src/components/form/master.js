@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import InfoCard from './infocard.js';
-import Test from './test.js';
+import BackgroundTalents from './background_talents.js';
 import CharacterDetails from './characterdetails.js';
 import PrintPDF from "./PrintPDF.js";
 import charsheet from './CharSheetData.js';
@@ -38,6 +38,10 @@ class MasterForm extends React.Component {
     })
   }
 
+  helloWorld(componentName) {
+    console.log("This is the " + componentName)
+  }
+
 
   handleChange(event) {
     const { name, value } = event.target
@@ -55,13 +59,13 @@ class MasterForm extends React.Component {
     //console.log(subcategory)
     //console.log(category)
     //this.state.data.[category].[name] = value
-    console.log(this.state.data.basic_info)
+    console.log(this.state.data.background_talents)
   }
 
 
   render() {
     const { step } = this.state;
-    switch (2) {
+    switch (step) {
       case 1:
         return <Container>
           <Row>
@@ -71,6 +75,7 @@ class MasterForm extends React.Component {
                 nextStep={this.nextStep}
                 handleChange={this.handleChange}
                 data={this.state.data}
+                helloWorld={this.helloWorld}
               />
             </Col>
             <Col xs={4}>
@@ -83,10 +88,12 @@ class MasterForm extends React.Component {
 
         </Container>
       case 2:
-        return <Test
+        return <BackgroundTalents
           nextStep={this.nextStep}
+          prevStep={this.prevStep}
           handleChange={this.handleChange}
           data={this.state.data}
+          helloWorld={this.helloWorld}
         />
 
     }

@@ -1,18 +1,18 @@
 import React from 'react';
-import { Form, Col, Container } from 'react-bootstrap';
+import { Button, Form, Col, Container } from 'react-bootstrap';
 
-class Test extends React.Component {
+class BackgroundTalents extends React.Component {
     render() {
         console.log(this.props.data)
         return (
             <Container>
                 <Form>
-                    <Form.Group controlId="basic_info">
+                    <Form.Group controlId="background_talents">
                         <Form.Row>
                             <Col xs={5}>
                                 <Form.Label>One Unique Thing</Form.Label>
                                 <Form.Control type="text"
-                                    name="name"
+                                    name="one_unique_thing"
                                     onChange={this.props.handleChange} />
                             </Col>
                         </Form.Row>
@@ -26,6 +26,8 @@ class Test extends React.Component {
                             </Col>
                         </Form.Row>
                     </Form.Group>
+                    <Button style={{ float: "right", marginBottom: 10 }} variant="primary" onClick={this.props.prevStep}>Previous</Button>
+
                 </Form>
             </Container>
 
@@ -34,4 +36,4 @@ class Test extends React.Component {
     }
 }
 
-export default Test;
+export default BackgroundTalents;
