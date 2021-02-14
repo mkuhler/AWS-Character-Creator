@@ -1,21 +1,23 @@
 import React from 'react';
-import {Container, Row, Col} from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import InfoCard from './infocard.js';
+import Test from './test.js';
 import CharacterDetails from './characterdetails.js';
 import PrintPDF from "./PrintPDF.js";
 import charsheet from './CharSheetData.js';
 //import the rest of form components
 
-class MasterForm extends React.Component{
-  constructor(props){
+class MasterForm extends React.Component {
+  constructor(props) {
     super(props);
 
-    this.state={
+    this.state = {
       step: 1,
       data: charsheet
     };
 
-  this.handleChange = this.handleChange.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    console.log(this.state.step)
 
 
   }
@@ -37,15 +39,15 @@ class MasterForm extends React.Component{
   }
 
 
-  handleChange(event){
-    const{name, value} = event.target
+  handleChange(event) {
+    const { name, value } = event.target
     //Custom attributes need to be grabbed from the DOM api
     const category = event.target.id
     const subcategory = event.target.getAttribute('subcategory')
 
-    if(subcategory != null){
+    if (subcategory != null) {
       this.state.data.[category].[subcategory].[name] = value
-    }else{
+    } else {
       this.state.data.[category].[name] = value
     }
     console.log(event.target.id)
@@ -57,38 +59,37 @@ class MasterForm extends React.Component{
   }
 
 
-  render(){
-      const {step} = this.state;
-      switch(step){
-        case 1:
-          return <Container>
-            <Row>
+  render() {
+    const { step } = this.state;
+    switch (2) {
+      case 1:
+        return <Container>
+          <Row>
 
-              <Col xs={8}>
+            <Col xs={8}>
               <CharacterDetails
-                nextStep = {this.nextStep}
-                handleChange = {this.handleChange}
-                data = {this.state.data}
-                />
-              </Col>
-              <Col xs={4}>
-              <InfoCard data = {this.state.data.basic_info.class_info}/>
-              </Col>
-              <PrintPDF
-                data = {this.state.data}
+                nextStep={this.nextStep}
+                handleChange={this.handleChange}
+                data={this.state.data}
               />
-            </Row>
+            </Col>
+            <Col xs={4}>
+              <InfoCard data={this.state.data.basic_info.class_info} />
+            </Col>
+            <PrintPDF
+              data={this.state.data}
+            />
+          </Row>
 
-            </Container>
-        case 2:
-          // return <Test
-          //         nextStep = {this.nextStep}
-          //         handleChange = {this.handleChange}
-          //         data = {this.state.data}
-          //         />
+        </Container>
+      case 2:
+        return <Test
+          nextStep={this.nextStep}
+          handleChange={this.handleChange}
+          data={this.state.data}
+        />
 
-          //      }
-      }
+    }
   }
 }
 
