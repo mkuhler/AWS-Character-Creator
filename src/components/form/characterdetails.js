@@ -69,7 +69,7 @@ constructor(charProps){
             <Form.Row>
               <Col xs={5}>
                 <Form.Label>Class</Form.Label>
-                <Form.Control as="select" onChange={this.props.handleChange}>
+                <Form.Control as="select" subcategory="class_info" name="class" onChange={this.props.handleChange}>
                   <option>Barbarian</option>
                   <option>Bard</option>
                   <option>Cleric</option>
@@ -127,7 +127,8 @@ constructor(charProps){
             <Form.Row>
                 <Col xs={5}>
                   <Form.Control as="select" onChange={this.abilityGenMethod}>
-                          <option>Rolled/Manual</option>
+                          <option>Manual</option>
+                          <option>Roll</option>
                           <option>Point Buy</option>
                   </Form.Control>
                 </Col>
