@@ -17,7 +17,6 @@ class MasterForm extends React.Component{
 
   this.handleChange = this.handleChange.bind(this)
 
-
   }
 
   nextStep = () => {
@@ -47,13 +46,22 @@ class MasterForm extends React.Component{
       this.state.data.[category].[subcategory].[name] = value
     }else{
       this.state.data.[category].[name] = value
+      
+      //Calculate modifiers based on ability score ranges
+      if(category == "ability_scores"){
+        var modName = name + "_mod"
+        var modValue = Math.floor((this.state.data.[category].[name] - 10)/2)
+
+        this.state.data.[category].[modName] = modValue
+      }
     }
     console.log(event.target.id)
-
+    
     //console.log(subcategory)
     //console.log(category)
     //this.state.data.[category].[name] = value
     console.log(this.state.data.basic_info)
+    console.log(this.state.data.ability_scores)
   }
 
 

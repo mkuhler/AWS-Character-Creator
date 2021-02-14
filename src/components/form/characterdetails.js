@@ -1,8 +1,39 @@
 import React from 'react';
 import {Button, Form, Col} from 'react-bootstrap';
-import charsheet from './CharSheetData';
 
 class CharacterDetails extends React.Component{
+  
+constructor(charProps){
+  super(charProps)
+
+  this.state = { 
+    //values for holding roll results
+    roll1: "--",
+    roll2: "--",
+    roll3: "--",
+    roll4: "--",
+    roll5: "--",
+    roll6: "--"
+  }
+}
+
+
+  //Loops through a set number of label fields and sets the text to the result of rolling a 4d6
+  abilityRoll = () => {
+    var rollSum = 0
+        
+    for (var i = 0; i < 6; i++) {
+      var rollSum = Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + 4
+      var labelName = "roll"
+      labelName = labelName + (i+1)
+      this.setState({[labelName]: [rollSum]})
+    }
+  }
+
+  //function used to hide/show different generation method fields of ability scores
+  abilityGenMethod = () =>{
+
+  }
 
 //this.props.data.basic_info.name returns Madison
 
@@ -38,7 +69,7 @@ class CharacterDetails extends React.Component{
             <Form.Row>
               <Col xs={5}>
                 <Form.Label>Class</Form.Label>
-                <Form.Control as="select" subcategory="class_info" name="class" onChange={this.props.handleChange}>
+                <Form.Control as="select" onChange={this.props.handleChange}>
                   <option>Barbarian</option>
                   <option>Bard</option>
                   <option>Cleric</option>
@@ -93,55 +124,65 @@ class CharacterDetails extends React.Component{
 
             <br></br>
             <h3>Ability Scores</h3>
-
-            <Col xs={5}>
-                  <Form.Control as="select" onChange={this.props.abilityGenMethod}>
+            <Form.Row>
+                <Col xs={5}>
+                  <Form.Control as="select" onChange={this.abilityGenMethod}>
                           <option>Rolled/Manual</option>
                           <option>Point Buy</option>
                   </Form.Control>
-            </Col>
-            <br></br>
-          <Form.Row>
+                </Col>
+          </Form.Row>
+        </Form.Group>
+        <Form.Group controlId="ability_scores">
+          <br></br>
+          <fieldset name="Rolled/Manual">
+            <Form.Row>
                 <Col xs={2}>
                   <Form.Label style={{marginLeft:40, fontSize: 15}}>STR</Form.Label>
                   <Form.Control type="text"
                           name="strength"
-                          defaultValue={charsheet.ability_scores.strength}
+                              defaultValue={this.props.data.ability_scores.strength}
+                              style={{textAlign: "center"}}
                               onChange={this.props.handleChange} />
                 </Col>
                 <Col xs={2}>
                   <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>CON</Form.Label>
                   <Form.Control type="text"
                           name="constitution"
-                          defaultValue={charsheet.ability_scores.constitution}
+                              defaultValue={this.props.data.ability_scores.constitution}
+                              style={{ textAlign: "center" }}
                           onChange={this.props.handleChange} />
                 </Col>
                 <Col xs={2}>
                   <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>DEX</Form.Label>
                   <Form.Control type="text"
                           name="dexterity"
-                          defaultValue={charsheet.ability_scores.dexterity}
+                              defaultValue={this.props.data.ability_scores.dexterity}
+                              style={{ textAlign: "center" }}
                           onChange={this.props.handleChange} />
                 </Col>
                 <Col xs={2}>
                   <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>INT</Form.Label>
                   <Form.Control type="text"
                           name="intelligence"
-                          defaultValue={charsheet.ability_scores.intelligence}
+                              defaultValue={this.props.data.ability_scores.intelligence}
+                              style={{ textAlign: "center" }}
                           onChange={this.props.handleChange} />
                 </Col>
                 <Col xs={2}>
                   <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>WIS</Form.Label>
                   <Form.Control type="text"
                           name="wisdom"
-                          defaultValue={charsheet.ability_scores.wisdom}
+                              defaultValue={this.props.data.ability_scores.wisdom}
+                              style={{ textAlign: "center" }}
                           onChange={this.props.handleChange} />
                 </Col>
                 <Col xs={2}>
                   <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>CHA</Form.Label>
                   <Form.Control type="text"
                           name="charisma"
-                          defaultValue={charsheet.ability_scores.charisma}
+                              defaultValue={this.props.data.ability_scores.charisma}
+                              style={{ textAlign: "center" }}
                           onChange={this.props.handleChange} />
                 </Col>
             </Form.Row>
@@ -149,79 +190,133 @@ class CharacterDetails extends React.Component{
             <br></br>
             <Form.Row>
                 <Col xs={2}>
-                    <Form.Label style={{ marginLeft: 40, fontWeight: "bold", fontSize: 20 }}>--</Form.Label>
-                    <Form.Control as="select" onChange={this.props.abilitySelectionHandler}>
-                        <option>--</option>
-                        <option>STR</option>
-                        <option>CON</option>
-                        <option>DEX</option>
-                        <option>INT</option>
-                        <option>WIS</option>
-                        <option>CHA</option>
-                    </Form.Control>
-            </Col>
-            <Col xs={2}>
-                    <Form.Label style={{ marginLeft: 40, fontWeight: "bold", fontSize: 20 }}>--</Form.Label>
-                    <Form.Control as="select" onChange={this.props.abilitySelectionHandler}>
-                        <option>--</option>
-                        <option>STR</option>
-                        <option>CON</option>
-                        <option>DEX</option>
-                        <option>INT</option>
-                        <option>WIS</option>
-                        <option>CHA</option>
-                    </Form.Control>
-            </Col>
-            <Col xs={2}>
-                    <Form.Label style={{ marginLeft: 40, fontWeight: "bold", fontSize: 20 }}>--</Form.Label>
-                    <Form.Control as="select" onChange={this.props.abilitySelectionHandler}>
-                        <option>--</option>
-                        <option>STR</option>
-                        <option>CON</option>
-                        <option>DEX</option>
-                        <option>INT</option>
-                        <option>WIS</option>
-                        <option>CHA</option>
-                    </Form.Control>
-            </Col>
-            <Col xs={2}>
-                    <Form.Label style={{ marginLeft: 40, fontWeight: "bold", fontSize: 20 }}>--</Form.Label>
-                    <Form.Control as="select" onChange={this.props.abilitySelectionHandler}>
-                        <option>--</option>
-                        <option>STR</option>
-                        <option>CON</option>
-                        <option>DEX</option>
-                        <option>INT</option>
-                        <option>WIS</option>
-                        <option>CHA</option>
-                    </Form.Control>
-            </Col>
-            <Col xs={2}>
-                    <Form.Label style={{marginLeft:40, fontWeight: "bold", fontSize: 20}}>--</Form.Label>
-                    <Form.Control as="select" onChange={this.props.abilitySelectionHandler}>
-                        <option>--</option>
-                        <option>STR</option>
-                        <option>CON</option>
-                        <option>DEX</option>
-                        <option>INT</option>
-                        <option>WIS</option>
-                        <option>CHA</option>
-                    </Form.Control>
-            </Col>
-            <Col xs={2}>
-                    <Form.Label style={{ marginLeft: 40, fontWeight: "bold", fontSize: 20 }}>--</Form.Label>
-                    <Form.Control as="select" onChange={this.props.abilitySelectionHandler}>
-                        <option>--</option>
-                        <option>STR</option>
-                        <option>CON</option>
-                        <option>DEX</option>
-                        <option>INT</option>
-                        <option>WIS</option>
-                        <option>CHA</option>
-                    </Form.Control>
+                  <Form.Label style={{ marginLeft: 40, fontWeight: "bold", fontSize: 20}}>{this.state.roll1}</Form.Label>
+                  <Form.Control as="select" onChange={this.props.handleChange}>
+                            <option>--</option>
+                            <option>STR</option>
+                            <option>CON</option>
+                            <option>DEX</option>
+                            <option>INT</option>
+                            <option>WIS</option>
+                            <option>CHA</option>
+                  </Form.Control>
+                </Col>
+                <Col xs={2}>
+                  <Form.Label style={{ marginLeft: 40, fontWeight: "bold", fontSize: 20 }}>{this.state.roll2}</Form.Label>
+                  <Form.Control as="select" onChange={this.props.handleChange}>
+                            <option>--</option>
+                            <option>STR</option>
+                            <option>CON</option>
+                            <option>DEX</option>
+                            <option>INT</option>
+                            <option>WIS</option>
+                            <option>CHA</option>
+                  </Form.Control>
+                </Col>
+                <Col xs={2}>
+                  <Form.Label style={{ marginLeft: 40, fontWeight: "bold", fontSize: 20 }}>{this.state.roll3}</Form.Label>
+                  <Form.Control as="select" onChange={this.props.handleChange}>
+                            <option>--</option>
+                            <option>STR</option>
+                            <option>CON</option>
+                            <option>DEX</option>
+                            <option>INT</option>
+                            <option>WIS</option>
+                            <option>CHA</option>
+                  </Form.Control>
+                </Col>
+                <Col xs={2}>
+                  <Form.Label style={{ marginLeft: 40, fontWeight: "bold", fontSize: 20 }}>{this.state.roll4}</Form.Label>
+                  <Form.Control as="select" onChange={this.props.handleChange}>
+                            <option>--</option>
+                            <option>STR</option>
+                            <option>CON</option>
+                            <option>DEX</option>
+                            <option>INT</option>
+                            <option>WIS</option>
+                            <option>CHA</option>
+                  </Form.Control>
+                </Col>
+                <Col xs={2}>
+                  <Form.Label style={{ marginLeft: 40, fontWeight: "bold", fontSize: 20 }}>{this.state.roll5}</Form.Label>
+                  <Form.Control as="select" onChange={this.props.handleChange}>
+                            <option>--</option>
+                            <option>STR</option>
+                            <option>CON</option>
+                            <option>DEX</option>
+                            <option>INT</option>
+                            <option>WIS</option>
+                            <option>CHA</option>
+                  </Form.Control>
+                </Col>
+                <Col xs={2}>
+                  <Form.Label style={{ marginLeft: 40, fontWeight: "bold", fontSize: 20 }}>{this.state.roll6}</Form.Label>
+                  <Form.Control as="select" onChange={this.props.handleChange}>
+                            <option>--</option>
+                            <option>STR</option>
+                            <option>CON</option>
+                            <option>DEX</option>
+                            <option>INT</option>
+                            <option>WIS</option>
+                            <option>CHA</option>
+                  </Form.Control>
                 </Col>
             </Form.Row>
-            <Button style={{ width: "100px", marginTop: 20, marginLeft: 305, backgroundColor: "#12A924", borderColor: "#12A924"}}>Roll</Button>
+            <Button style={{ width: "100px", marginTop: 20, marginLeft: 305, backgroundColor: "#12A924", borderColor: "#12A924" }} onClick={this.abilityRoll}>Roll</Button>
+          </fieldset>
+
+            <br></br>
+            <h3>Modifiers</h3>
+            <Form.Row>
+              <Col xs={2}>
+                 <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>STR</Form.Label>
+                 <Form.Control type="text"
+                              name="strength_mod"
+                              defaultValue={this.props.data.ability_scores.strength_mod}
+                              style={{ textAlign: "center" }}
+                              onChange={this.props.handleChange} />
+              </Col>
+              <Col xs={2}>
+                 <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>CON</Form.Label>
+                 <Form.Control type="text"
+                              name="constitution_mod"
+                              defaultValue={this.props.data.ability_scores.constitution_mod}
+                              style={{ textAlign: "center" }}
+                              onChange={this.props.handleChange} />
+              </Col>
+              <Col xs={2}>
+                 <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>DEX</Form.Label>
+                 <Form.Control type="text"
+                              name="dexterity_mod"
+                              defaultValue={this.props.data.ability_scores.dexterity_mod}
+                              style={{ textAlign: "center" }}
+                              onChange={this.props.handleChange} />
+              </Col>
+              <Col xs={2}>
+                 <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>INT</Form.Label>
+                 <Form.Control type="text"
+                              name="intelligence_mod"
+                              defaultValue={this.props.data.ability_scores.intelligence_mod}
+                              style={{ textAlign: "center" }}
+                              onChange={this.props.handleChange} />
+              </Col>
+              <Col xs={2}>
+                 <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>WIS</Form.Label>
+                 <Form.Control type="text"
+                              name="wisdom_mod"
+                              defaultValue={this.props.data.ability_scores.wisdom_mod}
+                              style={{ textAlign: "center" }}
+                              onChange={this.props.handleChange} />
+              </Col>
+              <Col xs={2}>
+                 <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>CHA</Form.Label>
+                 <Form.Control type="text"
+                              name="charisma_mod"
+                              defaultValue={this.props.data.ability_scores.charisma_mod}
+                              style={{ textAlign: "center" }}
+                              onChange={this.props.handleChange} />
+              </Col>
+            </Form.Row>
           </Form.Group>
           <Button style={{float:"right", marginBottom: 10}} variant="primary">Next</Button>
       </Form>
