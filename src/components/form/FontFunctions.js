@@ -1,4 +1,4 @@
-import { font } from './FontData.js'
+import { font } from './FontSizing.js'
 
 export function lengthy_entry(entry){
     if(entry.length > 24 && entry.length < 35)
