@@ -1,25 +1,54 @@
-import { font } from './FontData.js'
+import { font } from './FontSizing.js'
 
-export function lengthy_entry(entry){
-    if(entry.length > 24 && entry.length < 35)
+function measureInputText()
+{
+    var name = document.getElementsByName('name')[0];
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext("2d");
+    var txtWidth = ctx.measureText(name.value).width;
+
+    return txtWidth;
+}
+
+export function lengthy_entry(entry)
+{
+    var inputLength = Math.round(measureInputText());
+
+    if(inputLength > 120 && inputLength < 170)
     {
-      var difference = entry.length - 24;
-      return font.font_size.DEFAULT_FONT_SIZE - difference/2
+      var difference = inputLength / 10;
+      var diff = Math.abs(font.font_size.DEFAULT_FONT_SIZE - difference);
+
+      return Math.abs(font.font_size.DEFAULT_FONT_SIZE - diff)
     }
-    else if(entry.length > 35)
+    else if(inputLength > 170)
     {
       return font.font_size.MINIMUM_FONT_SIZE
     }
     else
       return font.font_size.DEFAULT_FONT_SIZE
-  }
+}
 
-  export function get_ellispis(name){
-    if(name.length > 35){
-      var res = name.substr(0,35);
-      return res + "..."
+export function get_ellispis(name)
+{
+  var character = document.getElementsByName('name')[0];
+  var canvas = document.createElement("canvas");
+  var ctx = canvas.getContext("2d");
+
+  var charactersName = "";
+  var letter = 0;
+
+  if(measureInputText() > 170){
+
+    for(let index=0; index<170; letter++)
+    {
+      var charWidth = ctx.measureText(character.value.charAt(letter)).width;
+      index+=charWidth;
+      charactersName+=character.value.charAt(letter);
     }
-    else {
-      return name
-    }
+    return charactersName + "..."
   }
+  else {
+    return name
+  }
+}
