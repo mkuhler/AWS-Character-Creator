@@ -3,6 +3,7 @@ import CharacterDetails from './characterdetails.js';
 import {Button, Form, Col, Figure} from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import charsheet from './CharSheetData.js';
+import FileSaver from 'file-saver';
 
 export default class PrintPDF extends  React.Component{
 
@@ -37,16 +38,29 @@ pdfGenerator = () =>{
   doc.text(10, 85, "RACE").line(10,72,150,72);
   // doc.text(70, 30, "Class & Level");
 
+
   doc.save("My_Character.pdf")
+    }
+
+jsonGenerator = () => {
+
+    var jsonString = JSON.stringify(charsheet);
+    var jsonBlob = new Blob([jsonString], { type: "text/plain;charset=utf-8" });
+
+    FileSaver.saveAs(jsonBlob, "My_Character.txt");
 }
+
+
 
 render(){
     var length = 0;
 
     return(
       <div className="Button">
-        <Button variant="outline-primary" onClick={this.pdfGenerator}>Print PDF</Button>
+            <Button variant="outline-primary" onClick={this.pdfGenerator}>Print PDF</Button>
+            <Button variant="outline-primary" onClick={this.jsonGenerator}>Download JSON</Button>
       </div>
+
     );
   }
 }
