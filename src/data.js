@@ -366,7 +366,7 @@ export default {
             id: 31,
             race_bonus: ['Str', 'Dex'],
             bonus_value: 2,
-            source: 'Klik-Zeen'
+            source: 'Gods and Icons'
         },
         {
             name: 'Kobold',
