@@ -15,7 +15,7 @@ const charsheet = {
 
             class: "", // *****
             class_bonus_options: ["", ""], // two options specific to class, present 2 for base game classes but allow user to select any two to support homebrewing
-            clas_bonus_chosen: "" // which of the two bonus options the user selects, no defualt?
+            class_bonus_chosen: "" // which of the two bonus options the user selects, no defualt?
         },
 
         level: "", // ***** level actually needs to be a string to allow for novice tiers, no default? N0 (lowest possible level) by default?
