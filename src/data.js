@@ -15,6 +15,7 @@ export default {
             base_md: 10,
             background_points: 8,
             recovery_dice: "d10/lvl",
+            base_recoveries: 8,
             starting_gold: "25gp OR 1d6 x 10gp",
         },
         {
@@ -30,6 +31,7 @@ export default {
             base_md: 11,
             background_points: 8,
             recovery_dice: "d8/lvl",
+            base_recoveries: 8,
             starting_gold: "25gp OR 1d6 x 10gp",
         },
         {
@@ -45,6 +47,7 @@ export default {
             base_md: 11,
             background_points: 8,
             recovery_dice: "d8/lvl",
+            base_recoveries: 8,
             starting_gold: "25gp OR 1d6 x 10gp",
         },
         {
@@ -60,6 +63,7 @@ export default {
             base_md: 10,
             background_points: 8,
             recovery_dice: "d10/lvl",
+            base_recoveries: 9,
             starting_gold: "25gp OR 1d6 x 10gp",
         },
         {
@@ -74,12 +78,13 @@ export default {
             base_md: 12,
             background_points: 8,
             recovery_dice: "d10/lvl",
+            base_recoveries: 8,
             starting_gold: "25gp OR 1d6 x 10gp",
         },
         {
             name: 'Ranger',
             id: 6,
-            class_bonus: ['Dex', 'Str'],
+            class_bonus: ['Dex', 'Str', 'Wis'],
             backgrounds: ['Tracker', 'Bounty hunter', 'Beast slayer', 'Woodsy assassin', 'Orc slayer', 'Wanderer'],
             bonus_value: 2,
             base_hp: 7,
@@ -88,6 +93,7 @@ export default {
             base_md: 10,
             background_points: 8,
             recovery_dice: "d8/lvl",
+            base_recoveries: 8,
             starting_gold: "25gp OR 1d6 x 10gp",
         },
         {
@@ -117,6 +123,7 @@ export default {
             base_md: 10,
             background_points: 8,
             recovery_dice: "d6/lvl",
+            base_recoveries: 8,
             starting_gold: "25gp OR 1d6 x 10gp",
         },
         {
@@ -131,6 +138,7 @@ export default {
             base_md: 12,
             background_points: 8,
             recovery_dice: "d6/lvl",
+            base_recoveries: 8,
             starting_gold: "25gp OR 1d6 x 10gp",
         },
     ],
@@ -255,7 +263,7 @@ export default {
             source: 'Book of Ages'
         },
         {
-            name: 'Space Corpse Explorer',
+            name: 'Space Corps Explorer',
             id: 17,
             race_bonus: ['Dex', 'Int'],
             bonus_value: 2,
@@ -280,7 +288,7 @@ export default {
             id: 20,
             race_bonus: ['Str', 'Con'],
             bonus_value: 2,
-            source: 'Bestiary 2'
+            source: 'Bestiary'
         },
         {
             name: 'Unholy One',
@@ -484,7 +492,7 @@ export default {
             id: 49,
             race_bonus: ['Con', 'Wis'],
             bonus_value: 2,
-            source: 'DATP!'
+            source: 'DATP'
         },
     ]
 }
