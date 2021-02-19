@@ -40,7 +40,7 @@ const charsheet = {
     ability_scores: { // 2nd page, includes information on ability scores and modifiers
 
         strength: 10, // ints need a defualt value, 10 or 0 by default?
-        constituion: 10,
+        constitution: 10,
         dexterity: 10, // ***** all required
         intelligence: 10,
         wisdom: 10,
