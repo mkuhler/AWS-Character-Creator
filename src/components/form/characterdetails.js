@@ -319,7 +319,7 @@ constructor(charProps){
               </Col>
             </Form.Row>
           </Form.Group>
-          <Button style={{float:"right", marginBottom: 10}} variant="primary">Next</Button>
+          <Button style={{float:"right", marginBottom: 10}} variant="primary" onClick={this.props.nextStep}>Next</Button>
       </Form>
       );
 

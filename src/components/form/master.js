@@ -89,13 +89,13 @@ class MasterForm extends React.Component{
 
             </Container>
         case 2:
+          return <Container><h2>Character Attributes</h2></Container>
           // return <Test
           //         nextStep = {this.nextStep}
           //         handleChange = {this.handleChange}
           //         data = {this.state.data}
           //         />
 
-          //      }
       }
   }
 }
