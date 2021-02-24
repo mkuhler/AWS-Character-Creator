@@ -7,7 +7,8 @@ class InfoCard extends React.Component{
         return(
         <Card>
         <Card.Body>
-            <Card.Title>{0}</Card.Title>
+            <Card.Title>{this.props.data.basic_info.name}</Card.Title>
+            <Card.Subtitle classname="mb-2 text-muted">{this.props.data.basic_info.class_info.class}</Card.Subtitle>
             <Card.Text>
             Some quick example text to build on the card title and make up the bulk of
             the card's content.
