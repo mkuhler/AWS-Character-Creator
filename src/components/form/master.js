@@ -3,6 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import InfoCard from './infocard.js';
 import BackgroundTalents from './background_talents.js';
 import CharacterDetails from './characterdetails.js';
+import TestForm from './testForm.js';
 import PrintPDF from "./PrintPDF.js";
 import charsheet from './CharSheetData.js';
 //import the rest of form components
@@ -17,8 +18,11 @@ class MasterForm extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this)
+<<<<<<< Updated upstream
     console.log(this.state.step)
 
+=======
+>>>>>>> Stashed changes
 
   }
 
@@ -53,6 +57,17 @@ class MasterForm extends React.Component {
       this.state.data.[category].[subcategory].[name] = value
     } else {
       this.state.data.[category].[name] = value
+<<<<<<< Updated upstream
+=======
+
+      //Calculate modifiers based on ability score ranges
+      if (category == "ability_scores") {
+        var modName = name + "_mod"
+        var modValue = Math.floor((this.state.data.[category].[name] - 10) / 2)
+
+        this.state.data.[category].[modName] = modValue
+      }
+>>>>>>> Stashed changes
     }
     console.log(event.target.id)
 
@@ -75,7 +90,10 @@ class MasterForm extends React.Component {
                 nextStep={this.nextStep}
                 handleChange={this.handleChange}
                 data={this.state.data}
+<<<<<<< Updated upstream
                 helloWorld={this.helloWorld}
+=======
+>>>>>>> Stashed changes
               />
             </Col>
             <Col xs={4}>
@@ -88,7 +106,11 @@ class MasterForm extends React.Component {
 
         </Container>
       case 2:
+<<<<<<< Updated upstream
         return <BackgroundTalents
+=======
+        return <TestForm
+>>>>>>> Stashed changes
           nextStep={this.nextStep}
           prevStep={this.prevStep}
           handleChange={this.handleChange}
@@ -96,6 +118,11 @@ class MasterForm extends React.Component {
           helloWorld={this.helloWorld}
         />
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
     }
   }
 }
