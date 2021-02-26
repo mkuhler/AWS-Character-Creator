@@ -7,11 +7,11 @@ const charsheet = {
     //version_number: "1.0.0", // should this be a single string or two floats for major/minor version?
 
     // a version number should be set somewhere in the "main part of the program. This would be stored as a variable in a newly created sheet or read in from an existing one
-    major_version: 1.0, // if major versions are different then the sheet should no longer be compatible. 
-    minor_version: 0.0, // if minor versions are differnt but major versions are the same the sheet should still be compatible
+    major_version: 1, // if major versions are different then the sheet should no longer be compatible. 
+    minor_version: 0, // if minor versions are differnt but major versions are the same the sheet should still be compatible
     // major and minor version would be combined in to a version number, i.e. 1.2.15
 
-    //version_number: major_version.tostring() + minor_version.tostring(), // should this be a single string or two floats for major/minor version?
+    //version_number: major_version.tostring() + '.' + minor_version.tostring(), // should this be a single string or two floats for major/minor version?
 
     // first page consist of basic info - things related to name, class, level, race, height, weight, age and gender
     basic_info: {
