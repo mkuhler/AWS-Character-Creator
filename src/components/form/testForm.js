@@ -12,35 +12,90 @@ class TestForm extends React.Component {
 
                 <Form>
                     <Form.Group controlId="background_talents">
-                        <h3>Background Information Page Two</h3>
+                        <h3>Character Attributes</h3>
 
                         <Form.Row>
-                            <Col xs={5}>
-                                <Form.Label>One Unique Thing</Form.Label>
+                            <Col xs={2}>
+                                <Form.Label>Initiative</Form.Label>
                                 <Form.Control type="text"
-                                    name="one_unique_thing"
+                                    name="initiative"
                                     onChange={this.props.handleChange} />
                             </Col>
                         </Form.Row>
 
                         <Form.Row>
-                            <Col xs={5}>
-                                <Form.Label>Feature Name</Form.Label>
+                            <Col xs={2}>
+                                <Form.Label>Hitpoints Max</Form.Label>
                                 <Form.Control type="text"
-                                    //not sure of what name yet
-                                    name="featName"
+                                    name="hitpoints_max"
+                                    onChange={this.props.handleChange} />
+                            </Col>
+                            <Col xs={2}>
+                                <Form.Label>Hitpoints Current</Form.Label>
+                                <Form.Control type="text"
+                                    name="hitpoints_current"
                                     onChange={this.props.handleChange} />
                             </Col>
                         </Form.Row>
                         <Form.Row>
-                            <Col xs={5}>
-                                <Form.Label>Feature Description</Form.Label>
+                            <Col xs={2}>
+                                <Form.Label>Physical Defense</Form.Label>
                                 <Form.Control type="text"
-                                    //not sure what name yet either
-                                    name="featDescription"
+                                    name="physical_defense"
+                                    onChange={this.props.handleChange} />
+                            </Col>
+                            <Col xs={2}>
+                                <Form.Label>Mental Defense</Form.Label>
+                                <Form.Control type="text"
+                                    name="mental_defense"
                                     onChange={this.props.handleChange} />
                             </Col>
                         </Form.Row>
+                        <br></br>
+                        <h3>Saving Throws</h3>
+
+                        <Form.Row>
+                            <Col xs={2}>
+                                <Form.Label>Easy</Form.Label>
+                                <Form.Control type="text"
+                                    name="saving_throws_easy"
+                                    onChange={this.props.handleChange} />
+                            </Col>
+                            <Col xs={2}>
+                                <Form.Label>Medium</Form.Label>
+                                <Form.Control type="text"
+                                    name="saving_throws_medium"
+                                    onChange={this.props.handleChange} />
+                            </Col>
+                            <Col xs={2}>
+                                <Form.Label>Hard</Form.Label>
+                                <Form.Control type="text"
+                                    name="saving_throws_hard"
+                                    onChange={this.props.handleChange} />
+                            </Col>
+                            <Col xs={2}>
+                                <Form.Label>Optional</Form.Label>
+                                <Form.Control type="text"
+                                    name="saving_throws_optional"
+                                    onChange={this.props.handleChange} />
+                            </Col>
+                        </Form.Row>
+                        <br></br>
+                        <Form.Row>
+                            <Col xs={2}>
+                                <Form.Label>Death Saves Max</Form.Label>
+                                <Form.Control type="text"
+                                    name="death_saves_max"
+                                    onChange={this.props.handleChange} />
+                            </Col>
+                            <Col xs={2}>
+                                <Form.Label>Death Saves Current</Form.Label>
+                                <Form.Control type="text"
+                                    name="death_saves_current"
+                                    onChange={this.props.handleChange} />
+                            </Col>
+                        </Form.Row>
+
                     </Form.Group>
                     <Button style={{ float: "left", marginBottom: 10 }} variant="primary" onClick={this.props.prevStep}>Previous</Button>
                     <Button style={{ float: "right", marginBottom: 10 }} variant="primary" onClick={this.props.nextStep}>Next</Button>
