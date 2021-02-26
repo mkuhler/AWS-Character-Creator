@@ -95,20 +95,42 @@ class MasterForm extends React.Component {
         </Container>
       case 2:
         <h3>Background Information Page Two</h3>
-        return <TestForm
-          nextStep={this.nextStep}
-          prevStep={this.prevStep}
-          handleChange={this.handleChange}
-          data={this.state.data}
-        />
+        return <Container>
+          <Row>
+
+            <Col xs={10}>
+              <TestForm
+                nextStep={this.nextStep}
+                prevStep={this.prevStep}
+                handleChange={this.handleChange}
+                data={this.state.data}
+              />
+            </Col>
+            <PrintPDF
+              data={this.state.data}
+            />
+          </Row>
+
+        </Container>
       case 3:
         <h3>Background Information Page Three</h3>
-        return <TestForm2
-          nextStep={this.nextStep}
-          prevStep={this.prevStep}
-          handleChange={this.handleChange}
-          data={this.state.data}
-        />
+        return <Container>
+          <Row>
+
+            <Col xs={10}>
+              <TestForm2
+                nextStep={this.nextStep}
+                prevStep={this.prevStep}
+                handleChange={this.handleChange}
+                data={this.state.data}
+              />
+            </Col>
+            <PrintPDF
+              data={this.state.data}
+            />
+          </Row>
+
+        </Container>
 
     }
   }

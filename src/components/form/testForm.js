@@ -82,13 +82,13 @@ class TestForm extends React.Component {
                         </Form.Row>
                         <br></br>
                         <Form.Row>
-                            <Col xs={2}>
+                            <Col xs={3}>
                                 <Form.Label>Death Saves Max</Form.Label>
                                 <Form.Control type="text"
                                     name="death_saves_max"
                                     onChange={this.props.handleChange} />
                             </Col>
-                            <Col xs={2}>
+                            <Col xs={3}>
                                 <Form.Label>Death Saves Current</Form.Label>
                                 <Form.Control type="text"
                                     name="death_saves_current"
