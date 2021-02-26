@@ -41,8 +41,6 @@ class TestForm2 extends React.Component {
                     <Button style={{ float: "left", marginBottom: 10 }} variant="primary" onClick={this.props.prevStep}>Previous</Button>
                 </Form>
             </Container>
-
-
         );
     }
 }

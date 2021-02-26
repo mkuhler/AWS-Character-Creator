@@ -34,7 +34,8 @@ class MasterForm extends React.Component {
   prevStep = () => {
     const { step } = this.state
     this.setState({
-      step: step - 1
+      step: step - 1,
+      data: charsheet
 
     })
   }
