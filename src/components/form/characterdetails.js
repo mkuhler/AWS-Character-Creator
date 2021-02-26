@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Col } from 'react-bootstrap';
+import { Button, Form, Col, ProgressBar } from 'react-bootstrap';
 
 class CharacterDetails extends React.Component {
 
@@ -43,6 +43,7 @@ class CharacterDetails extends React.Component {
       <Form>
         <Form.Group controlId="basic_info">
           <h3>Basic Information</h3>
+
           <Form.Row>
             <Col xs={5}>
               <Form.Label>Character Name</Form.Label>

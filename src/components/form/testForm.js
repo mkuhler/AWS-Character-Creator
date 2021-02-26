@@ -1,11 +1,15 @@
 import React from 'react';
-import { Button, Form, Col, Container } from 'react-bootstrap';
+import { Button, Form, Col, Container, ProgressBar } from 'react-bootstrap';
 
 class TestForm extends React.Component {
     render() {
         console.log(this.props.data)
+
         return (
+
             <Container>
+                <ProgressBar animated now={33} />
+
                 <Form>
                     <Form.Group controlId="background_talents">
                         <h3>Background Information Page Two</h3>
