@@ -98,7 +98,7 @@ export default {
 
             level_progressions: [
                 {
-                    // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for noive tier levels
+                    // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for novice tier levels
                     // i.e. level 1 = (base hp + con mod) * 3
                     total_hitpoints_multiplier: [3, 4, 5, 6, 8, 10, 12, 16, 20, 24],
 
@@ -206,7 +206,7 @@ export default {
 
                         level_progressions: [
                             {
-                                // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for noive tier levels
+                                // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for novice tier levels
                                 // i.e. level 1 = (base hp + con mod) * 3
                                 total_hitpoints_multiplier: [3, 4, 5, 6, 8, 10, 12, 16, 20, 24],
 
@@ -320,7 +320,7 @@ export default {
 
                     level_progressions: [
                         {
-                            // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for noive tier levels
+                            // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for novice tier levels
                             // i.e. level 1 = (base hp + con mod) * 3
                             total_hitpoints_multiplier: [3, 4, 5, 6, 8, 10, 12, 16, 20, 24],
 
@@ -430,7 +430,7 @@ export default {
 
                     level_progressions: [
                         {
-                            // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for noive tier levels
+                            // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for novice tier levels
                             // i.e. level 1 = (base hp + con mod) * 3
                             total_hitpoints_multiplier: [3, 4, 5, 6, 8, 10, 12, 16, 20, 24],
 
@@ -540,7 +540,7 @@ export default {
 
                     level_progressions: [
                         {
-                            // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for noive tier levels
+                            // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for novice tier levels
                             // i.e. level 1 = (base hp + con mod) * 3
                             total_hitpoints_multiplier: [3, 4, 5, 6, 8, 10, 12, 16, 20, 24],
 
@@ -647,7 +647,7 @@ export default {
 
                     level_progressions: [
                         {
-                            // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for noive tier levels
+                            // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for novice tier levels
                             // i.e. level 1 = (base hp + con mod) * 3
                             total_hitpoints_multiplier: [3, 4, 5, 6, 8, 10, 12, 16, 20, 24],
 
@@ -754,7 +754,7 @@ export default {
 
                     level_progressions: [
                         {
-                            // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for noive tier levels
+                            // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for novice tier levels
                             // i.e. level 1 = (base hp + con mod) * 3
                             total_hitpoints_multiplier: [3, 4, 5, 6, 8, 10, 12, 16, 20, 24],
 
@@ -864,7 +864,7 @@ export default {
 
                     level_progressions: [
                         {
-                            // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for noive tier levels
+                            // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for novice tier levels
                             // i.e. level 1 = (base hp + con mod) * 3
                             total_hitpoints_multiplier: [3, 4, 5, 6, 8, 10, 12, 16, 20, 24],
 
@@ -972,7 +972,7 @@ export default {
 
                     level_progressions: [
                         {
-                            // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for noive tier levels
+                            // hitpoints = (base hp + con mod) * a value below corresponding to level (indexing from 1, so index = level - 1) Not sure how to account for novice tier levels
                             // i.e. level 1 = (base hp + con mod) * 3
                             total_hitpoints_multiplier: [3, 4, 5, 6, 8, 10, 12, 16, 20, 24],
 
