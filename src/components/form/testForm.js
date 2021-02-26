@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, Form, Col, Container, ProgressBar, FormControl } from 'react-bootstrap';
-import InputGroup from 'react-bootstrap/InputGroup';
+import { Button, Form, Col, Container, ProgressBar } from 'react-bootstrap';
 
 class TestForm extends React.Component {
     render() {
@@ -26,17 +25,10 @@ class TestForm extends React.Component {
 
                         <Form.Row>
                             <Col xs={2}>
-                                <Form.Label>Hitpoints  Max</Form.Label>
-                                <InputGroup className="mb-3" >
-                                    <FormControl
-                                        type="text"
-                                        name="hitpoints_max"
-                                        onChange={this.props.handleChange}
-                                    />
-                                    <InputGroup.Append>
-                                        <Button variant="outline-secondary" size="sm">Roll</Button>
-                                    </InputGroup.Append>
-                                </InputGroup>
+                                <Form.Label>Hitpoints Max</Form.Label>
+                                <Form.Control type="text"
+                                    name="hitpoints_max"
+                                    onChange={this.props.handleChange} />
                             </Col>
                             <Col xs={2}>
                                 <Form.Label>Hitpoints Current</Form.Label>
