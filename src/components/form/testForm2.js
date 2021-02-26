@@ -1,14 +1,14 @@
 import React from 'react';
 import { Button, Form, Col, Container } from 'react-bootstrap';
 
-class TestForm extends React.Component {
+class TestForm2 extends React.Component {
     render() {
         console.log(this.props.data)
         return (
             <Container>
                 <Form>
                     <Form.Group controlId="background_talents">
-                        <h3>Background Information Page Two</h3>
+                        <h3>Background Information Page Three</h3>
 
                         <Form.Row>
                             <Col xs={5}>
@@ -50,4 +50,4 @@ class TestForm extends React.Component {
     }
 }
 
-export default TestForm;
+export default TestForm2;

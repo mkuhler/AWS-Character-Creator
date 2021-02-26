@@ -5,6 +5,8 @@ import CharacterDetails from './characterdetails.js';
 import PrintPDF from "./PrintPDF.js";
 import charsheet from './CharSheetData.js';
 import TestForm from './testForm.js';
+import TestForm2 from './testForm2.js';
+
 
 //import the rest of form components
 
@@ -91,16 +93,22 @@ class MasterForm extends React.Component {
 
         </Container>
       case 2:
-        <h3>Background Information</h3>
+        <h3>Background Information Page Two</h3>
         return <TestForm
           nextStep={this.nextStep}
           prevStep={this.prevStep}
           handleChange={this.handleChange}
           data={this.state.data}
-          helloWorld={this.helloWorld}
         />
       case 3:
-        <h3>Place Holder!</h3>
+        <h3>Background Information Page Three</h3>
+        return <TestForm2
+          nextStep={this.nextStep}
+          prevStep={this.prevStep}
+          handleChange={this.handleChange}
+          data={this.state.data}
+        />
+
     }
   }
 }
