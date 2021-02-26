@@ -329,7 +329,7 @@ export default {
                             total_feats: [[1, 0, 0], [2, 0, 0], [3, 0, 0], [4, 0, 0], [4, 1, 0], [4, 2, 0], [4, 3, 0], [4, 3, 1], [4, 3, 2], [4, 3, 3]],
 
                             // each array corresponsds to a level, each element in the array corresponds to spells at 1st, 3rd, 5th, 7th and 9th level
-                            // for example at level 5 2 3rd level spells and 4 5th level spells
+                            // for example at level 5 you have 2 3rd level spells and 4 5th level spells
                             spells: [[4, 0, 0, 0, 0], [5, 0, 0, 0, 0], [2, 3, 0, 0, 0], [1, 5, 0, 0, 0], [0, 2, 4, 0, 0], [0, 1, 6, 0, 0],
                             [0, 0, 2, 5, 0], [0, 0, 1, 7, 0], [0, 0, 0, 2, 6], [0, 0, 0, 1, 8]],
 
@@ -873,7 +873,7 @@ export default {
                             total_feats: [[1, 0, 0], [2, 0, 0], [3, 0, 0], [4, 0, 0], [4, 1, 0], [4, 2, 0], [4, 3, 0], [4, 3, 1], [4, 3, 2], [4, 3, 3]],
 
                             // each array corresponsds to a level, each element in the array corresponds to spells at 1st, 3rd, 5th, 7th and 9th level
-                            // for example at level 5 2 3rd level spells and 4 5th level spells
+                            // for example at level 5 you have 3 3rd level spells and 4 5th level spells
                             spells: [[4, 0, 0, 0, 0], [5, 0, 0, 0, 0], [3, 3, 0, 0, 0], [0, 6, 0, 0, 0], [0, 3, 4, 0, 0], [0, 0, 7, 0, 0],
                             [0, 0, 3, 5, 0], [0, 0, 0, 8, 0], [0, 0, 0, 3, 6], [0, 0, 0, 0, 9]],
 
@@ -981,7 +981,7 @@ export default {
                             total_feats: [[1, 0, 0], [2, 0, 0], [3, 0, 0], [4, 0, 0], [4, 1, 0], [4, 2, 0], [4, 3, 0], [4, 3, 1], [4, 3, 2], [4, 3, 3]],
 
                             // each array corresponsds to a level, each element in the array corresponds to spells at 1st, 3rd, 5th, 7th and 9th level
-                            // for example at level 5 2 3rd level spells and 4 5th level spells
+                            // for example at level 5 you have 1 1st level spell, 4 3rd level spells and 4 5th level spells
                             spells: [[5, 0, 0, 0, 0], [6, 0, 0, 0, 0], [3, 4, 0, 0, 0], [2, 6, 0, 0, 0], [1, 4, 4, 0, 0], [0, 2, 8, 0, 0],
                                 [0, 1, 4, 5, 0], [0, 0, 3, 8, 0], [0, 0, 1, 5, 6], [0, 0, 0, 3, 9]],
 
