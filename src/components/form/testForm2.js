@@ -39,9 +39,6 @@ class TestForm2 extends React.Component {
                         </Form.Row>
                     </Form.Group>
                     <Button style={{ float: "left", marginBottom: 10 }} variant="primary" onClick={this.props.prevStep}>Previous</Button>
-                    <Button style={{ float: "right", marginBottom: 10 }} variant="primary" onClick={this.props.nextStep}>Next</Button>
-
-
                 </Form>
             </Container>
 
