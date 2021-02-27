@@ -374,13 +374,16 @@ export default {
             [
                 {
                     // each array corresponsds to a level 1-10
-                    battle_cries: ['2', '2, up to 1st level', '3 up to 3rd level', '3 up to 3rd level', '3 up to 5th level', '4 up to 5th level',
-                        '4, up to 7th level', '5, up tp 7th level', '5, up to 9th level', '6 up to 9th level'],
+                    // ex at level 9 a bard has 5 battle cries at level 9
+                    battle_cries_count: [2, 2, 3, 3, 4, 4, 5, 5, 6],
+                    battle_cries_levels: [1, 1, 3, 3, 5, 5, 7, 7, 9, 9],
 
                     // each array corresponsds to a level, each element in the array corresponds to spells and songs at 1st, 3rd, 5th, 7th and 9th level
                     // for example at level 5 you have 3 spells and songs at 3rd level, 2 spells and songs at 5th level
                     spells_and_songs: [[2, 0, 0, 0, 0], [3, 0, 0, 0, 0], [1, 2, 0, 0, 0], [0, 4, 0, 0, 0], [0, 3, 2, 0, 0], [0, 0, 5, 0, 0],
-                                        [0, 0, 3, 3, 0], [0, 0, 0, 6, 0], [0, 0, 0, 4, 3], [0, 0, 0, 0, 9]],
+                        [0, 0, 3, 3, 0], [0, 0, 0, 6, 0], [0, 0, 0, 4, 3], [0, 0, 0, 0, 9]],
+
+                    class_talents: [[3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0]],
 
                 }
             ],
@@ -561,6 +564,8 @@ export default {
                         // for example at level 5 you have 2 3rd level spells and 4 5th level spells
                         spells: [[4, 0, 0, 0, 0], [5, 0, 0, 0, 0], [2, 3, 0, 0, 0], [1, 5, 0, 0, 0], [0, 2, 4, 0, 0], [0, 1, 6, 0, 0],
                         [0, 0, 2, 5, 0], [0, 0, 1, 7, 0], [0, 0, 0, 2, 6], [0, 0, 0, 1, 8]],
+
+                        class_talents: [[3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0]],
                     }
             ],
         },
@@ -742,7 +747,7 @@ export default {
                     maneuver_pool: ['1st level', '1st level', '3rd level', '3rd level', '5th level', '5th level', '7th level',
                         '7th level', '9th level', '9th level'],
 
-                    class_talents: [3, 3, 3, 3, 3, 4, 4, 4, 4, 4],
+                    class_talents: [[3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [4, 0, 0], [4, 0, 0], [4, 0, 0], [4, 0, 0], [4, 0, 0]],
                 }
             ],
         },
@@ -918,7 +923,7 @@ export default {
                 {
                     // similar to total feats, each outer array corresponds to a level 1-10, each inner element corresponds to an
                     // adventurer, champion or epic tier talent
-                    class_talents: [3, 3, 3, 3, 4, 4, 4, 5, 5, 5],
+                    class_talents: [[3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [4, 0, 0], [4, 0, 0], [4, 0, 0], [5, 0, 0], [5, 0, 0], [5, 0, 0]],
                 }
             ],
         },
@@ -1095,7 +1100,7 @@ export default {
                 {
                     // similar to total feats, each outer array corresponds to a level 1-10, each inner element corresponds to an
                     // adventurer, champion or epic tier talent
-                    class_talents: [3, 3, 3, 3, 4, 4, 4, 5, 5, 5],
+                    class_talents: [[3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [4, 0, 0], [4, 0, 0], [4, 0, 0], [5, 0, 0], [5, 0, 0], [5, 0, 0]],
                 }
             ],
         },
@@ -1273,8 +1278,9 @@ export default {
                     // each array element corresponds to a level 1-10
                     powers_known: [4, 5, 5, 6, 6, 7, 7, 8, 8, 9],
 
-                    power_pool: ['1st level', '1st level', '3rd level', '3rd level', '5th level', '5th level', '7th level',
-                        '7th level', '9th level', '9th level'],
+                    power_pool: [1, 1, 3, 3, 5, 5, 7, 7, 9, 9],
+
+                    class_talents: [[3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0]],
                 }
             ],
         },
@@ -1452,7 +1458,9 @@ export default {
                     // each array corresponsds to a level, each element in the array corresponds to spells at 1st, 3rd, 5th, 7th and 9th level
                     // for example at level 5 you have 3 3rd level spells and 4 5th level spells
                     spells: [[4, 0, 0, 0, 0], [5, 0, 0, 0, 0], [3, 3, 0, 0, 0], [0, 6, 0, 0, 0], [0, 3, 4, 0, 0], [0, 0, 7, 0, 0],
-                    [0, 0, 3, 5, 0], [0, 0, 0, 8, 0], [0, 0, 0, 3, 6], [0, 0, 0, 0, 9]],
+                        [0, 0, 3, 5, 0], [0, 0, 0, 8, 0], [0, 0, 0, 3, 6], [0, 0, 0, 0, 9]],
+
+                    class_talents: [[3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0]],
                 }
             ],
         },
@@ -1630,7 +1638,9 @@ export default {
                     // each array corresponsds to a level, each element in the array corresponds to spells at 1st, 3rd, 5th, 7th and 9th level
                     // for example at level 5 you have 1 1st level spell, 4 3rd level spells and 4 5th level spells
                     spells: [[5, 0, 0, 0, 0], [6, 0, 0, 0, 0], [3, 4, 0, 0, 0], [2, 6, 0, 0, 0], [1, 4, 4, 0, 0], [0, 2, 8, 0, 0],
-                    [0, 1, 4, 5, 0], [0, 0, 3, 8, 0], [0, 0, 1, 5, 6], [0, 0, 0, 3, 9]],
+                        [0, 1, 4, 5, 0], [0, 0, 3, 8, 0], [0, 0, 1, 5, 6], [0, 0, 0, 3, 9]],
+
+                    class_talents: [[3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0], [3, 0, 0]],
                 },
             ],
         },
