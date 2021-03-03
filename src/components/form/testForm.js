@@ -30,6 +30,7 @@ class TestForm extends React.Component {
                                     name="hitpoints_max"
                                     onChange={this.props.handleChange} />
                             </Col>
+
                             <Col xs={2}>
                                 <Form.Label>Hitpoints Current</Form.Label>
                                 <Form.Control type="text"
@@ -44,6 +45,7 @@ class TestForm extends React.Component {
                                     name="physical_defense"
                                     onChange={this.props.handleChange} />
                             </Col>
+
                             <Col xs={2}>
                                 <Form.Label>Mental Defense</Form.Label>
                                 <Form.Control type="text"
@@ -61,18 +63,21 @@ class TestForm extends React.Component {
                                     name="saving_throws_easy"
                                     onChange={this.props.handleChange} />
                             </Col>
+
                             <Col xs={2}>
                                 <Form.Label>Medium</Form.Label>
                                 <Form.Control type="text"
                                     name="saving_throws_medium"
                                     onChange={this.props.handleChange} />
                             </Col>
+
                             <Col xs={2}>
                                 <Form.Label>Hard</Form.Label>
                                 <Form.Control type="text"
                                     name="saving_throws_hard"
                                     onChange={this.props.handleChange} />
                             </Col>
+
                             <Col xs={2}>
                                 <Form.Label>Optional</Form.Label>
                                 <Form.Control type="text"
@@ -88,6 +93,7 @@ class TestForm extends React.Component {
                                     name="death_saves_max"
                                     onChange={this.props.handleChange} />
                             </Col>
+
                             <Col xs={3}>
                                 <Form.Label>Death Saves Current</Form.Label>
                                 <Form.Control type="text"
