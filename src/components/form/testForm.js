@@ -15,7 +15,7 @@ class TestForm extends React.Component {
                         <h3>Character Attributes</h3>
 
                         <Form.Row>
-                            <Col xs={2}>
+                            <Col xs={3}>
                                 <Form.Label>Initiative</Form.Label>
                                 <Form.Control type="text"
                                     name="initiative"
@@ -24,14 +24,14 @@ class TestForm extends React.Component {
                         </Form.Row>
 
                         <Form.Row>
-                            <Col xs={2}>
+                            <Col xs={3}>
                                 <Form.Label>Hitpoints Max</Form.Label>
                                 <Form.Control type="text"
                                     name="hitpoints_max"
                                     onChange={this.props.handleChange} />
                             </Col>
 
-                            <Col xs={2}>
+                            <Col xs={3}>
                                 <Form.Label>Hitpoints Current</Form.Label>
                                 <Form.Control type="text"
                                     name="hitpoints_current"
@@ -39,14 +39,14 @@ class TestForm extends React.Component {
                             </Col>
                         </Form.Row>
                         <Form.Row>
-                            <Col xs={2}>
+                            <Col xs={3}>
                                 <Form.Label>Physical Defense</Form.Label>
                                 <Form.Control type="text"
                                     name="physical_defense"
                                     onChange={this.props.handleChange} />
                             </Col>
 
-                            <Col xs={2}>
+                            <Col xs={3}>
                                 <Form.Label>Mental Defense</Form.Label>
                                 <Form.Control type="text"
                                     name="mental_defense"
@@ -57,28 +57,28 @@ class TestForm extends React.Component {
                         <h3>Saving Throws</h3>
 
                         <Form.Row>
-                            <Col xs={2}>
+                            <Col xs={3}>
                                 <Form.Label>Easy</Form.Label>
                                 <Form.Control type="text"
                                     name="saving_throws_easy"
                                     onChange={this.props.handleChange} />
                             </Col>
 
-                            <Col xs={2}>
+                            <Col xs={3}>
                                 <Form.Label>Medium</Form.Label>
                                 <Form.Control type="text"
                                     name="saving_throws_medium"
                                     onChange={this.props.handleChange} />
                             </Col>
 
-                            <Col xs={2}>
+                            <Col xs={3}>
                                 <Form.Label>Hard</Form.Label>
                                 <Form.Control type="text"
                                     name="saving_throws_hard"
                                     onChange={this.props.handleChange} />
                             </Col>
 
-                            <Col xs={2}>
+                            <Col xs={3}>
                                 <Form.Label>Optional</Form.Label>
                                 <Form.Control type="text"
                                     name="saving_throws_optional"
