@@ -4,8 +4,8 @@ import InfoCard from './infocard.js';
 import CharacterDetails from './characterdetails.js';
 import PrintPDF from "./PrintPDF.js";
 import charsheet from './CharSheetData.js';
-import TestForm from './testForm.js';
-import TestForm2 from './testForm2.js';
+import CharacterAttributes from './characterattributes.js';
+import BackgroundTalents from './backgroundtalents.js';
 
 
 //import the rest of form components
@@ -100,7 +100,7 @@ class MasterForm extends React.Component {
           <Row>
 
             <Col xs={10}>
-              <TestForm
+              <CharacterAttributes
                 nextStep={this.nextStep}
                 prevStep={this.prevStep}
                 handleChange={this.handleChange}
@@ -119,7 +119,7 @@ class MasterForm extends React.Component {
           <Row>
 
             <Col xs={10}>
-              <TestForm2
+              <BackgroundTalents
                 nextStep={this.nextStep}
                 prevStep={this.prevStep}
                 handleChange={this.handleChange}

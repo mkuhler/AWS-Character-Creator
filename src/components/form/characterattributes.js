@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Form, Col, Container, ProgressBar } from 'react-bootstrap';
 
-class TestForm extends React.Component {
+class CharacterAttributes extends React.Component {
     render() {
         console.log(this.props.data)
 
@@ -111,4 +111,4 @@ class TestForm extends React.Component {
     }
 }
 
-export default TestForm;
+export default CharacterAttributes;
