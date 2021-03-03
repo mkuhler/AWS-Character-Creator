@@ -66,6 +66,7 @@ class MasterForm extends React.Component {
     //console.log(category)
     //this.state.data.[category].[name] = value
     console.log(this.state.data.basic_info)
+    console.log(this.state.data.character_attributes)
     console.log(this.state.data.ability_scores)
   }
 

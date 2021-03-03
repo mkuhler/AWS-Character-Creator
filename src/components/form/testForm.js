@@ -11,7 +11,7 @@ class TestForm extends React.Component {
                 <ProgressBar animated now={33} />
 
                 <Form>
-                    <Form.Group controlId="background_talents">
+                    <Form.Group controlId="character_attributes">
                         <h3>Character Attributes</h3>
 
                         <Form.Row>
