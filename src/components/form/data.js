@@ -1847,7 +1847,7 @@ export default {
             race_bonus: ['Dex', 'Cha'],
             bonus_value: 2,
             source: 'Dark Alleys & Twisted Paths',
-            source_link: 'https://www.drivethrurpg.com/product/295925/Dark-Alleys--Twisted-Paths-13th-Age-Compatible',,
+            source_link: 'https://www.drivethrurpg.com/product/295925/Dark-Alleys--Twisted-Paths-13th-Age-Compatible',
         },
         {
             name: 'Gearforged',
