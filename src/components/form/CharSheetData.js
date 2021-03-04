@@ -96,7 +96,16 @@ const charsheet = {
         // example - icon relationships [("Great Gold Wyrm", 1, "positive"), ("Darkness Between Starts", 2, "negative")]
         // there doesn't seem to be a specific minimum or maximum number of relationships a character can have (most of Tim's have 2 or 3), so we may need to allow the user to add more fields
         // 3 sets fields by default may be good, if the user doesn't input values print blank?
-        icon_relationships: [("", 0, ""), ("", 0, ""), ("", 0, "")],
+        icon_relationships: [
+            {
+                relationship:
+                {
+                    name: "",
+                    tier: 0
+                },
+            }
+
+        ],
         icon_relationships_other: "", // an additional field for players to include any clarifications for icon relationships, blank by default
 
         one_unique_thing: "", // effectively just a string, can have impacts on skills (?) but that would best be left for the user to modify
