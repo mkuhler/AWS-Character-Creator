@@ -104,7 +104,7 @@ const charsheet = {
                 {   // ex Lich King 1 Negative, Emporer 2 Conflicted
                     name: "", // who the relationship is with
                     tier: 0, // the numerical level of the relationship, (should be a positive or abs value number, no 0?)
-                    type: "" // positive, negative, or conflicted
+                    status: "" // positive, negative, or conflicted
                 },
             }
 
