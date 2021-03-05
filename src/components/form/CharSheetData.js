@@ -96,12 +96,15 @@ const charsheet = {
         // example - icon relationships [("Great Gold Wyrm", 1, "positive"), ("Darkness Between Starts", 2, "negative")]
         // there doesn't seem to be a specific minimum or maximum number of relationships a character can have (most of Tim's have 2 or 3), so we may need to allow the user to add more fields
         // 3 sets fields by default may be good, if the user doesn't input values print blank?
+
+        // the genreator should support at least up to 5 (or more?) icon relationships, 1 by default
         icon_relationships: [
             {
                 relationship:
-                {
-                    name: "",
-                    tier: 0
+                {   // ex Lich King 1 Negative, Emporer 2 Conflicted
+                    name: "", // who the relationship is with
+                    tier: 0, // the numerical level of the relationship, (should be a positive or abs value number, no 0?)
+                    type: "" // positive, negative, or conflicted
                 },
             }
 
