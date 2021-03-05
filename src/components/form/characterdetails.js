@@ -70,7 +70,7 @@ class CharacterDetails extends React.Component {
           <Form.Row>
             <Col xs={5}>
               <Form.Label>Class</Form.Label>
-              <Form.Control as="select" subcategory="class_info" name="class" onChange={this.props.handleChange}>
+              <Form.Control as="select" name="class" onChange={this.props.handleChange}>
                 <option>Barbarian</option>
                 <option>Bard</option>
                 <option>Cleric</option>

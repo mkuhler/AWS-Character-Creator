@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import gamedata from './data.js';
 import InfoCard from './infocard.js';
 import CharacterDetails from './characterdetails.js';
 import PrintPDF from "./PrintPDF.js";
@@ -59,6 +60,7 @@ class MasterForm extends React.Component {
 
         this.state.data.[category].[modName] = modValue
       }
+      this.forceUpdate()
     }
     console.log(event.target.id)
 
@@ -86,7 +88,7 @@ class MasterForm extends React.Component {
               />
             </Col>
             <Col xs={4}>
-              <InfoCard data={this.state.data.basic_info.class_info} />
+              <InfoCard data={this.state.data} />
             </Col>
             <PrintPDF
               data={this.state.data}
