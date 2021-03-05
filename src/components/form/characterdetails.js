@@ -53,7 +53,7 @@ class CharacterDetails extends React.Component {
             </Col>
             <Col xs={5}>
               <Form.Label>Race</Form.Label>
-              <Form.Control as="select" subcategory="race_info" name="race" onChange={this.props.handleChange}>
+              <Form.Control as="select" name="race" onChange={this.props.handleChange}>
                 <option>Alleykin</option>
                 <option>Arcanite</option>
                 <option>Beastblooded</option>

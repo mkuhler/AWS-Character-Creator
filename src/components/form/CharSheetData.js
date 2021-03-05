@@ -16,11 +16,9 @@ const charsheet = {
 
         level: "", // ***** level actually needs to be a string to allow for novice tiers, no default? N0 (lowest possible level) by default?
 
-        race_info: { // similar to class the user has 2 bonus options tied to that class
-            race: "", // ***** elf, dragonborn, etc. no defualt?
-            race_bonus_options: ["", ""], // two options specific to race, present 2 for base game classes but allow user to select any two to support homebrewing
-            race_bonus_chosen: "" // which of the two bonus options the user chose
-        },
+        race: "", // ***** elf, dragonborn, etc. no defualt?
+        race_bonus_options: ["", ""], // two options specific to race, present 2 for base game classes but allow user to select any two to support homebrewing
+        race_bonus_chosen: "", // which of the two bonus options the user chose
 
         height: "", // height and weight are enterred as two separate values but should be displayed in the same field in the final sheet 
         weight: "",

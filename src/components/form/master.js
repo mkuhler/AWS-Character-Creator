@@ -99,7 +99,8 @@ class MasterForm extends React.Component {
               />
             </Col>
             <Col xs={4}>
-              <InfoCard data={this.state.data} />
+              <InfoCard data={this.state.data} name= "class"/>
+              <InfoCard data={this.state.data} name= "race"/>
             </Col>
             <PrintPDF
               data={this.state.data}
