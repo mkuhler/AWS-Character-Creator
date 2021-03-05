@@ -7,6 +7,15 @@ class InfoCard extends React.Component{
         const itemName = this.props.name
         const infoItem = this.props.data.basic_info.[itemName]
         const itemOptions = this.props.data.basic_info.class_bonus_options
+        var itemNamePlural = ""
+
+        // Adds plural suffix to the itemName for use in the help url
+        if (itemName === "class") {
+            itemNamePlural = "classes"
+        } else if (itemName === "race") {
+            itemNamePlural = "races"
+        }
+        
         if (infoItem != "") {
             return(
                 <Card>
@@ -18,13 +27,13 @@ class InfoCard extends React.Component{
                     {itemOptions.map((option) => (
                         <Form.Check 
                             type = "radio" 
-                            name = "class"
+                            name = {itemName}
                             label={`${option} (+2)`}
                         />
         
                     ))}
                     </Card.Text>
-                    <Card.Link href={"https://www.13thagesrd.com/classes/" + infoItem} target="_blank">Learn more {'>'}</Card.Link>
+                    <Card.Link href={`https://www.13thagesrd.com/${itemNamePlural}/${infoItem}`} target="_blank">Learn more {'>'}</Card.Link>
                 </Card.Body>
                 </Card>
                 );
