@@ -5,7 +5,7 @@ import Header from './components/header.js';
 import Footer from './components/footer.js';
 import MasterForm from './components/form/master.js';
 import { jsPDF } from "jspdf";
-import charClassData from "./components/form/data";
+import charClassData from "./components/form/data.js";
 import {Container, Row, Col} from "react-bootstrap";
 
 
