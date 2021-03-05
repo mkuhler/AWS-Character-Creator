@@ -62,14 +62,25 @@ class MasterForm extends React.Component {
       }
       this.forceUpdate()
     }
-    console.log(event.target.id)
+
+    if (name == "class") {
+      const class_list = gamedata.classes
+      var result = class_list.find(game_class => {
+        if(game_class.name === value) {
+          this.state.data.[category].class_bonus_options = game_class.class_bonus
+          console.log(game_class.class_bonus)
+        }
+      })
+    } 
+
+    // console.log(event.target.id)
 
     //console.log(subcategory)
     //console.log(category)
     //this.state.data.[category].[name] = value
-    console.log(this.state.data.basic_info)
-    console.log(this.state.data.character_attributes)
-    console.log(this.state.data.ability_scores)
+    // console.log(this.state.data.basic_info)
+    // console.log(this.state.data.character_attributes)
+    // console.log(this.state.data.ability_scores)
   }
 
 
