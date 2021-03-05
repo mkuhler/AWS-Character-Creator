@@ -82,7 +82,6 @@ class MasterForm extends React.Component {
         }
       })
     } 
-
     // console.log(event.target.id)
 
     //console.log(subcategory)
@@ -109,8 +108,16 @@ class MasterForm extends React.Component {
               />
             </Col>
             <Col xs={4}>
-              <InfoCard data={this.state.data} name= "class"/>
-              <InfoCard data={this.state.data} name= "race"/>
+              <InfoCard 
+                data={this.state.data} 
+                name= "class"
+                handleChange={this.handleChange}
+              />
+              <InfoCard 
+                data={this.state.data} 
+                name= "race"
+                handleChange={this.handleChange}
+              />
             </Col>
             <PrintPDF
               data={this.state.data}

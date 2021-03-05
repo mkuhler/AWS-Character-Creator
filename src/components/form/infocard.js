@@ -6,6 +6,7 @@ class InfoCard extends React.Component{
         console.log(this.props.data)
         const itemName = this.props.name
         const infoItem = this.props.data.basic_info.[itemName]
+        const selectionName = `${itemName}_bonus_chosen`
         var itemOptions = []
         var itemNamePlural = ""
 
@@ -29,11 +30,13 @@ class InfoCard extends React.Component{
                     </Card.Text>
                     
                     {itemOptions.map((option, key) => (
-                        <Form.Group key={key}>
+                        <Form.Group controlId="basic_info" key={key}>
                         <Form.Check 
                             type = "radio" 
-                            name = {itemName}
+                            name = {selectionName}
+                            value = {option}
                             label={`${option} (+2)`}
+                            onChange={this.props.handleChange}
                         />
                         </Form.Group>
                     ))}
