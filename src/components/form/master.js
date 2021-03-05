@@ -77,7 +77,7 @@ class MasterForm extends React.Component {
       const race_list = gamedata.races
       var result = race_list.find(game_race => {
         if(game_race.name === value) {
-          this.state.data.[category].race_bonus_options = race_list.race_bonus
+          this.state.data.[category].race_bonus_options = game_race.race_bonus
           console.log(game_race.race_bonus)
         }
       })
@@ -110,7 +110,7 @@ class MasterForm extends React.Component {
             </Col>
             <Col xs={4}>
               <InfoCard data={this.state.data} name= "class"/>
-              
+              <InfoCard data={this.state.data} name= "race"/>
             </Col>
             <PrintPDF
               data={this.state.data}

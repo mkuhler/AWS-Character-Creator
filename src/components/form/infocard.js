@@ -37,7 +37,6 @@ class InfoCard extends React.Component{
                         />
                         </Form.Group>
                     ))}
-
                     
                     <Card.Link href={`https://www.13thagesrd.com/${itemNamePlural}/${infoItem}`} target="_blank">Learn more {'>'}</Card.Link>
                 </Card.Body>
