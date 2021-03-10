@@ -26,7 +26,7 @@ class InfoCard extends React.Component{
                     <Card.Title>{infoItem}</Card.Title>
                     <Card.Subtitle className="mb-2 text-muted">{this.props.name}</Card.Subtitle>
                     <Card.Text>
-                    For this class, you recieve a bonus to an ability score. Please select your class bonus:
+                    For this {itemName}, you recieve a bonus to an ability score. Please select your {itemName} bonus:
                     </Card.Text>
                     
                     {itemOptions.map((option, key) => (
