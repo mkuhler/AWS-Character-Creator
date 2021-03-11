@@ -57,6 +57,7 @@ class MasterForm extends React.Component{
     console.log(this.state.data.ability_scores)
   }
 
+  //Literally only updates ability score values for backend
   dataChange(value){
     var data = {...this.state.data}
     data.ability_scores = value
