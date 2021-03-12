@@ -7,32 +7,35 @@ import { lengthy_entry, get_ellispis } from './FontFunctions.js';
 import { shield, attack_information, intitive } from './encodebase64.js';
 import FileSaver from 'file-saver';
 import axios from 'axios';
+import { parse } from '../../../node_modules/querystring/index.js';
 
 
 export default class PrintPDF extends  React.Component{
 
     fileState = {
         selectedFile: null,
-        nameofFile: "Upload a file"
     };
 
     onFileChange = event => {
-        this.fileState = { selectedFile: event.target.files[0] };
-        this.fileState.nameofFile = String(this.fileState.selectedFile.name);
-    };
 
-    onFileUpload = () => {
-        const formData = new FormData();
-
-        // formData.append("myFile", this.fileState.selectedFile, this.fileState.selectedFile.name);
-
+        //console.log(event.target.files[0])
+        //this.fileState = { selectedFile: event.target.files[0] };
         //this.fileState.nameofFile = String(this.fileState.selectedFile.name);
 
-        charsheet = JSON.parse(this.fileState.text);
+        const fileReader = new FileReader();
+        fileReader.readAsText(event.target.files[0], "UTF-8");
+        fileReader.onload = event => {
+            console.log("e.target.result", event.target.result);
+            //setFiles(event.target.result);
+            this.fileState.selectedFile = event.target.result;
+            var parsedFile = JSON.parse(event.target.result);
+            this.charsheet = parsedFile;
 
-        // console.log(this.state.selectedFile);
+            console.log("Charsheet: " + this.charsheet.basic_info);
+            console.log("Character name: " + this.charsheet.basic_info.name);
+        };
 
-        axios.post("api/uploadfile", formData);
+
     };
 
     fileData = () => {
@@ -84,9 +87,20 @@ export default class PrintPDF extends  React.Component{
     }
 
 
-  jsonGenerator = () => {
+    jsonGenerator = () => {
 
-    var jsonString = JSON.stringify(charsheet);
+        // The user should be able to upload a file, have the contents of that file populate the fields, and be able to re-download the modified file
+        // currently the user can upload and re-download a file, but any changes made after the upload do not populate in when redownloading,
+        // there seems to be an issue with the distinction between charsheet and this.charsheet
+        var jsonString;
+        if (this.fileState.selectedFile != null) {
+            jsonString = JSON.stringify(this.charsheet);
+        }
+        else
+        {
+            jsonString = JSON.stringify(charsheet);
+        }
+
     var jsonBlob = new Blob([jsonString], { type: "text/plain;charset=utf-8" });
 
     FileSaver.saveAs(jsonBlob, "My_Character.txt");
@@ -97,15 +111,7 @@ export default class PrintPDF extends  React.Component{
       <div className="Button">
         <Button variant="outline-primary" onClick={this.pdfGenerator}>Print PDF</Button>
         <Button variant="outline-primary" onClick={this.jsonGenerator}>Download JSON</Button>
-            <Form variant="outline-primary">
-                <Form.File 
-                    id="custom-file"
-                    label= {this.fileState.nameofFile}
-                    custom
-                    onChange= {this.onFileChange}
-                />
-            </Form>
-        <Button variant="outline-primary" onClick={this.onFileUpload}>Upload File</Button>
+        <input type="file" name="file" onChange={this.onFileChange} />
         {this.fileData()}
       </div>
     );
