@@ -20,7 +20,8 @@ class MasterForm extends React.Component {
       data: charsheet
     };
 
-    this.handleChange = this.handleChange.bind(this)
+  this.handleChange = this.handleChange.bind(this)
+  this.dataChange = this.dataChange.bind(this)
 
   }
 
@@ -52,15 +53,6 @@ class MasterForm extends React.Component {
       this.state.data.[category].[subcategory].[name] = value
     } else {
       this.state.data.[category].[name] = value
-
-      //Calculate modifiers based on ability score ranges
-      if (category == "ability_scores") {
-        var modName = name + "_mod"
-        var modValue = Math.floor((this.state.data.[category].[name] - 10) / 2)
-
-        this.state.data.[category].[modName] = modValue
-      }
-      this.forceUpdate()
     }
 
     if (name == "class") {
@@ -83,7 +75,6 @@ class MasterForm extends React.Component {
       })
     } 
     // console.log(event.target.id)
-
     //console.log(subcategory)
     //console.log(category)
     //this.state.data.[category].[name] = value
@@ -92,6 +83,14 @@ class MasterForm extends React.Component {
     // console.log(this.state.data.ability_scores)
   }
 
+  //Literally only updates ability score values for backend
+  dataChange(value){
+    var data = {...this.state.data}
+    data.ability_scores = value
+    this.setState({data})
+
+    console.log(this.state.data.ability_scores)
+  }
 
   render() {
     const { step } = this.state;
@@ -102,11 +101,11 @@ class MasterForm extends React.Component {
 
             <Col xs={8}>
               <CharacterDetails
-                nextStep={this.nextStep}
-                handleChange={this.handleChange}
-                data={this.state.data}
-              />
-            </Col>
+                nextStep = {this.nextStep}
+                handleChange = {this.handleChange}
+                dataChange = {this.dataChange}
+                data = {this.state.data}
+                />
             <Col xs={4}>
               <InfoCard 
                 data={this.state.data} 
