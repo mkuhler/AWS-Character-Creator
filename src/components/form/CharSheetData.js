@@ -4,6 +4,15 @@
 
 const charsheet = {
 
+    //version_number: "1.0.0", // should this be a single string or two floats for major/minor version?
+
+    // a version number should be set somewhere in the "main part of the program. This would be stored as a variable in a newly created sheet or read in from an existing one
+    major_version: 1, // if major versions are different then the sheet should no longer be compatible. 
+    minor_version: 0, // if minor versions are differnt but major versions are the same the sheet should still be compatible
+    // major and minor version would be combined in to a version number, i.e. 1.2.15
+
+    //version_number: major_version.tostring() + '.' + minor_version.tostring(), // should this be a single string or two floats for major/minor version?
+
     // first page consist of basic info - things related to name, class, level, race, height, weight, age and gender
     basic_info: {
 
@@ -34,7 +43,7 @@ const charsheet = {
     ability_scores: { // 2nd page, includes information on ability scores and modifiers
 
         strength: 10, // ints need a defualt value, 10 or 0 by default?
-        constituion: 10,
+        constitution: 10,
         dexterity: 10, // ***** all required
         intelligence: 10,
         wisdom: 10,
@@ -81,7 +90,19 @@ const charsheet = {
         // example - icon relationships [("Great Gold Wyrm", 1, "positive"), ("Darkness Between Starts", 2, "negative")]
         // there doesn't seem to be a specific minimum or maximum number of relationships a character can have (most of Tim's have 2 or 3), so we may need to allow the user to add more fields
         // 3 sets fields by default may be good, if the user doesn't input values print blank?
-        icon_relationships: [("", 0, ""), ("", 0, ""), ("", 0, "")],
+
+        // the genreator should support at least up to 5 (or more?) icon relationships, 1 by default
+        icon_relationships: [
+            {
+                relationship:
+                {   // ex Lich King 1 Negative, Emporer 2 Conflicted
+                    name: "", // who the relationship is with
+                    tier: 0, // the numerical level of the relationship, (should be a positive or abs value number, no 0?)
+                    status: "" // positive, negative, or conflicted
+                },
+            }
+
+        ],
         icon_relationships_other: "", // an additional field for players to include any clarifications for icon relationships, blank by default
 
         one_unique_thing: "", // effectively just a string, can have impacts on skills (?) but that would best be left for the user to modify
