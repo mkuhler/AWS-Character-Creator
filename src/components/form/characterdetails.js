@@ -14,7 +14,9 @@ constructor(charProps){
 
     //values for keeping track of drop down values for ability allocation
     selected1: "--", selected2: "--", selected3: "--", selected4: "--", selected5: "--", selected6: "--",
-    genMethod: "Manual", rollDisplay: false
+    genMethod: "Manual", rollDisplay: false,
+
+    classBonus: "", raceBonus: ""
   }
   this.dropdownChange = this.dropdownChange.bind(this)
   this.abilityGenMethod = this.abilityGenMethod.bind(this)
@@ -50,6 +52,7 @@ constructor(charProps){
     //Declaring variables needed to update changes
     var ability_scoreChanges = {...this.props.data.ability_scores}
     const abilityNames = ["strength", "constitution", "dexterity", "intelligence", "wisdom", "charisma"]
+    const abilityABR = ["STR", "CON", "DEX", "INT", "WIS", "CHA"]
     const selected = ["selected1", "selected2", "selected3", "selected4", "selected5", "selected6"]
 
     //Error checking: checks if all drop down lists have been changed
@@ -77,9 +80,17 @@ constructor(charProps){
       }
     }
 
+    //Checks for bonuses selected
+    if(this.props.data.basic_info.class_bonus_chosen.length == 3) {
+      this.state.classBonus = abilityNames[abilityABR.indexOf(this.props.data.basic_info.class_bonus_chosen.toUpperCase())]
+    }
+    if(this.props.data.basic_info.race_bonus_chosen.length == 3) {
+      this.state.raceBonus = abilityNames[abilityABR.indexOf(this.props.data.basic_info.race_bonus_chosen.toUpperCase())]
+    }
+
     //Loop to allocate values
     for (var i = 0; i < 6; i++) {
-      var rollNum = "roll" + (i+1)
+      var rollVal = this.state.["roll" + (i+1)][0]
 
       //For loop for changing the abbreviation ability names to the full length to make allocating values easier
       for (var j = 0; j < abilityNames.length; j++) {
@@ -88,7 +99,14 @@ constructor(charProps){
           break
         }
       }
-      ability_scoreChanges.[this.state.[selected[i]]] = this.state.[rollNum][0]
+
+      //Applies class and race bonuses to corresponding abilities
+      if(this.state.[selected[i]] === this.state.classBonus)
+            rollVal += 2
+      if(this.state.[selected[i]] === this.state.raceBonus)
+            rollVal += 2
+
+      ability_scoreChanges.[this.state.[selected[i]]] = rollVal
     }
     this.props.dataChange(ability_scoreChanges)
   }
@@ -131,13 +149,10 @@ constructor(charProps){
     const{name, value} = event.target
     var ability_scoreChanges = {...this.props.data.ability_scores}
 
-    const re = /^[0-9\b]+$/;
-
-    //checks if value is blank and then 
-    if (event.target.value === '' || re.test(event.target.value)) {
+    //checks for numerical input then changes props and fields accordingly
+    if (this.props.onlyNum(event)) {
       ability_scoreChanges.[name] = value
       this.props.dataChange(ability_scoreChanges)
-      this.props.handleChange(event)
     }
   }
 

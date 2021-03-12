@@ -94,6 +94,23 @@ class MasterForm extends React.Component {
     console.log(this.state.data.ability_scores)
   }
 
+  //Function that takes in an event to check if its value contains only numerical input
+  //returns true if it contains on numbers and calls handleChange to handle backend changes
+  onlyNum = (event) => {
+    const re = /^[0-9\b]+$/;
+
+    //checks if value is blank and then checks if the value contains only numerical input
+    if (event.target.value === '' || re.test(event.target.value)) {
+      event.value = "test"
+      console.log(event.value)
+      console.log(event.target.value)
+      this.handleChange(event)
+      return true
+    }
+    else
+      return false
+  }
+
   render() {
     const { step } = this.state;
     switch (step) {
@@ -107,6 +124,7 @@ class MasterForm extends React.Component {
                 handleChange = {this.handleChange}
                 dataChange = {this.dataChange}
                 data = {this.state.data}
+                onlyNum = {this.onlyNum}
                 />
             </Col>
             <Col xs={4}>
