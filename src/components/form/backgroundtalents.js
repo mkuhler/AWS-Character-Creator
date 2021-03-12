@@ -2,6 +2,42 @@ import React from 'react';
 import { Button, Form, Col, Container, ProgressBar } from 'react-bootstrap';
 
 class BackgroundTalents extends React.Component {
+
+    constructor(props){
+      super(props);
+      this.state = {
+        list: [],
+        official: true,
+        mage: false
+      };
+
+      this.checkboxChange = this.checkboxChange.bind(this);
+      console.log(this.state.list)
+
+
+    }
+
+
+
+
+    checkboxChange(event){
+
+
+      console.log(event.target.id + " checkbox was clicked");
+      console.log(event.target.id + " is " + event.target.checked)
+      this.setState((prevState) => {
+        return{
+          ...prevState,
+          [event.target.id]: !this.state.[event.target.id]
+        }
+      })
+
+      console.log(event.target.id + " is " + event.target.checked)
+
+
+    }
+
+
     render() {
         console.log(this.props.data)
         return (
@@ -11,7 +47,15 @@ class BackgroundTalents extends React.Component {
                 <Form>
                     <Form.Group controlId="background_talents">
                         <h3>Background Information Page Three</h3>
+                        <br />
+                        <Form.Group controlId="official" >
+                          <Form.Check type="checkbox" label="Official" checked={this.state.official} onChange={this.checkboxChange}/>
+                        </Form.Group>
+                        <Form.Group controlId="mage">
+                          <Form.Check type="checkbox" label="Mage List" checked={this.state.magelist} onChange={this.checkboxChange}/>
+                        </Form.Group>
                         <Form.Row>
+
                             <Col xs={5}>
                                 <Form.Label>Icon Relationship</Form.Label>
                                 <Form.Control as="select" name="icon_relationships" onChange={this.props.handleChange}>
