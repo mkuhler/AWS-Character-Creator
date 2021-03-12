@@ -16,39 +16,14 @@ export default class PrintPDF extends  React.Component{
         selectedFile: null,
     };
 
-    onFileChange = event => {
-
-        //console.log(event.target.files[0])
-        //this.fileState = { selectedFile: event.target.files[0] };
-        //this.fileState.nameofFile = String(this.fileState.selectedFile.name);
-
-        const fileReader = new FileReader();
-
-        if (event.target.files[0] != null) {
-            fileReader.readAsText(event.target.files[0], "UTF-8");
-            fileReader.onload = event => {
-                console.log("e.target.result", event.target.result);
-                //setFiles(event.target.result);
-                this.fileState.selectedFile = event.target.result;
-                var parsedFile = JSON.parse(event.target.result);
-                this.charsheet = parsedFile;
-
-                console.log("Charsheet: " + this.charsheet.basic_info);
-                console.log("Character name: " + this.charsheet.basic_info.name);
-            };
-        }
-
-
-    };
-
   pdfGenerator = () =>{
     var doc = new jsPDF('p', 'pt');
 
-    var name = charsheet.basic_info.name;
-    var race_and_class = charsheet.basic_info.race_info.race + " - " +charsheet.basic_info.class_info.class;
-    var height_and_weight = charsheet.basic_info.height + "  -  " +charsheet.basic_info.weight;
-    var age_and_gender = charsheet.basic_info.age + "  -  " +charsheet.basic_info.gender;
-    var level = charsheet.basic_info.level;
+    var name = this.props.data.basic_info.name;
+    var race_and_class = this.props.data.basic_info.race + " - " +this.props.data.basic_info.class;
+    var height_and_weight = this.props.data.basic_info.height + "  -  " +this.props.data.basic_info.weight;
+    var age_and_gender = this.props.data.basic_info.age + "  -  " +this.props.data.basic_info.gender;
+    var level = this.props.data.basic_info.level;
 
     doc.addImage(shield(),'PGN',170,10, 60,70);
     doc.addImage(attack_information(), 'PGN', 270, 10, 210, 90);
@@ -80,13 +55,7 @@ export default class PrintPDF extends  React.Component{
         // currently the user can upload and re-download a file, but any changes made after the upload do not populate in when redownloading,
         // there seems to be an issue with the distinction between charsheet and this.charsheet
         var jsonString;
-        if (this.fileState.selectedFile != null) {
-            jsonString = JSON.stringify(this.charsheet);
-        }
-        else
-        {
-            jsonString = JSON.stringify(charsheet);
-        }
+        jsonString = JSON.stringify(this.props.data);
 
     var jsonBlob = new Blob([jsonString], { type: "text/plain;charset=utf-8" });
 
@@ -98,7 +67,7 @@ export default class PrintPDF extends  React.Component{
       <div className="Button">
         <Button variant="outline-primary" onClick={this.pdfGenerator}>Print PDF</Button>
         <Button variant="outline-primary" onClick={this.jsonGenerator}>Download JSON</Button>
-        <input type="file" name="file" onChange={this.onFileChange} />
+
       </div>
     );
     }

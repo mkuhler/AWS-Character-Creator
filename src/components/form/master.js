@@ -7,6 +7,7 @@ import PrintPDF from "./PrintPDF.js";
 import charsheet from './CharSheetData.js';
 import CharacterAttributes from './characterattributes.js';
 import BackgroundTalents from './backgroundtalents.js';
+import UploadButton from './UploadButton.js';
 
 
 //import the rest of form components
@@ -17,12 +18,13 @@ class MasterForm extends React.Component {
 
     this.state = {
       step: 1,
-      data: charsheet
+      data: charsheet,
+      fileState: null,
     };
 
   this.handleChange = this.handleChange.bind(this)
   this.dataChange = this.dataChange.bind(this)
-
+  this.onFileChange = this.onFileChange.bind(this)
   }
 
   nextStep = () => {
@@ -43,6 +45,38 @@ class MasterForm extends React.Component {
   }
 
 
+  onFileChange = event => {
+
+      //console.log(event.target.files[0])
+      //this.fileState = { selectedFile: event.target.files[0] };
+      //this.fileState.nameofFile = String(this.fileState.selectedFile.name);
+      console.log('hello');
+      const fileReader = new FileReader();
+
+      if (event.target.files[0] != null) {
+          fileReader.readAsText(event.target.files[0], "UTF-8");
+          fileReader.onload = event => {
+              console.log("e.target.result", event.target.result);
+              //setFiles(event.target.result);
+              this.state.selectedFile = event.target.result;
+              var parsedFile = JSON.parse(event.target.result);
+              this.setState((prevState) => {
+                return{
+                  ...prevState,
+                  data: parsedFile
+                }
+              })
+              //this.state.data = parsedFile;
+              console.log(parsedFile)
+              console.log("Charsheet: " + this.state.data.basic_info);
+              console.log("Character name: " + this.state.data.basic_info.name);
+              this.forceUpdate()
+          };
+      }
+
+
+  }
+
   handleChange(event) {
     const { name, value } = event.target
     //Custom attributes need to be grabbed from the DOM api
@@ -55,7 +89,7 @@ class MasterForm extends React.Component {
       this.state.data.[category].[name] = value
     }
     this.forceUpdate()
-    
+
     if (name == "class") {
       const class_list = gamedata.classes
       var result = class_list.find(game_class => {
@@ -64,7 +98,7 @@ class MasterForm extends React.Component {
           console.log(game_class.class_bonus)
         }
       })
-    } 
+    }
 
     if (name == "race") {
       const race_list = gamedata.races
@@ -74,7 +108,7 @@ class MasterForm extends React.Component {
           console.log(game_race.race_bonus)
         }
       })
-    } 
+    }
     // console.log(event.target.id)
     //console.log(subcategory)
     //console.log(category)
@@ -109,17 +143,20 @@ class MasterForm extends React.Component {
                 />
             </Col>
             <Col xs={4}>
-              <InfoCard 
-                data={this.state.data} 
+              <InfoCard
+                data={this.state.data}
                 name= "class"
                 handleChange={this.handleChange}
               />
-              <InfoCard 
-                data={this.state.data} 
+              <InfoCard
+                data={this.state.data}
                 name= "race"
                 handleChange={this.handleChange}
               />
             </Col>
+              <UploadButton
+              onChange={this.onFileChange}
+              />
             <PrintPDF
               data={this.state.data}
             />
@@ -139,9 +176,11 @@ class MasterForm extends React.Component {
                 data={this.state.data}
               />
             </Col>
+
             <PrintPDF
               data={this.state.data}
             />
+
           </Row>
 
         </Container>
@@ -164,6 +203,7 @@ class MasterForm extends React.Component {
           </Row>
 
         </Container>
+
 
     }
   }
