@@ -19,11 +19,11 @@ export default class PrintPDF extends  React.Component{
   pdfGenerator = () =>{
     var doc = new jsPDF('p', 'pt');
 
-    var name = charsheet.basic_info.name;
-    var race_and_class = charsheet.basic_info.race_info.race + " - " +charsheet.basic_info.class_info.class;
-    var height_and_weight = charsheet.basic_info.height + "  -  " +charsheet.basic_info.weight;
-    var age_and_gender = charsheet.basic_info.age + "  -  " +charsheet.basic_info.gender;
-    var level = charsheet.basic_info.level;
+    var name = this.props.data.basic_info.name;
+    var race_and_class = this.props.data.basic_info.race + " - " +this.props.data.basic_info.class;
+    var height_and_weight = this.props.data.basic_info.height + "  -  " +this.props.data.basic_info.weight;
+    var age_and_gender = this.props.data.basic_info.age + "  -  " +this.props.data.basic_info.gender;
+    var level = this.props.data.basic_info.level;
 
     doc.addImage(shield(),'PGN',170,10, 60,70);
     doc.addImage(attack_information(), 'PGN', 270, 10, 210, 90);
