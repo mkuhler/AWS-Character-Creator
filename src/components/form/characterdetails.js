@@ -1,9 +1,12 @@
 import React from 'react';
-import { Button, Form, Col, ProgressBar } from 'react-bootstrap';
+import {Button, Form, Col} from 'react-bootstrap';
 import classInfo from './data.js'
 
+class CharacterDetails extends React.Component{
+  
+constructor(charProps){
+  super(charProps)
 
-class CharacterDetails extends React.Component {
   this.state = { 
     //values for holding roll results
     roll1: "--", roll2: "--", roll3: "--", roll4: "--", roll5: "--", roll6: "--",
@@ -16,7 +19,6 @@ class CharacterDetails extends React.Component {
   this.dropdownChange = this.dropdownChange.bind(this)
   this.abilityGenMethod = this.abilityGenMethod.bind(this)
 }
-
 
   //Calculate modifiers on button click and sends values to master.js to update
   calcMod = () => {
@@ -139,7 +141,7 @@ class CharacterDetails extends React.Component {
     }
   }
 
-  //this.props.data.basic_info.name returns Madison
+//this.props.data.basic_info.name returns Madison
 
   render() {
       console.log(this.props.data.basic_info);
@@ -148,8 +150,8 @@ class CharacterDetails extends React.Component {
           <Form.Group controlId="basic_info">
             <h3>Basic Information</h3>
             <Form.Row>
-              <Col xs={2}>
-                <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>STR</Form.Label>
+              <Col xs={5}>
+                <Form.Label>Character Name</Form.Label>
                 <Form.Control type="text"
                             name="name"
                             onChange={this.props.handleChange}/>
@@ -157,7 +159,7 @@ class CharacterDetails extends React.Component {
               <Col xs={5}>
                 <Form.Label>Race</Form.Label>
                 <Form.Control type="text" list="races" onChange={this.props.handleChange}/>
-                  <datalist subcategory="race_info" name="race" id="races">
+                  <datalist name="race" id="races">
                       {classInfo.races.map((option) =>
                         <option value={option.name}></option>
                       )}
@@ -169,51 +171,49 @@ class CharacterDetails extends React.Component {
               <Col xs={5}>
                 <Form.Label>Class</Form.Label>
                 <Form.Control type="text" list="classes" onChange={this.props.handleChange}/>
-                  <datalist subcategory="class_info" name="class" id="classes">
+                  <datalist name="class" id="classes">
                       {classInfo.classes.map((option) =>
                         <option value={option.name}></option>
                       )}
                   </datalist>
               </Col>
-              <Col xs={2}>
-                <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>CON</Form.Label>
+              <Col xs={5}>
+                <Form.Label>Level</Form.Label>
                 <Form.Control type="text"
-                  name="constitution"
-                  defaultValue={this.props.data.ability_scores.constitution}
-                  style={{ textAlign: "center" }}
-                  onChange={this.props.handleChange} />
+                            name="level"
+                            placeholder="1"
+                            onChange={this.props.handleChange}/>
               </Col>
+            </Form.Row>
+
+            <Form.Row>
+
               <Col xs={2}>
-                <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>DEX</Form.Label>
+                <Form.Label>Height</Form.Label>
                 <Form.Control type="text"
-                  name="dexterity"
-                  defaultValue={this.props.data.ability_scores.dexterity}
-                  style={{ textAlign: "center" }}
-                  onChange={this.props.handleChange} />
+                              name="height"
+                              onChange={this.props.handleChange}/>
               </Col>
+
               <Col xs={2}>
-                <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>INT</Form.Label>
+                <Form.Label>Weight</Form.Label>
                 <Form.Control type="text"
-                  name="intelligence"
-                  defaultValue={this.props.data.ability_scores.intelligence}
-                  style={{ textAlign: "center" }}
-                  onChange={this.props.handleChange} />
+                                name="weight"
+                                onChange={this.props.handleChange}/>
               </Col>
+
               <Col xs={2}>
-                <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>WIS</Form.Label>
+                <Form.Label>Age</Form.Label>
                 <Form.Control type="text"
-                  name="wisdom"
-                  defaultValue={this.props.data.ability_scores.wisdom}
-                  style={{ textAlign: "center" }}
-                  onChange={this.props.handleChange} />
+                                  name="age"
+                                  onChange={this.props.handleChange}/>
               </Col>
+
               <Col xs={2}>
-                <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>CHA</Form.Label>
+                <Form.Label>Gender</Form.Label>
                 <Form.Control type="text"
-                  name="charisma"
-                  defaultValue={this.props.data.ability_scores.charisma}
-                  style={{ textAlign: "center" }}
-                  onChange={this.props.handleChange} />
+                                  name="gender"
+                                  onChange={this.props.handleChange}/>
               </Col>
             </Form.Row>
         </Form.Group>
@@ -417,9 +417,9 @@ class CharacterDetails extends React.Component {
           </Form.Group>
           <Button style={{float:"right", marginBottom: 10}} variant="primary" onClick={this.props.nextStep}>Next</Button>
       </Form>
-    );
+      );
 
-  }
+     }
 
 
 }

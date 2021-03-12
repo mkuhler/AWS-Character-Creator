@@ -78,7 +78,7 @@ class MasterForm extends React.Component {
     //console.log(subcategory)
     //console.log(category)
     //this.state.data.[category].[name] = value
-    // console.log(this.state.data.basic_info)
+    console.log(this.state.data.basic_info)
     // console.log(this.state.data.character_attributes)
     // console.log(this.state.data.ability_scores)
   }
@@ -106,6 +106,7 @@ class MasterForm extends React.Component {
                 dataChange = {this.dataChange}
                 data = {this.state.data}
                 />
+            </Col>
             <Col xs={4}>
               <InfoCard 
                 data={this.state.data} 
