@@ -89,6 +89,7 @@ class MasterForm extends React.Component {
     var data = {...this.state.data}
     data.ability_scores = value
     this.setState({data})
+    this.state.data.ability_scores = value
 
     console.log(this.state.data.ability_scores)
   }
