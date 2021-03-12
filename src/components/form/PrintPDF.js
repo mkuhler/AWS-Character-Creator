@@ -6,9 +6,50 @@ import charsheet from './CharSheetData.js';
 import { lengthy_entry, get_ellispis } from './FontFunctions.js';
 import { shield, attack_information, intitive } from './encodebase64.js';
 import FileSaver from 'file-saver';
+import axios from 'axios';
 
 
 export default class PrintPDF extends  React.Component{
+
+    fileState = {
+        selectedFile: null,
+        nameofFile: "Upload a file"
+    };
+
+    onFileChange = event => {
+        this.fileState = { selectedFile: event.target.files[0] };
+        this.fileState.nameofFile = String(this.fileState.selectedFile.name);
+    };
+
+    onFileUpload = () => {
+        const formData = new FormData();
+
+        // formData.append("myFile", this.fileState.selectedFile, this.fileState.selectedFile.name);
+
+        //this.fileState.nameofFile = String(this.fileState.selectedFile.name);
+
+        charsheet = JSON.parse(this.fileState.text);
+
+        // console.log(this.state.selectedFile);
+
+        axios.post("api/uploadfile", formData);
+    };
+
+    fileData = () => {
+
+        if (this.fileState.selectedFile) {
+            return (
+                <div>
+                    <h2> File Details: </h2>
+                    <p> File Name: {this.fileState.selectedFile.name} </p>
+                    <p> File Type: {this.fileState.selectedFile.type} </p>
+                </div>
+            );
+        }
+        else {
+        }
+    };
+
 
   pdfGenerator = () =>{
     var doc = new jsPDF('p', 'pt');
@@ -54,8 +95,18 @@ export default class PrintPDF extends  React.Component{
   render(){
     return(
       <div className="Button">
-         <Button variant="outline-primary" onClick={this.pdfGenerator}>Print PDF</Button>
-         <Button variant="outline-primary" onClick={this.jsonGenerator}>Download JSON</Button>
+        <Button variant="outline-primary" onClick={this.pdfGenerator}>Print PDF</Button>
+        <Button variant="outline-primary" onClick={this.jsonGenerator}>Download JSON</Button>
+            <Form variant="outline-primary">
+                <Form.File 
+                    id="custom-file"
+                    label= {this.fileState.nameofFile}
+                    custom
+                    onChange= {this.onFileChange}
+                />
+            </Form>
+        <Button variant="outline-primary" onClick={this.onFileUpload}>Upload File</Button>
+        {this.fileData()}
       </div>
     );
     }
