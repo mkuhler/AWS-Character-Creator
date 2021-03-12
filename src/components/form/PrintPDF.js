@@ -23,36 +23,23 @@ export default class PrintPDF extends  React.Component{
         //this.fileState.nameofFile = String(this.fileState.selectedFile.name);
 
         const fileReader = new FileReader();
-        fileReader.readAsText(event.target.files[0], "UTF-8");
-        fileReader.onload = event => {
-            console.log("e.target.result", event.target.result);
-            //setFiles(event.target.result);
-            this.fileState.selectedFile = event.target.result;
-            var parsedFile = JSON.parse(event.target.result);
-            this.charsheet = parsedFile;
 
-            console.log("Charsheet: " + this.charsheet.basic_info);
-            console.log("Character name: " + this.charsheet.basic_info.name);
-        };
+        if (event.target.files[0] != null) {
+            fileReader.readAsText(event.target.files[0], "UTF-8");
+            fileReader.onload = event => {
+                console.log("e.target.result", event.target.result);
+                //setFiles(event.target.result);
+                this.fileState.selectedFile = event.target.result;
+                var parsedFile = JSON.parse(event.target.result);
+                this.charsheet = parsedFile;
+
+                console.log("Charsheet: " + this.charsheet.basic_info);
+                console.log("Character name: " + this.charsheet.basic_info.name);
+            };
+        }
 
 
     };
-
-    fileData = () => {
-
-        if (this.fileState.selectedFile) {
-            return (
-                <div>
-                    <h2> File Details: </h2>
-                    <p> File Name: {this.fileState.selectedFile.name} </p>
-                    <p> File Type: {this.fileState.selectedFile.type} </p>
-                </div>
-            );
-        }
-        else {
-        }
-    };
-
 
   pdfGenerator = () =>{
     var doc = new jsPDF('p', 'pt');
@@ -112,7 +99,6 @@ export default class PrintPDF extends  React.Component{
         <Button variant="outline-primary" onClick={this.pdfGenerator}>Print PDF</Button>
         <Button variant="outline-primary" onClick={this.jsonGenerator}>Download JSON</Button>
         <input type="file" name="file" onChange={this.onFileChange} />
-        {this.fileData()}
       </div>
     );
     }
