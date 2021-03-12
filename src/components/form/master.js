@@ -54,7 +54,8 @@ class MasterForm extends React.Component {
     } else {
       this.state.data.[category].[name] = value
     }
-
+    this.forceUpdate()
+    
     if (name == "class") {
       const class_list = gamedata.classes
       var result = class_list.find(game_class => {
