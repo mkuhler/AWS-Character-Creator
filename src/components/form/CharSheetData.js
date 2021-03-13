@@ -16,7 +16,7 @@ const charsheet = {
     // first page consist of basic info - things related to name, class, level, race, height, weight, age and gender
     basic_info: {
 
-        name: "Madison", // ***** used for determining name of file saved
+        name: "", // ***** used for determining name of file saved
 
         // bonuses increase the character's corresponding stats, are we calculating that or having the user do it? If we pull the data from this file it should be possible for use to calculate it
         class: "", // *****

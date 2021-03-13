@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button, Form, Col} from 'react-bootstrap';
+import charsheet from './CharSheetData.js';
 import classInfo from './data.js'
 
 class CharacterDetails extends React.Component{
@@ -14,10 +15,12 @@ constructor(charProps){
 
     //values for keeping track of drop down values for ability allocation
     selected1: "--", selected2: "--", selected3: "--", selected4: "--", selected5: "--", selected6: "--",
-    genMethod: "Manual", rollDisplay: false
+      genMethod: "Manual", rollDisplay: false,
+      localChar: this.props.data
+
   }
   this.dropdownChange = this.dropdownChange.bind(this)
-  this.abilityGenMethod = this.abilityGenMethod.bind(this)
+    this.abilityGenMethod = this.abilityGenMethod.bind(this)
 }
 
   //Calculate modifiers on button click and sends values to master.js to update
@@ -142,6 +145,10 @@ constructor(charProps){
   }
 
 //this.props.data.basic_info.name returns Madison
+    //changeHandler() {
+     //   this.state.localChar = this.props.data;
+    //}
+
 
   render() {
       console.log(this.props.data.basic_info);
@@ -152,13 +159,15 @@ constructor(charProps){
             <Form.Row>
               <Col xs={5}>
                 <Form.Label>Character Name</Form.Label>
-                <Form.Control type="text"
-                            name="name"
-                            onChange={this.props.handleChange}/>
+                          <Form.Control type="text"
+                              name="name"
+                              value={this.props.data.basic_info.name}
+                              onChange={this.props.handleChange}
+                          />
               </Col>
               <Col xs={5}>
-                <Form.Label>Race</Form.Label>
-                <Form.Control name = "race" type="text" list="races" onChange={this.props.handleChange}/>
+                          <Form.Label>Race</Form.Label>
+                          <Form.Control name="race" type="text" list="races" value={this.props.data.basic_info.race} onChange={this.props.handleChange} />
                   <datalist name="race" id="races">
                       {classInfo.races.map((option) =>
                         <option value={option.name}></option>
@@ -170,7 +179,7 @@ constructor(charProps){
             <Form.Row>
               <Col xs={5}>
                 <Form.Label>Class</Form.Label>
-                <Form.Control name = "class" type="text" list="classes" onChange={this.props.handleChange}/>
+                          <Form.Control name="class" type="text" list="classes" value={this.props.data.basic_info.class} onChange={this.props.handleChange}/>
                   <datalist name="class" id="classes">
                       {classInfo.classes.map((option) =>
                         <option value={option.name}></option>
@@ -180,7 +189,8 @@ constructor(charProps){
               <Col xs={5}>
                 <Form.Label>Level</Form.Label>
                 <Form.Control type="text"
-                            name="level"
+                              name="level"
+                              value={this.props.data.basic_info.level}
                             placeholder="1"
                             onChange={this.props.handleChange}/>
               </Col>
@@ -192,27 +202,31 @@ constructor(charProps){
                 <Form.Label>Height</Form.Label>
                 <Form.Control type="text"
                               name="height"
+                              value={this.props.data.basic_info.height}
                               onChange={this.props.handleChange}/>
               </Col>
 
               <Col xs={2}>
                 <Form.Label>Weight</Form.Label>
                 <Form.Control type="text"
-                                name="weight"
+                              name="weight"
+                              value={this.props.data.basic_info.weight}
                                 onChange={this.props.handleChange}/>
               </Col>
 
               <Col xs={2}>
                 <Form.Label>Age</Form.Label>
                 <Form.Control type="text"
-                                  name="age"
+                              name="age"
+                              value={this.props.data.basic_info.age}
                                   onChange={this.props.handleChange}/>
               </Col>
 
               <Col xs={2}>
                 <Form.Label>Gender</Form.Label>
                 <Form.Control type="text"
-                                  name="gender"
+                              name="gender"
+                              value={this.props.data.basic_info.gender}
                                   onChange={this.props.handleChange}/>
               </Col>
             </Form.Row>

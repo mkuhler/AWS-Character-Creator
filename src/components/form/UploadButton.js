@@ -15,7 +15,6 @@ export default class UploadButton extends React.Component{
   render(){
     return(
       <div className="fileUpload">
-        <h1> HELLO! </h1>
         <input type="file" name="file" onChange={this.props.onChange} />
       </div>
 

@@ -50,7 +50,7 @@ class MasterForm extends React.Component {
       //console.log(event.target.files[0])
       //this.fileState = { selectedFile: event.target.files[0] };
       //this.fileState.nameofFile = String(this.fileState.selectedFile.name);
-      console.log('hello');
+      // console.log('hello');
       const fileReader = new FileReader();
 
       if (event.target.files[0] != null) {
@@ -70,6 +70,8 @@ class MasterForm extends React.Component {
               console.log(parsedFile)
               console.log("Charsheet: " + this.state.data.basic_info);
               console.log("Character name: " + this.state.data.basic_info.name);
+
+              //CharacterDetails.render();
               this.forceUpdate()
           };
       }
@@ -78,7 +80,10 @@ class MasterForm extends React.Component {
   }
 
   handleChange(event) {
-    const { name, value } = event.target
+      const { name, value } = event.target
+
+      console.log(event)
+
     //Custom attributes need to be grabbed from the DOM api
     const category = event.target.id
     const subcategory = event.target.getAttribute('subcategory')
@@ -115,7 +120,8 @@ class MasterForm extends React.Component {
     //this.state.data.[category].[name] = value
     console.log(this.state.data.basic_info)
     // console.log(this.state.data.character_attributes)
-    // console.log(this.state.data.ability_scores)
+      // console.log(this.state.data.ability_scores)
+
   }
 
   //Literally only updates ability score values for backend
