@@ -4,7 +4,7 @@ import {Button, Form, Col, Figure} from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import charsheet from './CharSheetData.js';
 import { lengthy_entry, get_ellispis } from './FontFunctions.js';
-import { shield, attack_information, intitive } from './encodebase64.js';
+import { basic_info } from './encodebase64.js';
 import FileSaver from 'file-saver';
 import axios from 'axios';
 
@@ -60,9 +60,7 @@ export default class PrintPDF extends  React.Component{
     var age_and_gender = charsheet.basic_info.age + "  -  " +charsheet.basic_info.gender;
     var level = charsheet.basic_info.level;
 
-    doc.addImage(shield(),'PGN',170,10, 60,70);
-    doc.addImage(attack_information(), 'PGN', 270, 10, 210, 90);
-    doc.addImage(intitive(), 'PGN', 500, 10, 70, 90);
+    doc.addImage(basic_info(),'PGN',7,15, 560,95);
 
     doc.setFontSize(lengthy_entry(name));
     doc.text(10, 28, get_ellispis(name)); //name
@@ -72,13 +70,6 @@ export default class PrintPDF extends  React.Component{
     doc.text(10, 92, height_and_weight);
     doc.text(180, 92, age_and_gender, 'center');
     doc.setFontSize(20).text(198, 50, level, 'center');
-
-    doc.setFontSize(10).setFont('arialuni').setTextColor(102, 102, 102); //color : Grey
-    doc.text(10, 45, "CHARACTER NAME").line(10,32,150,32);
-    doc.text(10, 77, "RACE & CLASS").line(10,65,150,65);
-    doc.text(10, 107, "HEIGHT & WEIGHT").line(10,95,100,95);
-    doc.text(130, 107, "AGE & GENDER").line(130,95,250,95);
-    doc.text(184,30, "LEVEL");
 
     doc.save("My_Character.pdf")
     }
@@ -98,7 +89,7 @@ export default class PrintPDF extends  React.Component{
         <Button variant="outline-primary" onClick={this.pdfGenerator}>Print PDF</Button>
         <Button variant="outline-primary" onClick={this.jsonGenerator}>Download JSON</Button>
             <Form variant="outline-primary">
-                <Form.File 
+                <Form.File
                     id="custom-file"
                     label= {this.fileState.nameofFile}
                     custom
