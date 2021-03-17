@@ -158,8 +158,8 @@ constructor(charProps){
               </Col>
               <Col xs={5}>
                 <Form.Label>Race</Form.Label>
-                <Form.Control type="text" list="races" onChange={this.props.handleChange}/>
-                  <datalist subcategory="race_info" name="race" id="races">
+                <Form.Control name = "race" type="text" list="races" onChange={this.props.handleChange}/>
+                  <datalist name="race" id="races">
                       {classInfo.races.map((option) =>
                         <option value={option.name}></option>
                       )}
@@ -170,8 +170,8 @@ constructor(charProps){
             <Form.Row>
               <Col xs={5}>
                 <Form.Label>Class</Form.Label>
-                <Form.Control type="text" list="classes" onChange={this.props.handleChange}/>
-                  <datalist subcategory="class_info" name="class" id="classes">
+                <Form.Control name = "class" type="text" list="classes" onChange={this.props.handleChange}/>
+                  <datalist name="class" id="classes">
                       {classInfo.classes.map((option) =>
                         <option value={option.name}></option>
                       )}
