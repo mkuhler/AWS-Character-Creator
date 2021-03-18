@@ -18,6 +18,8 @@ class MasterForm extends React.Component {
 
     this.state = {
       step: 1,
+      currentMajorVersion: 1,
+      currentMinorVersion: 0,
       data: charsheet,
       fileState: null,
     };
@@ -60,19 +62,23 @@ class MasterForm extends React.Component {
               //setFiles(event.target.result);
               this.state.selectedFile = event.target.result;
               var parsedFile = JSON.parse(event.target.result);
-              this.setState((prevState) => {
-                return{
-                  ...prevState,
-                  data: parsedFile
-                }
-              })
-              //this.state.data = parsedFile;
-              console.log(parsedFile)
-              console.log("Charsheet: " + this.state.data.basic_info);
-              console.log("Character name: " + this.state.data.basic_info.name);
+              if (parsedFile.major_version != null && parsedFile.major_version == this.state.currentMajorVersion)
+              {
+                  console.log("parsedFile Major Version # ", parsedFile.major_version);
+                  this.setState((prevState) => {
+                      return {
+                          ...prevState,
+                          data: parsedFile
+                      }
+                  })
+                  //this.state.data = parsedFile;
+                  console.log(parsedFile)
+                  console.log("Charsheet: " + this.state.data);
+                  console.log("Character name: " + this.state.data.basic_info.name);
 
-              //CharacterDetails.render();
-              this.forceUpdate()
+                  //CharacterDetails.render();
+                  this.forceUpdate()
+              }
           };
       }
 
@@ -118,7 +124,7 @@ class MasterForm extends React.Component {
     //console.log(subcategory)
     //console.log(category)
     //this.state.data.[category].[name] = value
-    console.log(this.state.data.basic_info)
+    //console.log(this.state.data.basic_info)
     // console.log(this.state.data.character_attributes)
       // console.log(this.state.data.ability_scores)
 
