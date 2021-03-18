@@ -61,15 +61,18 @@ export default class PrintPDF extends  React.Component{
     var ability_class = charsheet.basic_info.class_bonus_chosen;
     var ability_race = charsheet.basic_info.race_bonus_chosen;
 
-    var str = charsheet.ability_scores.strength;
-    var con = charsheet.ability_scores.constitution;
-    var dex = charsheet.ability_scores.dexterity;
-    var int = charsheet.ability_scores.intelligence;
-    var wis = charsheet.ability_scores.wisdom;
-    var cha = charsheet.ability_scores.charisma;
+    var str = charsheet.ability_scores.strength;       var str_mod = charsheet.ability_scores.strength_mod;
+    var con = charsheet.ability_scores.constitution;   var con_mod = charsheet.ability_scores.constitution_mod;
+    var dex = charsheet.ability_scores.dexterity;      var dex_mod = charsheet.ability_scores.dexterity_mod;
+    var int = charsheet.ability_scores.intelligence;   var int_mod = charsheet.ability_scores.intelligence_mod;
+    var wis = charsheet.ability_scores.wisdom;         var wis_mod = charsheet.ability_scores.wisdom_mod;
+    var cha = charsheet.ability_scores.charisma;       var cha_mod = charsheet.ability_scores.charisma_mod;
+
+    var initiative = charsheet.character_attributes.initiative;
 
     doc.addImage(basic_info(),'PGN',7,15, 560,95);
 
+    //Character basic informatoin
     doc.setFontSize(lengthy_entry(name));
     doc.text(10, 28, get_ellispis(name)); //name
 
@@ -82,14 +85,16 @@ export default class PrintPDF extends  React.Component{
     doc.setFontSize(20).text(210, 60, level, 'center');
 
     doc.setFontSize(12);
-    doc.text(285, 35, str + '');
-    doc.text(285, 65, con + '');
-    doc.text(285, 92, dex + '');
+    doc.text(290, 35, str + '', 'center').text(355, 35, str_mod + '', 'center');
+    doc.text(290, 65, con + '', 'center').text(355, 65, con_mod + '', 'center');
+    doc.text(290, 92, dex + '', 'center').text(355, 92, dex_mod + '', 'center');
 
-    doc.text(390, 35, int + '');
-    doc.text(390, 65, wis + '');
-    doc.text(390, 92, cha + '');
+    doc.text(395, 35, int + '', 'center').text(460, 35, int_mod + '', 'center');
+    doc.text(395, 65, wis + '', 'center').text(460, 65, wis_mod + '', 'center');
+    doc.text(395, 92, cha + '', 'center').text(460, 92, cha_mod + '', 'center');
 
+    //Character Attributes
+    doc.setFontSize(20).text(528, 58, initiative, 'center');
     doc.save("My_Character.pdf");
     }
 
