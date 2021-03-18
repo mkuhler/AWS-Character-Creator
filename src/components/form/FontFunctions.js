@@ -1,8 +1,7 @@
 import { font } from './FontSizing.js'
 
-function measureInputText()
+function measureInputText(name)
 {
-    var name = document.getElementsByName('name')[0];
     var canvas = document.createElement("canvas");
     var ctx = canvas.getContext("2d");
     var txtWidth = ctx.measureText(name.value).width;
@@ -12,7 +11,7 @@ function measureInputText()
 
 export function lengthy_entry(entry)
 {
-    var inputLength = Math.round(measureInputText());
+    var inputLength = Math.round(measureInputText(entry));
 
     if(inputLength > 120 && inputLength < 170)
     {
@@ -31,20 +30,19 @@ export function lengthy_entry(entry)
 
 export function get_ellispis(name)
 {
-  var character = document.getElementsByName('name')[0];
   var canvas = document.createElement("canvas");
   var ctx = canvas.getContext("2d");
 
   var charactersName = "";
   var letter = 0;
 
-  if(measureInputText() > 170){
+  if(measureInputText(name) > 170){
 
     for(let index=0; index<170; letter++)
     {
-      var charWidth = ctx.measureText(character.value.charAt(letter)).width;
+      var charWidth = ctx.measureText(name.value.charAt(letter)).width;
       index+=charWidth;
-      charactersName+=character.value.charAt(letter);
+      charactersName+=name.value.charAt(letter);
     }
     return charactersName + "..."
   }

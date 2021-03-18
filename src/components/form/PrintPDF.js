@@ -7,7 +7,7 @@ import { lengthy_entry, get_ellispis } from './FontFunctions.js';
 import { basic_info } from './encodebase64.js';
 import FileSaver from 'file-saver';
 import axios from 'axios';
-
+import classInfo from './data.js'
 
 export default class PrintPDF extends  React.Component{
 
@@ -50,28 +50,47 @@ export default class PrintPDF extends  React.Component{
         }
     };
 
-
   pdfGenerator = () =>{
     var doc = new jsPDF('p', 'pt');
 
     var name = charsheet.basic_info.name;
-    var race_and_class = charsheet.basic_info.race_info.race + " - " +charsheet.basic_info.class_info.class;
+    var race_and_class = charsheet.basic_info.race + " - " +charsheet.basic_info.class;
     var height_and_weight = charsheet.basic_info.height + "  -  " +charsheet.basic_info.weight;
     var age_and_gender = charsheet.basic_info.age + "  -  " +charsheet.basic_info.gender;
     var level = charsheet.basic_info.level;
+    var ability_class = charsheet.basic_info.class_bonus_chosen;
+    var ability_race = charsheet.basic_info.race_bonus_chosen;
+
+    var str = charsheet.ability_scores.strength;
+    var con = charsheet.ability_scores.constitution;
+    var dex = charsheet.ability_scores.dexterity;
+    var int = charsheet.ability_scores.intelligence;
+    var wis = charsheet.ability_scores.wisdom;
+    var cha = charsheet.ability_scores.charisma;
 
     doc.addImage(basic_info(),'PGN',7,15, 560,95);
 
     doc.setFontSize(lengthy_entry(name));
     doc.text(10, 28, get_ellispis(name)); //name
 
+
     doc.setFontSize(11);
     doc.text(10, 62, race_and_class);
-    doc.text(10, 92, height_and_weight);
-    doc.text(180, 92, age_and_gender, 'center');
-    doc.setFontSize(20).text(198, 50, level, 'center');
+    doc.text(10, 95, height_and_weight);
+    doc.text(180, 95, age_and_gender, 'center');
 
-    doc.save("My_Character.pdf")
+    doc.setFontSize(20).text(210, 60, level, 'center');
+
+    doc.setFontSize(12);
+    doc.text(285, 35, str + '');
+    doc.text(285, 65, con + '');
+    doc.text(285, 92, dex + '');
+
+    doc.text(390, 35, int + '');
+    doc.text(390, 65, wis + '');
+    doc.text(390, 92, cha + '');
+
+    doc.save("My_Character.pdf");
     }
 
 
