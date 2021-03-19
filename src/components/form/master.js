@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import gamedata from './data.js';
+import GameData from './data.js';
 import InfoCard from './infocard.js';
 import CharacterDetails from './characterdetails.js';
 import PrintPDF from "./PrintPDF.js";
@@ -105,7 +105,7 @@ class MasterForm extends React.Component {
     this.forceUpdate()
 
     if (name == "class") {
-      const class_list = gamedata.classes
+      const class_list = GameData.classes
       var result = class_list.find(game_class => {
         if(game_class.name === value) {
           this.state.data.[category].class_bonus_options = game_class.class_bonus
@@ -115,7 +115,7 @@ class MasterForm extends React.Component {
     }
 
     if (name == "race") {
-      const race_list = gamedata.races
+      const race_list = GameData.races
       var result = race_list.find(game_race => {
         if(game_race.name === value) {
           this.state.data.[category].race_bonus_options = game_race.race_bonus
