@@ -106,22 +106,24 @@ class MasterForm extends React.Component {
 
     if (name == "class") {
       const class_list = GameData.classes
-      var result = class_list.find(game_class => {
-        if(game_class.name === value) {
-          this.state.data.[category].class_bonus_options = game_class.class_bonus
-          console.log(game_class.class_bonus)
-        }
-      })
+      var result = class_list.find(game_class => game_class.name === value);
+      if (typeof(result) === 'undefined' || value == null) {
+        this.state.data.[category].class_bonus_options = []
+      } else {
+        this.state.data.[category].class_bonus_options = result.class_bonus
+      }
+      this.state.data.[category].class_bonus_chosen = ""
     }
 
     if (name == "race") {
       const race_list = GameData.races
-      var result = race_list.find(game_race => {
-        if(game_race.name === value) {
-          this.state.data.[category].race_bonus_options = game_race.race_bonus
-          console.log(game_race.race_bonus)
-        }
-      })
+      var result = race_list.find(game_race => game_race.name === value);
+      if (typeof(result) === 'undefined' || value == null) {
+        this.state.data.[category].race_bonus_options = []
+      } else {
+        this.state.data.[category].race_bonus_options = result.race_bonus
+      }
+      this.state.data.[category].race_bonus_chosen = ""
     }
     // console.log(event.target.id)
     //console.log(subcategory)

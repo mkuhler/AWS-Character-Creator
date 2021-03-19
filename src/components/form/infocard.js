@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Form, Col } from 'react-bootstrap';
+import GameData from './data.js';
 
 class InfoCard extends React.Component{
     render() {
@@ -8,12 +9,14 @@ class InfoCard extends React.Component{
         const infoItem = this.props.data.basic_info.[itemName]
         const selectionName = `${itemName}_bonus_chosen`
         var itemOptions = []
+        var selectedOption = ""
 
         var itemNamePlural = ""
         // Adds plural suffix to the itemName for use in the help url
         if (itemName === "class") {
             itemNamePlural = "classes"
             itemOptions = this.props.data.basic_info.class_bonus_options
+            
         } else if (itemName === "race") {
             itemNamePlural = "races"
             itemOptions = this.props.data.basic_info.race_bonus_options
