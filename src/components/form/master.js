@@ -65,13 +65,14 @@ class MasterForm extends React.Component {
               if (parsedFile.major_version != null && parsedFile.major_version == this.state.currentMajorVersion)
               {
                   console.log("parsedFile Major Version # ", parsedFile.major_version);
-                  this.setState((prevState) => {
-                      return {
-                          ...prevState,
-                          data: parsedFile
-                      }
-                  })
-                  //this.state.data = parsedFile;
+
+                  this.state.data.basic_info = parsedFile.basic_info
+                  this.state.data.ability_scores = parsedFile.ability_scores
+                  this.state.data.character_attributes = parsedFile.character_attributes
+                  this.state.data.background_talents = parsedFile.background_talents
+                  this.state.data.character_powers = parsedFile.character_powers
+                  this.state.data.incremental_advances = parsedFile.incremental_advances
+                  this.state.data.inventory_feats_and_journal = parsedFile.inventory_feats_and_journal
                   console.log(parsedFile)
                   console.log("Charsheet: " + this.state.data);
                   console.log("Character name: " + this.state.data.basic_info.name);
@@ -96,6 +97,8 @@ class MasterForm extends React.Component {
 
     if (subcategory != null) {
       this.state.data.[category].[subcategory].[name] = value
+    } else if (category === "ability_scores"){
+      this.state.data.[category].[name] = parseInt(value)
     } else {
       this.state.data.[category].[name] = value
     }
@@ -134,9 +137,24 @@ class MasterForm extends React.Component {
   dataChange(value){
     var data = {...this.state.data}
     data.ability_scores = value
-    this.setState({data})
+    this.state.data.ability_scores = value
 
+    this.forceUpdate()
     console.log(this.state.data.ability_scores)
+  }
+
+  //Function that takes in an event to check if its value contains only numerical input
+  //returns true if it contains on numbers and calls handleChange to handle backend changes
+  onlyNum = (event) => {
+    const re = /^[0-9\b]+$/;
+
+    //checks if value is blank and then checks if the value contains only numerical input
+    if (event.target.value === '' || re.test(event.target.value)) {
+      this.handleChange(event)
+      return true
+    }
+    else
+      return false
   }
 
   render() {
@@ -152,6 +170,7 @@ class MasterForm extends React.Component {
                 handleChange = {this.handleChange}
                 dataChange = {this.dataChange}
                 data = {this.state.data}
+                onlyNum = {this.onlyNum}
                 />
             </Col>
             <Col xs={4}>
