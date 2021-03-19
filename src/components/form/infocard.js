@@ -40,19 +40,22 @@ class InfoCard extends React.Component{
                     
                     <Form.Group controlId="basic_info">
                         <Form.Row>
-                            <Col>
-                            {itemOptions.map((option, key) => (
-                                <strong>
-                                <Form.Check 
-                                type = "radio" 
-                                name = {selectionName}
-                                value = {option}
-                                label={`${option} (+2)`}
-                                onChange={this.props.handleChange}
-                                />
-                                </strong>
-                            ))}
-                            </Col>
+                            {(itemOptions && itemOptions.length) ? 
+                            (<Col>
+                                {itemOptions.map((option, key) => (
+                                    <strong>
+                                    <Form.Check 
+                                    type = "radio" 
+                                    name = {selectionName}
+                                    value = {option}
+                                    label={`${option} (+2)`}
+                                    onChange={this.props.handleChange}
+                                    />
+                                    </strong>
+                                ))}
+                            </Col>)
+                            : (null)
+                            } 
 
                             <Col>
                             {abilityScores.map((abilityScore, key) => (
