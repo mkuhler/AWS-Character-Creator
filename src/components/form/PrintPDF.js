@@ -106,7 +106,7 @@ export default class PrintPDF extends  React.Component{
     doc.text(395, 92, cha + '', 'center').text(460, 92, cha_mod + '', 'center');
 
     //Character Attributes
-    doc.setFontSize(20).text(528, 58, initiative, 'center');
+    doc.setFontSize(20).text(528, 58, initiative + '', 'center');
     doc.setFontSize(20).text(25, 195, hitpoints_current, 'center');
     doc.setFontSize(20).text(105, 195, hitpoints_max, 'center');
 
