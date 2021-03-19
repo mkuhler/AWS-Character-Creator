@@ -97,14 +97,38 @@ class MasterForm extends React.Component {
 
                       if (keysMatch)
                       {
+                          Object.keys(parsedFile).forEach(function (OuterKey)
+                          {
+                              console.log("Checking outer key: " + OuterKey);
 
-                          if (parsedFile.basic_info != null) { this.state.data.basic_info = parsedFile.basic_info }
-                          if (parsedFile.ability_scores != null) this.state.data.ability_scores = parsedFile.ability_scores
-                          if (parsedFile.character_attributes != null) this.state.data.character_attributes = parsedFile.character_attributes
-                          if (parsedFile.background_talents != null) this.state.data.background_talents = parsedFile.background_talents
-                          if (parsedFile.character_powers != null) this.state.data.character_powers = parsedFile.character_powers
-                          if (parsedFile.incremental_advances != null) this.state.data.incremental_advances = parsedFile.incremental_advances
-                          if (parsedFile.inventory_feats_and_journal != null) this.state.data.inventory_feats_and_journal = parsedFile.inventory_feats_and_journal
+                              if (typeof OuterKey != 'object') // key is not an object
+                              {
+                                  this.state.data.[toString(OuterKey)] = OuterKey;                                
+                              }
+                               if (typeof OuterKey == "object")
+                              {
+                                  Object.keys(OuterKey).forEach(function (InnerKey)
+                                  {
+                                      console.log("Checking inner key: " + InnerKey);
+                                      this.state.data.[toString(OuterKey)].[toString(InnerKey)] = OuterKey.InnerKey;
+                                  })
+                              }
+                              else // key is not an object
+                              {
+                                  //if (toString(OuterKey) in this.state.data)
+                                  //{
+                                      //this.state.data.[toString(OuterKey)] = OuterKey;
+                                 //}
+                              }
+                          })
+
+                          //if (parsedFile.basic_info != null) { this.state.data.basic_info = parsedFile.basic_info }
+                          //if (parsedFile.ability_scores != null) this.state.data.ability_scores = parsedFile.ability_scores
+                          //if (parsedFile.character_attributes != null) this.state.data.character_attributes = parsedFile.character_attributes
+                          //if (parsedFile.background_talents != null) this.state.data.background_talents = parsedFile.background_talents
+                          //if (parsedFile.character_powers != null) this.state.data.character_powers = parsedFile.character_powers
+                          //if (parsedFile.incremental_advances != null) this.state.data.incremental_advances = parsedFile.incremental_advances
+                          //if (parsedFile.inventory_feats_and_journal != null) this.state.data.inventory_feats_and_journal = parsedFile.inventory_feats_and_journal
 
                           console.log(parsedFile)
                           console.log("Charsheet: " + this.state.data);
