@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, Form, Col } from 'react-bootstrap';
-import GameData from './data.js';
 
 class InfoCard extends React.Component{
     render() {
@@ -9,7 +8,7 @@ class InfoCard extends React.Component{
         const infoItem = this.props.data.basic_info.[itemName]
         const selectionName = `${itemName}_bonus_chosen`
         const optionsName = `${itemName}_bonus_options`
-        var itemOptions = itemOptions = this.props.data.basic_info.[optionsName]
+        var itemOptions = this.props.data.basic_info.[optionsName]
         var selectedOption = this.props.data.basic_info.[selectionName]
         var itemNamePlural = ""
         var otherBonus = ""
@@ -26,7 +25,7 @@ class InfoCard extends React.Component{
         var abilityScores = ["Str", "Con", "Dex", "Int", "Wis", "Cha"];
         abilityScores = abilityScores.filter((score) => !itemOptions.includes(score));
 
-        if (infoItem != "") {
+        if (infoItem !== "") {
             return(
                 <Card>
                 <Card.Body>
