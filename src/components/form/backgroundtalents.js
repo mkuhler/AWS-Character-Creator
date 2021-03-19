@@ -115,7 +115,7 @@ class BackgroundTalents extends React.Component {
 
         return (
             <Container>
-                <ProgressBar animated now={66} />
+                <ProgressBar static now={66} />
 
                 <Form>
                     <Form.Group controlId="background_talents">
