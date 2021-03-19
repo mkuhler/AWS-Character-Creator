@@ -8,24 +8,23 @@ class InfoCard extends React.Component{
         const itemName = this.props.name
         const infoItem = this.props.data.basic_info.[itemName]
         const selectionName = `${itemName}_bonus_chosen`
-        var itemOptions = []
-        var selectedOption = ""
-
+        const optionsName = `${itemName}_bonus_options`
+        var itemOptions = itemOptions = this.props.data.basic_info.[optionsName]
+        var selectedOption = this.props.data.basic_info.[selectionName]
         var itemNamePlural = ""
+        var otherBonus = ""
+        
         // Adds plural suffix to the itemName for use in the help url
         if (itemName === "class") {
             itemNamePlural = "classes"
-            itemOptions = this.props.data.basic_info.class_bonus_options
-            
+            otherBonus = this.props.data.basic_info.race_bonus_chosen
         } else if (itemName === "race") {
             itemNamePlural = "races"
-            itemOptions = this.props.data.basic_info.race_bonus_options
+            otherBonus = this.props.data.basic_info.class_bonus_chosen
         }
 
         var abilityScores = ["Str", "Con", "Dex", "Int", "Wis", "Cha"];
         abilityScores = abilityScores.filter((score) => !itemOptions.includes(score));
-
-        console.log(abilityScores);
 
         if (infoItem != "") {
             return(
@@ -43,15 +42,26 @@ class InfoCard extends React.Component{
                             {(itemOptions && itemOptions.length) ? 
                             (<Col>
                                 {itemOptions.map((option, key) => (
-                                    <strong>
-                                    <Form.Check 
-                                    type = "radio" 
-                                    name = {selectionName}
-                                    value = {option}
-                                    label={`${option} (+2)`}
-                                    onChange={this.props.handleChange}
-                                    />
-                                    </strong>
+                                    (option === otherBonus) 
+                                        ? <strong>
+                                            <Form.Check 
+                                            type = "radio" 
+                                            name = {selectionName}
+                                            value = {option}
+                                            label={`${option} (+2)`}
+                                            onChange={this.props.handleChange}
+                                            />
+                                            </strong>
+                                        : 
+                                        <strong>
+                                        <Form.Check 
+                                        type = "radio" 
+                                        name = {selectionName}
+                                        value = {option}
+                                        label={`${option} (+2)`}
+                                        onChange={this.props.handleChange}
+                                        />
+                                        </strong>
                                 ))}
                             </Col>)
                             : (null)
@@ -59,13 +69,24 @@ class InfoCard extends React.Component{
 
                             <Col>
                             {abilityScores.map((abilityScore, key) => (
-                                <Form.Check 
+                                (abilityScore === otherBonus) 
+                                ? (<Form.Check 
+                                disabled
                                 type = "radio" 
                                 name = {selectionName}
                                 value = {abilityScore}
                                 label={`${abilityScore} (+2)`}
                                 onChange={this.props.handleChange}
-                                />
+                                />)
+                                : (<Form.Check 
+                                
+                                type = "radio" 
+                                name = {selectionName}
+                                value = {abilityScore}
+                                label={`${abilityScore} (+2)`}
+                                onChange={this.props.handleChange}
+                                />)
+                                
                             ))} 
                             </Col>
                         </Form.Row>
