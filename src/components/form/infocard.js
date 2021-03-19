@@ -43,14 +43,15 @@ class InfoCard extends React.Component{
                                 {itemOptions.map((option, key) => (
                                     (option === otherBonus) 
                                         ? <strong>
-                                            <Form.Check 
-                                            type = "radio" 
-                                            name = {selectionName}
-                                            value = {option}
-                                            label={`${option} (+2)`}
-                                            onChange={this.props.handleChange}
-                                            />
-                                            </strong>
+                                        <Form.Check 
+                                        disabled
+                                        type = "radio" 
+                                        name = {selectionName}
+                                        value = {option}
+                                        label={`${option} (+2)`}
+                                        onChange={this.props.handleChange}
+                                        />
+                                        </strong>
                                         : 
                                         <strong>
                                         <Form.Check 
