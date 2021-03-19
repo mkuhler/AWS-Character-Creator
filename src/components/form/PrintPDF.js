@@ -68,9 +68,21 @@ export default class PrintPDF extends  React.Component{
     var wis = charsheet.ability_scores.wisdom;         var wis_mod = charsheet.ability_scores.wisdom_mod;
     var cha = charsheet.ability_scores.charisma;       var cha_mod = charsheet.ability_scores.charisma_mod;
 
-    var initiative = charsheet.character_attributes.initiative;
 
-    doc.addImage(basic_info(),'PGN',7,15, 560,95);
+    var initiative = charsheet.character_attributes.initiative;
+    var hitpoints_max = charsheet.character_attributes.hitpoints_max;
+    var hitpoints_current = charsheet.character_attributes.hitpoints_current;
+    var armor_class = charsheet.character_attributes.armor_class;
+    var physical_defense = charsheet.character_attributes.physical_defense;
+    var mental_defense = charsheet.character_attributes.mental_defense;
+    var saving_throws_easy = charsheet.character_attributes.saving_throws_easy;
+    var saving_throws_medium = charsheet.character_attributes.saving_throws_medium;
+    var saving_throws_hard = charsheet.character_attributes.saving_throws_hard;
+    var saving_throws_optional = charsheet.character_attributes.saving_throws_optional;
+    var death_saves_max = charsheet.character_attributes.death_saves_max;
+    var death_saves_current = charsheet.character_attributes.death_saves_current;
+
+    doc.addImage(basic_info(),'PNG',7,15, 570,247);
 
     //Character basic informatoin
     doc.setFontSize(lengthy_entry(name));
@@ -95,6 +107,19 @@ export default class PrintPDF extends  React.Component{
 
     //Character Attributes
     doc.setFontSize(20).text(528, 58, initiative, 'center');
+    doc.setFontSize(20).text(25, 195, hitpoints_current, 'center');
+    doc.setFontSize(20).text(105, 195, hitpoints_max, 'center');
+
+    doc.setFontSize(18).text(250, 195, death_saves_max, 'center');
+    doc.setFontSize(18).text(290, 195, death_saves_current, 'center');
+
+    doc.setFontSize(20).text(495, 197, armor_class + '', 'center');
+    doc.setFontSize(14).text(550, 210, mental_defense, 'center');
+    doc.setFontSize(14).text(438, 210, physical_defense, 'center');
+    doc.setFontSize(8).text(360, 181, ": " + saving_throws_easy);
+    doc.setFontSize(8).text(360, 197, ": " + saving_throws_medium);
+    doc.setFontSize(8).text(360, 212, ": " + saving_throws_hard);
+
     doc.save("My_Character.pdf");
     }
 
