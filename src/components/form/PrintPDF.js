@@ -71,7 +71,6 @@ export default class PrintPDF extends  React.Component{
 
     var initiative = charsheet.character_attributes.initiative;
     var hitpoints_max = charsheet.character_attributes.hitpoints_max;
-    var hitpoints_current = charsheet.character_attributes.hitpoints_current;
     var armor_class = charsheet.character_attributes.armor_class;
     var physical_defense = charsheet.character_attributes.physical_defense;
     var mental_defense = charsheet.character_attributes.mental_defense;
@@ -80,7 +79,6 @@ export default class PrintPDF extends  React.Component{
     var saving_throws_hard = charsheet.character_attributes.saving_throws_hard;
     var saving_throws_optional = charsheet.character_attributes.saving_throws_optional;
     var death_saves_max = charsheet.character_attributes.death_saves_max;
-    var death_saves_current = charsheet.character_attributes.death_saves_current;
 
     doc.addImage(basic_info(),'PNG',7,15, 570,247);
 
@@ -106,12 +104,10 @@ export default class PrintPDF extends  React.Component{
     doc.text(395, 92, cha + '', 'center').text(460, 92, cha_mod + '', 'center');
 
     //Character Attributes
-    doc.setFontSize(20).text(528, 58, initiative + '', 'center');
-    doc.setFontSize(20).text(25, 195, hitpoints_current, 'center');
+    doc.setFontSize(20).text(528, 58, initiative + "", 'center');
     doc.setFontSize(20).text(105, 195, hitpoints_max, 'center');
 
-    doc.setFontSize(18).text(250, 195, death_saves_max, 'center');
-    doc.setFontSize(18).text(290, 195, death_saves_current, 'center');
+    doc.setFontSize(18).text(290, 195, death_saves_max, 'center');
 
     doc.setFontSize(20).text(495, 197, armor_class + '', 'center');
     doc.setFontSize(14).text(550, 210, mental_defense, 'center');
