@@ -51,6 +51,8 @@ class MasterForm extends React.Component {
 
     if (subcategory != null) {
       this.state.data.[category].[subcategory].[name] = value
+    } else if (category === "ability_scores"){
+      this.state.data.[category].[name] = parseInt(value)
     } else {
       this.state.data.[category].[name] = value
     }
@@ -88,9 +90,9 @@ class MasterForm extends React.Component {
   dataChange(value){
     var data = {...this.state.data}
     data.ability_scores = value
-    this.setState({data})
     this.state.data.ability_scores = value
 
+    this.forceUpdate()
     console.log(this.state.data.ability_scores)
   }
 
@@ -101,9 +103,6 @@ class MasterForm extends React.Component {
 
     //checks if value is blank and then checks if the value contains only numerical input
     if (event.target.value === '' || re.test(event.target.value)) {
-      event.value = "test"
-      console.log(event.value)
-      console.log(event.target.value)
       this.handleChange(event)
       return true
     }
