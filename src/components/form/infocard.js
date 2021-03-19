@@ -19,7 +19,7 @@ class InfoCard extends React.Component{
             itemOptions = this.props.data.basic_info.race_bonus_options
         }
 
-        if (infoItem != "") {
+        if (infoItem != null && infoItem != "" && itemName != null) {
             return(
                 <Card>
                 <Card.Body>

@@ -8,6 +8,7 @@ import charsheet from './CharSheetData.js';
 import CharacterAttributes from './characterattributes.js';
 import BackgroundTalents from './backgroundtalents.js';
 import UploadButton from './UploadButton.js';
+import { parse } from '../../../node_modules/url/url.js';
 
 
 //import the rest of form components
@@ -22,6 +23,7 @@ class MasterForm extends React.Component {
       currentMinorVersion: 0,
       data: charsheet,
       fileState: null,
+      fileUploadStatus: "Upload a File"
     };
 
   this.handleChange = this.handleChange.bind(this)
@@ -56,35 +58,96 @@ class MasterForm extends React.Component {
       const fileReader = new FileReader();
 
       if (event.target.files[0] != null) {
-          fileReader.readAsText(event.target.files[0], "UTF-8");
-          fileReader.onload = event => {
-              console.log("e.target.result", event.target.result);
-              //setFiles(event.target.result);
-              this.state.selectedFile = event.target.result;
-              var parsedFile = JSON.parse(event.target.result);
-              if (parsedFile.major_version != null && parsedFile.major_version == this.state.currentMajorVersion)
-              {
-                  console.log("parsedFile Major Version # ", parsedFile.major_version);
 
-                  this.state.data.basic_info = parsedFile.basic_info
-                  this.state.data.ability_scores = parsedFile.ability_scores
-                  this.state.data.character_attributes = parsedFile.character_attributes
-                  this.state.data.background_talents = parsedFile.background_talents
-                  this.state.data.character_powers = parsedFile.character_powers
-                  this.state.data.incremental_advances = parsedFile.incremental_advances
-                  this.state.data.inventory_feats_and_journal = parsedFile.inventory_feats_and_journal
-                  console.log(parsedFile)
-                  console.log("Charsheet: " + this.state.data);
-                  console.log("Character name: " + this.state.data.basic_info.name);
+          console.log("Event target file: " + event.target.files[0].name);
 
-                  //CharacterDetails.render();
-                  this.forceUpdate()
-              }
-          };
+          var allowedFileTypes = /(\.txt)$/i;         // /(\.txt|\.doc|\.docx)$/i;
+          if (allowedFileTypes.exec(event.target.files[0].name))
+          {
+              fileReader.readAsText(event.target.files[0], "UTF-8");
+              fileReader.onload = event => {
+                  console.log("e.target.result", event.target.result);
+                  //setFiles(event.target.result);
+                  this.state.selectedFile = event.target.result;
+
+                  var parsedFile = JSON.parse(event.target.result);
+
+                  if (parsedFile.major_version != null && parsedFile.major_version == this.state.currentMajorVersion) {
+                      console.log("parsedFile Major Version # ", parsedFile.major_version);
+
+                      //var keysMatch = this.checkfileCompatibility(parsedFile);
+
+                      var keysMatch = true;
+                      var misMatchedKey = "";
+
+                //if (Object.keys(parsedFile).length == Object.keys(this.state.data).length)
+                //{
+                      //for (var outerKeys = 0; outerKeys < Object.keys(parsedFile).length; outerKeys++) {
+                      //    console.log("Comparing outer keys " + Object.keys(parsedFile)[outerKeys] + " and " + Object.keys(this.state.data)[outerKeys]);
+
+                      //    if (Object.keys(parsedFile)[outerKeys] != Object.keys(this.state.data)[outerKeys]) {
+                      //        console.log("Outer keys " + Object.keys(parsedFile)[outerKeys] + " and " + Object.keys(this.state.data)[outerKeys] + " do not match");
+                      //        keysMatch = false;
+                                //misMatchedKey = Object.keys(parsedFile)[outerKeys];
+                      //    }
+                      //}
+                  //}
+
+
+
+                      if (keysMatch)
+                      {
+
+                          if (parsedFile.basic_info != null) { this.state.data.basic_info = parsedFile.basic_info }
+                          if (parsedFile.ability_scores != null) this.state.data.ability_scores = parsedFile.ability_scores
+                          if (parsedFile.character_attributes != null) this.state.data.character_attributes = parsedFile.character_attributes
+                          if (parsedFile.background_talents != null) this.state.data.background_talents = parsedFile.background_talents
+                          if (parsedFile.character_powers != null) this.state.data.character_powers = parsedFile.character_powers
+                          if (parsedFile.incremental_advances != null) this.state.data.incremental_advances = parsedFile.incremental_advances
+                          if (parsedFile.inventory_feats_and_journal != null) this.state.data.inventory_feats_and_journal = parsedFile.inventory_feats_and_journal
+
+                          console.log(parsedFile)
+                          console.log("Charsheet: " + this.state.data);
+                          console.log("Character name: " + this.state.data.basic_info.name);
+
+                          let statusLabel = document.getElementById('fileStatus');
+                          statusLabel.innerText = "File Uploaded";
+
+                      }
+                      else // key mismatch
+                      {
+                          let statusLabel = document.getElementById('fileStatus');
+                          statusLabel.innerText = "Key: " + misMatchedKey + " does not match expected input";
+                      }
+
+                      //CharacterDetails.render();
+                      this.forceUpdate()
+                  }
+                  else // version numbers dont match
+                  {
+                      let statusLabel = document.getElementById('fileStatus');
+                      statusLabel.innerText = "Missing file version";
+
+                      if (parsedFile.major_version != null && parsedFile.minor_version != null)
+                      {
+                          statusLabel.innerText = "Incompatible file version: " + parsedFile.major_version + "." + parsedFile.minor_version;
+                      }
+                  }
+              };
+          }
+          else // file extensions incorrect
+          {
+              let statusLabel = document.getElementById('fileStatus');
+              statusLabel.innerText = "Incorrect file extension";
+          }
       }
+      else // no file selected
+      {
+          let statusLabel = document.getElementById('fileStatus');
+          statusLabel.innerText = "No File Selected";
+      }
+    }
 
-
-  }
 
   handleChange(event) {
       const { name, value } = event.target

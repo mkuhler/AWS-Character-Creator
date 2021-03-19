@@ -6,6 +6,11 @@ const charsheet = {
 
     //version_number: "1.0.0", // should this be a single string or two floats for major/minor version?
 
+
+    nameOfSite: "AWS Character Creator",
+    linkToSite: "",
+    linkToRepo: "https://github.com/mkuhler/AWS-Character-Creator",
+
     // a version number should be set somewhere in the "main part of the program. This would be stored as a variable in a newly created sheet or read in from an existing one
     major_version: 1, // if major versions are different then the sheet should no longer be compatible. 
     minor_version: 0, // if minor versions are differnt but major versions are the same the sheet should still be compatible
