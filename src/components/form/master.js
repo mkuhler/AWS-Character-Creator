@@ -81,18 +81,7 @@ class MasterForm extends React.Component {
                       var keysMatch = true;
                       var misMatchedKey = "";
 
-                //if (Object.keys(parsedFile).length == Object.keys(this.state.data).length)
-                //{
-                      //for (var outerKeys = 0; outerKeys < Object.keys(parsedFile).length; outerKeys++) {
-                      //    console.log("Comparing outer keys " + Object.keys(parsedFile)[outerKeys] + " and " + Object.keys(this.state.data)[outerKeys]);
 
-                      //    if (Object.keys(parsedFile)[outerKeys] != Object.keys(this.state.data)[outerKeys]) {
-                      //        console.log("Outer keys " + Object.keys(parsedFile)[outerKeys] + " and " + Object.keys(this.state.data)[outerKeys] + " do not match");
-                      //        keysMatch = false;
-                                //misMatchedKey = Object.keys(parsedFile)[outerKeys];
-                      //    }
-                      //}
-                  //}
 
 
 
@@ -131,55 +120,6 @@ class MasterForm extends React.Component {
                           //            }
                           //            if (typeof parsedFile.[key1].[key2] === 'object')
                           //            {
-                          //                for (var k = 0; k < Object.keys(parsedFile.[key1].[key2]).length; k++)
-                          //                {
-                          //                    var key3 = Object.keys(parsedFile.[key1].[key2])[k];
-                          //                    console.log("Checking inner inner key: " + Object.keys(parsedFile.[key1].[key2])[k]);
-
-                          //                    if (typeof parsedFile.[key1].[key2].[key3] !== 'object') // key is not an object
-                          //                    {
-                          //                        this.state.data.[key1].[key2].[key3] = parsedFile.[key1].[key2].[key3];
-                          //                    }
-                          //                }
-                          //            }
-                          //        }
-                          //        //this.state.data.[key1] = parsedFile.[key1];
-                          //    }
-                          //}
-
-                          //if (parsedFile.basic_info != null) { this.state.data.basic_info = parsedFile.basic_info }
-                          //if (parsedFile.ability_scores != null) this.state.data.ability_scores = parsedFile.ability_scores
-                          //if (parsedFile.character_attributes != null) this.state.data.character_attributes = parsedFile.character_attributes
-                          //if (parsedFile.background_talents != null) this.state.data.background_talents = parsedFile.background_talents
-                          //if (parsedFile.character_powers != null) this.state.data.character_powers = parsedFile.character_powers
-                          //if (parsedFile.incremental_advances != null) this.state.data.incremental_advances = parsedFile.incremental_advances
-                          //if (parsedFile.inventory_feats_and_journal != null) this.state.data.inventory_feats_and_journal = parsedFile.inventory_feats_and_journal
-
-
-                          //for (var i = 0; i < Object.keys(this.state.defaultSheet).length; i++)
-                          //{
-                          //    var key1 = Object.keys(this.state.defaultSheet)[i];
-
-                          //    console.log("Checking outer key: " + key1);
-                          //    if (typeof this.state.defaultSheet.[key1] !== 'object') // key is not an object
-                          //    {
-                          //        console.log(key1 + " is not an object");
-                          //        this.state.data.[key1] = this.state.defaultSheet.[key1];
-                          //    }
-                          //    if (typeof this.state.defaultSheet.[key1] === 'object')
-                          //    {
-                          //        console.log(key1 + " is an object");
-
-                          //        for (var j = 0; j < Object.keys(this.state.defaultSheet.[key1]).length; j++)
-                          //        {
-                          //            var key2 = Object.keys(this.state.defaultSheet.[key1])[j];
-
-                          //            console.log("Checking inner key: " + key2);
-                          //            this.state.data.[key1].[key2] = this.state.defaultSheet.[key1].[key2];
-                          //        }
-                          //        //this.state.data.[key1] = parsedFile.[key1];
-                          //    }
-                          //}
 
 
                           //console.log(parsedFile);
