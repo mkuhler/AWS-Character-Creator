@@ -22,6 +22,7 @@ class MasterForm extends React.Component {
       currentMajorVersion: 1,
       currentMinorVersion: 0,
       data: charsheet,
+      defaultSheet: charsheet,
       fileState: null,
       fileUploadStatus: "Upload a File"
     };
@@ -97,30 +98,54 @@ class MasterForm extends React.Component {
 
                       if (keysMatch)
                       {
-                          Object.keys(parsedFile).forEach(function (OuterKey)
-                          {
-                              console.log("Checking outer key: " + OuterKey);
 
-                              if (typeof OuterKey != 'object') // key is not an object
-                              {
-                                  this.state.data.[toString(OuterKey)] = OuterKey;                                
-                              }
-                               if (typeof OuterKey == "object")
-                              {
-                                  Object.keys(OuterKey).forEach(function (InnerKey)
-                                  {
-                                      console.log("Checking inner key: " + InnerKey);
-                                      this.state.data.[toString(OuterKey)].[toString(InnerKey)] = OuterKey.InnerKey;
-                                  })
-                              }
-                              else // key is not an object
-                              {
-                                  //if (toString(OuterKey) in this.state.data)
-                                  //{
-                                      //this.state.data.[toString(OuterKey)] = OuterKey;
-                                 //}
-                              }
-                          })
+                          for (var i = 0; i < Object.keys(parsedFile).length; i++)
+                          {
+                              var key1 = Object.keys(parsedFile)[i];
+
+                              console.log("Checking outer key: " + key1);
+                              Object.assign(this.state.data.[key1], parsedFile.[key1]);
+                          }
+
+                          //for (var i = 0; i < Object.keys(parsedFile).length; i++)
+                          //{
+                          //    var key1 = Object.keys(parsedFile)[i];
+
+                          //    console.log("Checking outer key: " + key1);
+                          //    if (typeof parsedFile.[key1] !== 'object') // key is not an object
+                          //    {
+                          //        console.log(key1 + " is not an object");
+                          //        this.state.data.[key1] = parsedFile.[key1];
+                          //    }
+                          //    if (typeof  parsedFile.[key1] === 'object')
+                          //    {
+                          //        console.log(key1 + " is an object");
+                          //        for (var j = 0; j < Object.keys(parsedFile.[key1]).length; j++)
+                          //        {
+                          //            var key2 = Object.keys(parsedFile.[key1])[j];
+                          //            console.log("Checking inner key: " + Object.keys(parsedFile.[key1])[j]);
+
+                          //            if (typeof parsedFile.[key1].[key2] !== 'object') // key is not an object
+                          //            {
+                          //                this.state.data.[key1].[key2] = parsedFile.[key1].[key2];
+                          //            }
+                          //            if (typeof parsedFile.[key1].[key2] === 'object')
+                          //            {
+                          //                for (var k = 0; k < Object.keys(parsedFile.[key1].[key2]).length; k++)
+                          //                {
+                          //                    var key3 = Object.keys(parsedFile.[key1].[key2])[k];
+                          //                    console.log("Checking inner inner key: " + Object.keys(parsedFile.[key1].[key2])[k]);
+
+                          //                    if (typeof parsedFile.[key1].[key2].[key3] !== 'object') // key is not an object
+                          //                    {
+                          //                        this.state.data.[key1].[key2].[key3] = parsedFile.[key1].[key2].[key3];
+                          //                    }
+                          //                }
+                          //            }
+                          //        }
+                          //        //this.state.data.[key1] = parsedFile.[key1];
+                          //    }
+                          //}
 
                           //if (parsedFile.basic_info != null) { this.state.data.basic_info = parsedFile.basic_info }
                           //if (parsedFile.ability_scores != null) this.state.data.ability_scores = parsedFile.ability_scores
@@ -130,12 +155,43 @@ class MasterForm extends React.Component {
                           //if (parsedFile.incremental_advances != null) this.state.data.incremental_advances = parsedFile.incremental_advances
                           //if (parsedFile.inventory_feats_and_journal != null) this.state.data.inventory_feats_and_journal = parsedFile.inventory_feats_and_journal
 
-                          console.log(parsedFile)
-                          console.log("Charsheet: " + this.state.data);
-                          console.log("Character name: " + this.state.data.basic_info.name);
+
+                          //for (var i = 0; i < Object.keys(this.state.defaultSheet).length; i++)
+                          //{
+                          //    var key1 = Object.keys(this.state.defaultSheet)[i];
+
+                          //    console.log("Checking outer key: " + key1);
+                          //    if (typeof this.state.defaultSheet.[key1] !== 'object') // key is not an object
+                          //    {
+                          //        console.log(key1 + " is not an object");
+                          //        this.state.data.[key1] = this.state.defaultSheet.[key1];
+                          //    }
+                          //    if (typeof this.state.defaultSheet.[key1] === 'object')
+                          //    {
+                          //        console.log(key1 + " is an object");
+
+                          //        for (var j = 0; j < Object.keys(this.state.defaultSheet.[key1]).length; j++)
+                          //        {
+                          //            var key2 = Object.keys(this.state.defaultSheet.[key1])[j];
+
+                          //            console.log("Checking inner key: " + key2);
+                          //            this.state.data.[key1].[key2] = this.state.defaultSheet.[key1].[key2];
+                          //        }
+                          //        //this.state.data.[key1] = parsedFile.[key1];
+                          //    }
+                          //}
+
+
+                          //console.log(parsedFile);
+                          console.log(this.state.data);
+                          //console.log("Charsheet: " + this.state.data);
+                          //console.log("Character name: " + this.state.data.basic_info.name);
 
                           let statusLabel = document.getElementById('fileStatus');
                           statusLabel.innerText = "File Uploaded";
+
+
+                          this.forceUpdate()
 
                       }
                       else // key mismatch
@@ -145,7 +201,6 @@ class MasterForm extends React.Component {
                       }
 
                       //CharacterDetails.render();
-                      this.forceUpdate()
                   }
                   else // version numbers dont match
                   {
@@ -170,7 +225,13 @@ class MasterForm extends React.Component {
           let statusLabel = document.getElementById('fileStatus');
           statusLabel.innerText = "No File Selected";
       }
+
+      this.forceUpdate()
     }
+
+
+
+    
 
 
   handleChange(event) {
