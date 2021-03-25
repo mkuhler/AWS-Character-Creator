@@ -69,7 +69,22 @@ class BackgroundTalents extends React.Component {
     createDropDown(){
       var inputs = []
       for(var i = 0; i < this.state.numOfIcons; i++){
-        inputs.push(<Form.Control name = "icon_relationships" type="text" list="icon_relationships" onChange={this.props.handleChange}/>)
+        inputs.push(
+          <Form.Row>
+          <Col xs = {5} >
+            <Form.Control name = "icon_relationships" type="text" list="icon_relationships" onChange={this.props.handleChange}/>
+          </Col>
+          <Col xs = {2}>
+            <Form.Control name = "" type="text" onChange={this.props.handleChange} />
+          </Col>
+          <Col xs = {5}>
+            <Form.Control name = "" type="select" onChange={this.props.handleChange}/>
+          </Col>
+          </Form.Row>)
+
+
+
+        inputs.push()
       }
 
 
@@ -142,8 +157,8 @@ class BackgroundTalents extends React.Component {
                           <Button variant="outline-danger" size="sm" onClick={this.subOneIcon}> - </Button>{' '}
                         </Col>
                         </Form.Row>
-                        <Form.Row>
-                            <Col xs={5}>
+
+
 
                                 {this.createDropDown()}
                                 <datalist name="icon_relationships" id="icon_relationships">
@@ -154,8 +169,8 @@ class BackgroundTalents extends React.Component {
 
 
 
-                            </Col>
-                        </Form.Row>
+
+
                         <Form.Row>
                             <Col xs={5}>
                                 <Form.Label>One Unique Thing</Form.Label>
