@@ -135,7 +135,7 @@ class MasterForm extends React.Component {
                       else // key mismatch
                       {
                           let statusLabel = document.getElementById('fileStatus');
-                          statusLabel.innerText = "Key: " + misMatchedKey + " does not match expected input";
+                          statusLabel.innerText = "Key: " + mismatchedKey + " does not match expected input";
                       }
 
                       //CharacterDetails.render();
