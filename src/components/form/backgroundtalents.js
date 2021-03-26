@@ -144,7 +144,7 @@ class BackgroundTalents extends React.Component {
                         </Col>
 
                           <Form.Group controlId="mage">
-                            <Form.Check type="checkbox" label="Mage List" checked={this.state.magelist} onChange={this.checkboxChange}/>
+                            <Form.Check type="checkbox" label="Community List" checked={this.state.magelist} onChange={this.checkboxChange}/>
                           </Form.Group>
                         </Form.Row>
                         <Form.Row>
@@ -200,6 +200,7 @@ class BackgroundTalents extends React.Component {
                         </Form.Row>
                     </Form.Group>
                     <Button style={{ float: "left", marginBottom: 10 }} variant="primary" onClick={this.props.prevStep}>Previous</Button>
+                    <Button style={{ float: "left", marginBottom: 10 }} variant="primary" onClick={this.props.nextStep}>Next</Button>
                 </Form>
             </Container>
         );
