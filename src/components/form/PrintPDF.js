@@ -104,10 +104,10 @@ export default class PrintPDF extends  React.Component{
     doc.text(395, 92, cha + '', 'center').text(460, 92, cha_mod + '', 'center');
 
     //Character Attributes
-    doc.setFontSize(20).text(528, 58, initiative + "", 'center');
-    doc.setFontSize(20).text(105, 195, hitpoints_max, 'center');
+    doc.setFontSize(20).text(530, 58, initiative + "", 'center');
+    doc.setFontSize(20).text(105, 205, hitpoints_max, 'center');
 
-    doc.setFontSize(18).text(290, 195, death_saves_max, 'center');
+    doc.setFontSize(18).text(290, 205, death_saves_max, 'center');
 
     doc.setFontSize(20).text(495, 197, armor_class + '', 'center');
     doc.setFontSize(14).text(550, 210, mental_defense, 'center');
@@ -115,6 +115,11 @@ export default class PrintPDF extends  React.Component{
     doc.setFontSize(8).text(360, 181, ": " + saving_throws_easy);
     doc.setFontSize(8).text(360, 197, ": " + saving_throws_medium);
     doc.setFontSize(8).text(360, 212, ": " + saving_throws_hard);
+
+    if(saving_throws_optional != ""){
+      doc.setFont('fantasy').setTextColor("#808080").setFontSize(8).text(328, 225, "OPTIONAL ");
+      doc.setFont('').setTextColor('').text(375, 225, ": " + saving_throws_optional); //reset font and color
+    }
 
     doc.save("My_Character.pdf");
     }
