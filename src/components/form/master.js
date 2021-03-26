@@ -79,22 +79,20 @@ class MasterForm extends React.Component {
                       //var keysMatch = this.checkfileCompatibility(parsedFile);
 
                       var keysMatch = true;
-                      var misMatchedKey = "";
-
-
-
+                      var mismatchedKey = "";
 
 
                       if (keysMatch)
                       {
 
-                          for (var i = 0; i < Object.keys(parsedFile).length; i++)
-                          {
-                              var key1 = Object.keys(parsedFile)[i];
+                          Object.assign(this.state.data, parsedFile);
+                          //for (var i = 0; i < Object.keys(parsedFile).length; i++)
+                          //{
+                          //    var key1 = Object.keys(parsedFile)[i];
 
-                              console.log("Checking outer key: " + key1);
-                              Object.assign(this.state.data.[key1], parsedFile.[key1]);
-                          }
+                          //    console.log("Checking outer key: " + key1);
+                          //    Object.assign(this.state.data.[key1], parsedFile.[key1]);
+                          //}
 
                           //for (var i = 0; i < Object.keys(parsedFile).length; i++)
                           //{

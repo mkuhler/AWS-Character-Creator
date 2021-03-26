@@ -7,7 +7,7 @@ const charsheet = {
     //version_number: "1.0.0", // should this be a single string or two floats for major/minor version?
 
 
-    nameOfSite: "AWS Character Creator",
+    siteName: "AWS Character Creator",
     linkToSite: "",
     linkToRepo: "https://github.com/mkuhler/AWS-Character-Creator",
 
@@ -97,17 +97,18 @@ const charsheet = {
         // 3 sets fields by default may be good, if the user doesn't input values print blank?
 
         // the genreator should support at least up to 5 (or more?) icon relationships, 1 by default
-        icon_relationships: [
-            {
-                relationship:
-                {   // ex Lich King 1 Negative, Emporer 2 Conflicted
-                    name: "", // who the relationship is with
-                    tier: 0, // the numerical level of the relationship, (should be a positive or abs value number, no 0?)
-                    status: "" // positive, negative, or conflicted
-                },
-            }
+        icon_relationships: {
+                //relationship:
+                //{   // ex Lich King 1 Negative, Emporer 2 Conflicted
+                //    name: "", // who the relationship is with
+                //    tier: 0, // the numerical level of the relationship, (should be a positive or abs value number, no 0?)
+                //    status: "" // positive, negative, or conflicted
+                //},
 
-        ],
+                name: [""],
+                tier: [0],
+                status: [""],
+            },
         icon_relationships_other: "", // an additional field for players to include any clarifications for icon relationships, blank by default
 
         one_unique_thing: "", // effectively just a string, can have impacts on skills (?) but that would best be left for the user to modify
@@ -122,7 +123,7 @@ const charsheet = {
         // example - ["Breath Weapon: (Racial) Once per batle, make a close - quarters breath weapon atack as a quick action against one nearby enemy +7 vs PD; 3d6 fire damage",
         //            "Spirit Talking: Twice per day, you may speak to spirits." ]
         // no real limit on the number a character can have
-        talents_and_features: ["", ""]
+        talents_and_features: ["", ""],
 
     }, // end of 3rd page
 
@@ -160,13 +161,13 @@ const charsheet = {
 
     inventory_feats_and_journal: { // 6th page
 
-        inventory: ["", ""], // array of strings
+        inventory: ["",""], // array of strings
 
-        magic_items: ["", ""], // array of strings
+        magic_items: ["",""], // array of strings
 
         journal_and_background_story: "", // array of strins instead ?
 
-        feats: ["", ""] // array of strings, generally the name of the feat and the tier, example - "Elemental Healer (A)"
+        feats: ["",""] // array of strings, generally the name of the feat and the tier, example - "Elemental Healer (A)"
     }, // end of 6th page
 
 
