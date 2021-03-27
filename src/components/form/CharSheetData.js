@@ -68,15 +68,19 @@ const charsheet = {
     // maybe call this something else?
     character_attributes: { // 2nd page, deals with attributes relating to initiative, hitpoints, saving throws, recoveries, death saves
 
-        initiative: 0, // ***** should we calculate this? Level is a string to accommodate novice tiers so that may hinder things. generally (always?) a positive number
+        initiative: "", // ***** should we calculate this? Level is a string to accommodate novice tiers so that may hinder things. generally (always?) a positive number
         initiative_description: "Level + Dex Mod", // has a default value, but user can change as some classes/races have different methods for calculating
 
-        hitpoints_max: 0, // ***** calculated with consitution and class/race (?), probably best left to user?
+        hitpoints_max: "", // ***** calculated with consitution and class/race (?), probably best left to user?
         hitpoints_current: "", // DO NOT SHOW THIS FIELD TO USER. final sheet should have this always be blank so user can write in values
 
-        armor_class: 0, // *****
-        physical_defense: 0, // ***** all neeeded to determine enemy damage dealt
-        mental_defense: 0, // *****
+        armor_class: "", // *****
+        physical_defense: "", // ***** all neeeded to determine enemy damage dealt
+        mental_defense: "", // *****
+
+        recoveries_max: "",
+        recoveries_current: "", // DO NOT SHOW TO USER, just represent on sheet
+        recoveries_calculation: "", // generally something like "4d6 + 4"
 
         // ***** not sure if theses should be strings?
         saving_throws_easy: 6,
@@ -84,7 +88,7 @@ const charsheet = {
         saving_throws_hard: 16,
         saving_throws_optional: "", // optional descriptive text for user to include some mention of their character specific calculations
 
-        death_saves_max: 0, // ***** not sure how to calculate. in Tim's sheets these are skulls / checkboxes for user to scratch off, a number may suffice but wouldn't be as visually appealling
+        death_saves_max: "", // ***** not sure how to calculate. in Tim's sheets these are skulls / checkboxes for user to scratch off, a number may suffice but wouldn't be as visually appealling
         death_saves_current: "", // DO NOT SHOW THIS FIELD TO USER. final sheet should have this always be blank so user can write in values
     }, // end of 2nd page
 
@@ -101,12 +105,12 @@ const charsheet = {
                 //relationship:
                 //{   // ex Lich King 1 Negative, Emporer 2 Conflicted
                 //    name: "", // who the relationship is with
-                //    tier: 0, // the numerical level of the relationship, (should be a positive or abs value number, no 0?)
+                //    points: 0, // the numerical level of the relationship, (should be a positive or abs value number, no 0?)
                 //    status: "" // positive, negative, or conflicted
                 //},
 
                 name: [""],
-                tier: [0],
+                points: [""], // should be a number (positive or negative)
                 status: [""],
             },
         icon_relationships_other: "", // an additional field for players to include any clarifications for icon relationships, blank by default
@@ -117,7 +121,7 @@ const charsheet = {
         // the number can modify some values, but is likely context specific and would best be left to the user
         // there doesn't seem to be a specific minimum or maximum number of backgrounds a character can have (most of Tim's have 2 or 3), so we may need to allow the user to add more fields
         // 3 sets fields by default may be good, if the user doesn't input values print blank?
-        backgrounds: [(0, ""), (0, ""), (0, "")],
+        backgrounds: [("", ""), ("", ""), ("", "")],
 
         // talents and feautres are a bit to complex/specific to create one specific type of tuple or object, so they're best represented as an array of strings (at least for now)
         // example - ["Breath Weapon: (Racial) Once per batle, make a close - quarters breath weapon atack as a quick action against one nearby enemy +7 vs PD; 3d6 fire damage",
