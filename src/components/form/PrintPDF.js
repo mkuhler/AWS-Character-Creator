@@ -54,9 +54,9 @@ export default class PrintPDF extends  React.Component{
     var doc = new jsPDF('p', 'pt');
 
     var name = charsheet.basic_info.name;
-    var race_and_class = charsheet.basic_info.race + " - " +charsheet.basic_info.class;
-    var height_and_weight = charsheet.basic_info.height + "  -  " +charsheet.basic_info.weight;
-    var age_and_gender = charsheet.basic_info.age + "  -  " +charsheet.basic_info.gender;
+    var race_and_class = charsheet.basic_info.race + " - " + charsheet.basic_info.class;
+    var height_and_weight = charsheet.basic_info.height + "  -  " + charsheet.basic_info.weight;
+    var age_and_gender = charsheet.basic_info.age + "  -  " + charsheet.basic_info.gender;
     var level = charsheet.basic_info.level;
     var ability_class = charsheet.basic_info.class_bonus_chosen;
     var ability_race = charsheet.basic_info.race_bonus_chosen;
@@ -87,10 +87,9 @@ export default class PrintPDF extends  React.Component{
     doc.text(10, 28, get_ellispis(name)); //name
 
 
-    doc.setFontSize(11);
-    doc.text(10, 62, race_and_class);
-    doc.text(10, 95, height_and_weight);
-    doc.text(180, 95, age_and_gender, 'center');
+    doc.setFontSize(lengthy_entry(race_and_class)).text(10, 62, race_and_class);
+    doc.setFontSize(11).text(10, 95, height_and_weight);
+    doc.setFontSize(11).text(180, 95, age_and_gender, 'center');
 
     doc.setFontSize(20).text(210, 60, level, 'center');
 
@@ -104,14 +103,21 @@ export default class PrintPDF extends  React.Component{
     doc.text(395, 92, cha + '', 'center').text(460, 92, cha_mod + '', 'center');
 
     //Character Attributes
-    doc.setFontSize(20).text(530, 58, initiative + '', 'center');
-    doc.setFontSize(20).text(105, 205, hitpoints_max + '', 'center');
+    if(initiative != 0){ doc.setFontSize(20).text(530, 58, initiative + '', 'center'); }
+    if(hitpoints_max != 0){ doc.setFontSize(20).text(105, 205, hitpoints_max + '', 'center'); }
 
-    doc.setFontSize(18).text(290, 205, death_saves_max + '', 'center');
+    if(death_saves_max != 0){ doc.setFontSize(18).text(290, 205, death_saves_max + '', 'center'); }
 
-    doc.setFontSize(20).text(495, 197, armor_class + '', 'center');
-    doc.setFontSize(14).text(550, 210, mental_defense + '', 'center');
-    doc.setFontSize(14).text(438, 210, physical_defense + '', 'center');
+    if(armor_class != 0){
+      doc.setFontSize(20).text(495, 197, armor_class + '', 'center');
+    }
+    if(mental_defense != 0){
+      doc.setFontSize(14).text(550, 210, mental_defense + '', 'center');
+    }
+    if(physical_defense != 0){
+      doc.setFontSize(14).text(438, 210, physical_defense + '', 'center');
+    }
+
     doc.setFontSize(8).text(360, 181, ": " + saving_throws_easy);
     doc.setFontSize(8).text(360, 197, ": " + saving_throws_medium);
     doc.setFontSize(8).text(360, 212, ": " + saving_throws_hard);
@@ -120,6 +126,23 @@ export default class PrintPDF extends  React.Component{
       doc.setFont('fantasy').setTextColor("#808080").setFontSize(8).text(328, 225, "OPTIONAL ");
       doc.setFont('').setTextColor('').text(375, 225, ": " + saving_throws_optional); //reset font and color
     }
+
+    //SECOND PAGE INFORMATION
+    doc.addPage();
+    doc.setFont('fantasy').setTextColor("#808080").setFontSize(11);
+    doc.text(30,30,"FEATS").text(215,30,"GEAR EQUIPMENT & MONEY").text(400,30,"MAGIC ITEMS");
+
+
+    //FEATS
+    doc.rect(30, 35, 160, 170);
+
+    //GEAR EQUIPMENT & MONEY
+    doc.rect(215, 35, 160, 170);
+
+    //MAGIC ITEMS
+    doc.rect(400, 35, 160, 170);
+
+
 
     doc.save("My_Character.pdf");
     }
