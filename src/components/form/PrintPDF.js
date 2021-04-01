@@ -4,7 +4,7 @@ import {Button, Form, Col, Figure} from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import charsheet from './CharSheetData.js';
 import { lengthy_entry, get_ellispis } from './FontFunctions.js';
-import { basic_info } from './encodebase64.js';
+import { basic_info, sword_image } from './encodebase64.js';
 import FileSaver from 'file-saver';
 import axios from 'axios';
 import classInfo from './data.js'
@@ -130,18 +130,21 @@ export default class PrintPDF extends  React.Component{
     //SECOND PAGE INFORMATION
     doc.addPage();
     doc.setFont('fantasy').setTextColor("#808080").setFontSize(11);
-    doc.text(30,30,"FEATS").text(215,30,"GEAR EQUIPMENT & MONEY").text(400,30,"MAGIC ITEMS");
+    doc.text(7,30,"FEATS").text(205,30,"GEAR EQUIPMENT & MONEY").text(405,30,"MAGIC ITEMS").text(7,280,"JOURNAL / BACKSTORY");
+    doc.addImage(sword_image(),'PNG',7,225, 570,30);
 
 
     //FEATS
-    doc.rect(30, 35, 160, 170);
+    doc.rect(7, 35, 170, 180);
 
     //GEAR EQUIPMENT & MONEY
-    doc.rect(215, 35, 160, 170);
+    doc.rect(205, 35, 170, 180);
 
     //MAGIC ITEMS
-    doc.rect(400, 35, 160, 170);
+    doc.rect(405, 35, 170, 180);
 
+    //BACKSTORY
+    doc.rect(7, 285, 570, 510);
 
 
     doc.save("My_Character.pdf");
