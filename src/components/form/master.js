@@ -87,38 +87,6 @@ class MasterForm extends React.Component {
                       {
 
                           Object.assign(this.state.data, parsedFile);
-                          //for (var i = 0; i < Object.keys(parsedFile).length; i++)
-                          //{
-                          //    var key1 = Object.keys(parsedFile)[i];
-
-                          //    console.log("Checking outer key: " + key1);
-                          //    Object.assign(this.state.data.[key1], parsedFile.[key1]);
-                          //}
-
-                          //for (var i = 0; i < Object.keys(parsedFile).length; i++)
-                          //{
-                          //    var key1 = Object.keys(parsedFile)[i];
-
-                          //    console.log("Checking outer key: " + key1);
-                          //    if (typeof parsedFile.[key1] !== 'object') // key is not an object
-                          //    {
-                          //        console.log(key1 + " is not an object");
-                          //        this.state.data.[key1] = parsedFile.[key1];
-                          //    }
-                          //    if (typeof  parsedFile.[key1] === 'object')
-                          //    {
-                          //        console.log(key1 + " is an object");
-                          //        for (var j = 0; j < Object.keys(parsedFile.[key1]).length; j++)
-                          //        {
-                          //            var key2 = Object.keys(parsedFile.[key1])[j];
-                          //            console.log("Checking inner key: " + Object.keys(parsedFile.[key1])[j]);
-
-                          //            if (typeof parsedFile.[key1].[key2] !== 'object') // key is not an object
-                          //            {
-                          //                this.state.data.[key1].[key2] = parsedFile.[key1].[key2];
-                          //            }
-                          //            if (typeof parsedFile.[key1].[key2] === 'object')
-                          //            {
 
 
                           //console.log(parsedFile);
@@ -189,7 +157,7 @@ class MasterForm extends React.Component {
     } else if (category === "ability_scores"){
       this.state.data.[category].[name] = parseInt(value)
     } else if(arrayindex != null){
-      this.state.data.[category].[name].[arrayindex] = value
+      this.state.data.[category].[name][arrayindex] = value
     }else {
       this.state.data.[category].[name] = value
     }

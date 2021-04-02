@@ -101,7 +101,7 @@ const charsheet = {
         // 3 sets fields by default may be good, if the user doesn't input values print blank?
 
         // the genreator should support at least up to 5 (or more?) icon relationships, 1 by default
-        icon_relationships: {
+        //icon_relationships: {
                 //relationship:
                 //{   // ex Lich King 1 Negative, Emporer 2 Conflicted
                 //    name: "", // who the relationship is with
@@ -109,10 +109,10 @@ const charsheet = {
                 //    status: "" // positive, negative, or conflicted
                 //},
 
-                name: [""],
-                points: [""], // should be a number (positive or negative)
-                status: [""],
-            },
+                icon_relationship_names: [""],
+                icon_relationship_points: [""], // should be a number (positive or negative)
+                icon_relationship_statuses: [""],
+            //},
         icon_relationships_other: "", // an additional field for players to include any clarifications for icon relationships, blank by default
 
         one_unique_thing: "", // effectively just a string, can have impacts on skills (?) but that would best be left for the user to modify

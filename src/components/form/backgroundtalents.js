@@ -10,7 +10,7 @@ class BackgroundTalents extends React.Component {
       this.state = {
         official: true,
         mage: false,
-        numOfIcons: 3
+        numOfIcons: 1
 
       };
 
@@ -69,20 +69,70 @@ class BackgroundTalents extends React.Component {
 
     createDropDown(){
       var inputs = []
-      for(var i = 0; i < this.state.numOfIcons; i++){
-        inputs.push(
-          <Form.Row>
-          <Col xs = {5} >
-            <Form.Control name = "icon_relationships" type="text" list="icon_relationships" onChange={this.props.handleChange}/>
-          </Col>
-          <Col xs = {2}>
-            <Form.Control name = "" type="text" onChange={this.props.handleChange} />
-          </Col>
-          <Col xs = {5}>
-            <Form.Control name = "" type="select" onChange={this.props.handleChange}/>
-          </Col>
-          </Form.Row>)
+        for (var i = 0; i < this.state.numOfIcons; i++){
 
+            console.log("BACKGROUND: " + this.props.data.background_talents);
+           // console.log("ICONS: " + this.props.data.background_talents.icon_relationships);
+            //console.log("NAME: " + this.props.data.background_talents.icon_relationships_names[i]);
+            //console.log("POINT: " + this.props.data.background_talents.icon_relationships_points[i]);
+            //console.log("STATUS: " + this.props.data.background_talents.icon_relationships_statuses[i]);
+
+            var nameVal = ""; 
+            var pointVal = "";
+            var statusVal = "";
+
+            if (this.props.data.background_talents.icon_relationships_names != null && this.props.data.background_talents.icon_relationships_names[i] != null) {
+                nameVal = this.props.data.background_talents.icon_relationships_names[i]
+
+                inputs.push(
+                    <Form.Row>
+                        <Col xs={5} >
+                            <Form.Control name="icon_relationships_names" list="icon_relationship_names" arrayindex={i} type="text" value={nameVal} onChange={this.props.handleChange} />
+                        </Col>
+                        <Col xs={2}>
+                            <Form.Control name="icon_relationships_points" type="text" value={pointVal} onChange={this.props.handleChange} />
+                        </Col>
+                        <Col xs={5}>
+                            <Form.Control name="icon_relationships_statuses" type="select" value={statusVal} onChange={this.props.handleChange} />
+                        </Col>
+                    </Form.Row>)
+
+
+
+                inputs.push()
+            }
+
+            //if (i < Object.keys(this.props.data.background_talents.icon_relationships.name).length - 1)
+            //{
+            //    nameVal = this.props.data.background_talents.icon_relationships.name[i]
+            //}
+
+            //if (i < this.props.data.background_talents.icon_relationships.name.length - 1)
+            //{
+            //    pointVal = this.props.data.background_talents.icon_relationships.points[i]
+            //}
+
+            //if (i < this.props.data.background_talents.icon_relationships.name.length - 1)
+            //{
+            //    statusVal = this.props.data.background_talents.icon_relationships.status[i]
+            //}
+
+            else {
+
+
+                inputs.push(
+                    <Form.Row>
+                        <Col xs={5} >
+                            <Form.Control name="icon_relationships_names" list="icon_relationships" arrayindex={parseInt(i)} type="text" onChange={this.props.handleChange} />
+                        </Col>
+                        <Col xs={2}>
+                            <Form.Control name="" type="text" onChange={this.props.handleChange} />
+                        </Col>
+                        <Col xs={5}>
+                            <Form.Control name="" type="select" onChange={this.props.handleChange} />
+                        </Col>
+                    </Form.Row>)
+            }
 
 
         inputs.push()
@@ -99,13 +149,15 @@ class BackgroundTalents extends React.Component {
 
     }
 
-    addOneIcon(){
-      this.setState((prevState) => {
-        return{
-          ...prevState,
-          numOfIcons: prevState.numOfIcons + 1
+    addOneIcon() {
+        if (this.state.numOfIcons < 10) {
+            this.setState((prevState) => {
+                return {
+                    ...prevState,
+                    numOfIcons: prevState.numOfIcons + 1
+                }
+            })
         }
-      })
     }
 
     subOneIcon(){
@@ -135,7 +187,7 @@ class BackgroundTalents extends React.Component {
 
                 <Form>
                     <Form.Group controlId="background_talents">
-                        <h3>Background Information Page Three</h3>
+                        <h3>Background Information</h3>
                         <br />
                         <Form.Row>
                         <Col xs = {2}>
