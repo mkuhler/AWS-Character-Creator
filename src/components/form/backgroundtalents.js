@@ -73,13 +73,13 @@ class BackgroundTalents extends React.Component {
         inputs.push(
           <Form.Row>
           <Col xs = {5} >
-            <Form.Control name = "icon_relationships" type="text" list="icon_relationships" onChange={this.props.handleChange}/>
+            <Form.Control name = "icon_relationship_names" type="text" arrayindex={i}  list="icon_relationships"  onChange={this.props.handleChange}/>
           </Col>
           <Col xs = {2}>
-            <Form.Control name = "" type="text" onChange={this.props.handleChange} />
+            <Form.Control name = "icon_relationship_points" type="text" arrayindex={i} onChange={this.props.handleChange} />
           </Col>
           <Col xs = {5}>
-            <Form.Control name = "" type="select" onChange={this.props.handleChange}/>
+            <Form.Control name = "icon_relationship_statuses" type="text" arrayindex={i} onChange={this.props.handleChange}/>
           </Col>
           </Form.Row>)
 
@@ -125,8 +125,7 @@ class BackgroundTalents extends React.Component {
 
 
     render() {
-        console.log(IconRelationships.official[0])
-        console.log(this.state.numOfIcons)
+
         console.log(this.props.data.background_talents)
 
         return (
@@ -135,7 +134,7 @@ class BackgroundTalents extends React.Component {
 
                 <Form>
                     <Form.Group controlId="background_talents">
-                        <h3>Background Information Page Three</h3>
+                        <h3>Background Information</h3>
                         <br />
                         <Form.Row>
                         <Col xs = {2}>
