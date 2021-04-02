@@ -50,6 +50,20 @@ export function get_ellispis(name)
   }
 }
 
+/**
+ * Creates formatted title text
+ * @param  {jsPDF}  doc     PDF document object
+ * @return {Number}         x-coordinate of the text
+ * @return {Number}         y-coordinate of the text
+ * @return {String}         string containing text to format
+ * @return {Number}         = font.font_size.DEFAULT_FONT_SIZE, option to modify font size
+ */
+export function createTitle(doc, x, y, text, fontSize = font.font_size.DEFAULT_FONT_SIZE){
+  return doc.setFont('fantasy')
+            .setTextColor("#808080")
+            .setFontSize(fontSize)
+            .text(x, y, text.toUpperCase());
+}
 
 /**
  * Convert inches value to points
@@ -103,6 +117,7 @@ export function createParagraph(doc, text, maxLineWidth, font = font.type_font.D
  * @param  {Number} padding       = page.DEFAULT_PADDING, Padding of the text box
  * @return {jsPDF}                  Rectangle around text
  */
-export function createTextBox(doc, x, y, paragraphHeight, maxLineWidth, padding = page.DEFAULT_PADDING) {
-  return doc.rect(x - padding, y - padding, maxLineWidth + padding, paragraphHeight + padding);
+export function createTextBox(doc, x, y, width, height, padding = page.DEFAULT_PADDING) {
+  return doc.rect(x - padding, y - padding, width + padding, height + padding);
+  //return doc.rect(x, y, width, height);
 }

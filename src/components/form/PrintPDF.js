@@ -3,7 +3,8 @@ import CharacterDetails from './characterdetails.js';
 import {Button, Form, Col, Figure} from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import charsheet from './CharSheetData.js';
-import { lengthy_entry, get_ellispis } from './FontFunctions.js';
+import { lengthy_entry, get_ellispis, createTextBox, createTitle } from './FontFunctions.js';
+import { font, page } from './FontSizing.js';
 import { basic_info, sword_image } from './encodebase64.js';
 import FileSaver from 'file-saver';
 import axios from 'axios';
@@ -96,6 +97,31 @@ export default class PrintPDF extends  React.Component
       doc.setFont('fantasy').setTextColor("#808080").setFontSize(8).text(328, 225, "OPTIONAL ");
       doc.setFont('').setTextColor('').text(375, 225, ": " + saving_throws_optional); //reset font and color
     }
+
+    var sectionTitle;
+    var i;
+    var offset;
+    var height = 280;
+    for (i = 0; i < 3; i++) {
+      switch(i) {
+        case 0:
+          sectionTitle = "Icon Relationships";
+          break;
+        case 1:
+          sectionTitle = "One Unique Thing";
+          break;
+        case 2:
+          sectionTitle = "Backgrounds";
+          break;
+      }
+      
+      offset = page.PAGE_MARGIN / 2;
+      createTitle(doc, offset + (page.PAGE_WIDTH / 3 * i), height, sectionTitle);
+      createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 25, 75, 0);
+    }
+    // Icon Relationships
+    // One Unique Thing
+    // Backgrounds
 
     ////////////////////////////////////////////////////////////////////////////////
     //SECOND PAGE INFORMATION

@@ -13,6 +13,6 @@ export const font = {
 export const page = {
   PAGE_WIDTH: 612,
   PAGE_HEIGHT: 792,    
-  PAGE_MARGIN: 36,
+  PAGE_MARGIN: 12,
   DEFAULT_PADDING: 18
 };
