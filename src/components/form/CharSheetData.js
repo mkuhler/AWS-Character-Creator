@@ -126,8 +126,8 @@ const charsheet = {
         // example - ["Breath Weapon: (Racial) Once per batle, make a close - quarters breath weapon atack as a quick action against one nearby enemy +7 vs PD; 3d6 fire damage",
         //            "Spirit Talking: Twice per day, you may speak to spirits." ]
         // no real limit on the number a character can have
-        talents_and_features_name: [""],
-        talents_and_features_description: [""]
+        talents_and_features_names: [""],
+        talents_and_features_descriptions: [""]
 
     }, // end of 3rd page
 

@@ -10,8 +10,8 @@ class BackgroundTalents extends React.Component {
       this.state = {
         official: true,
           mage: false,
-          numOfIcons: Math.max(this.props.data.inventory_feats_and_journal.inventory.length, 3)
-
+          numOfIcons: Math.max(this.props.data.background_talents.icon_relationship_names.length, 3),
+          numOfTalents: Math.max(this.props.data.background_talents.talents_and_features_names.length, 5)
       };
 
       this.checkboxChange = this.checkboxChange.bind(this);
@@ -19,9 +19,8 @@ class BackgroundTalents extends React.Component {
       this.addOneIcon = this.addOneIcon.bind(this);
       this.subOneIcon = this.subOneIcon.bind(this);
 
-
-
-
+      this.addOneTalent = this.addOneTalent.bind(this);
+      this.subOneTalent = this.subOneTalent.bind(this);
     }
 
 
@@ -67,6 +66,25 @@ class BackgroundTalents extends React.Component {
     }
 
 
+    createTalentDropDown(){
+        var inputs = []
+        for (var i = 0; i < this.state.numOfTalents; i++) {
+            inputs.push(
+                <Form.Row>
+                    <Col xs={5} >
+                        <Form.Control name="talents_and_features_names" type="text" arrayindex={i} value={this.props.data.background_talents.talents_and_features_names[i]} placeholder="Feat name" onChange={this.props.handleChange} />
+                    </Col>
+                    <Col xs={7}>
+                        <Form.Control name="talents_and_features_descriptions" type="text" arrayindex={i} value={this.props.data.background_talents.talents_and_features_descriptions[i]} placeholder="Description" onChange={this.props.handleChange} />
+                    </Col>
+                </Form.Row>)
+
+            inputs.push()
+        }
+        return inputs;
+    }
+
+
     createDropDown(){
       var inputs = []
       for(var i = 0; i < this.state.numOfIcons; i++){
@@ -86,6 +104,32 @@ class BackgroundTalents extends React.Component {
         inputs.push()
       }
       return inputs;
+    }
+
+
+    addOneTalent() {
+        if (this.state.numOfTalents < 15) {
+            this.setState((prevState) => {
+                return {
+                    ...prevState,
+                    numOfTalents: prevState.numOfTalents + 1
+                }
+            })
+        }
+    }
+
+    subOneTalent() {
+        if (this.state.numOfTalents > 1) {
+            this.setState((prevState) => {
+                return {
+                    ...prevState,
+                    numOfTalents: prevState.numOfTalents - 1
+                }
+            })
+        }
+
+
+
     }
 
     addOneIcon() {
@@ -174,21 +218,13 @@ class BackgroundTalents extends React.Component {
 
                         <Form.Row>
                             <Col xs={5}>
-                                <Form.Label>Feature Name</Form.Label>
-                                <Form.Control type="text"
-                                    //not sure of what name yet
-                                    name="featName"
-                                    value={this.props.data.background_talents.one_unique_thing}
-                                    onChange={this.props.handleChange} />
+                                <Form.Label>Talents and Features</Form.Label>
+                                {this.createTalentDropDown()}
                             </Col>
-                        </Form.Row>
-                        <Form.Row>
-                            <Col xs={5}>
-                                <Form.Label>Feature Description</Form.Label>
-                                <Form.Control type="text"
-                                    //not sure what name yet either
-                                    name="featDescription"
-                                    onChange={this.props.handleChange} />
+                            <Col>
+                                <Button variant="outline-success" size="sm" onClick={this.addOneTalent}> + </Button>{' '}
+
+                                <Button variant="outline-danger" size="sm" onClick={this.subOneTalent}> - </Button>{' '}
                             </Col>
                         </Form.Row>
                     </Form.Group>
