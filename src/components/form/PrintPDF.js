@@ -7,7 +7,7 @@ import { lengthy_entry, get_ellispis } from './FontFunctions.js';
 import { basic_info, sword_image } from './encodebase64.js';
 import FileSaver from 'file-saver';
 import axios from 'axios';
-import classInfo from './data.js'
+import { parse } from '../../../node_modules/querystring/index.js';
 
 var FIXED_HEIGHT = 180; //fixed size for FEATS, GEAR EQUIPMENT & MONEY, MAGIC ITEMS
 var HEIGHT_DIFFER = 0;     //will be used to calculate the hight difference if the textfield change in size
@@ -15,45 +15,10 @@ var HEIGHT_DIFFER = 0;     //will be used to calculate the hight difference if t
 export default class PrintPDF extends  React.Component
 {
 
-
     fileState = {
         selectedFile: null,
-        nameofFile: "Upload a file"
     };
 
-    onFileChange = event => {
-        this.fileState = { selectedFile: event.target.files[0] };
-        this.fileState.nameofFile = String(this.fileState.selectedFile.name);
-    };
-
-    onFileUpload = () => {
-        const formData = new FormData();
-
-        // formData.append("myFile", this.fileState.selectedFile, this.fileState.selectedFile.name);
-
-        //this.fileState.nameofFile = String(this.fileState.selectedFile.name);
-
-        charsheet = JSON.parse(this.fileState.text);
-
-        // console.log(this.state.selectedFile);
-
-        axios.post("api/uploadfile", formData);
-    };
-
-    fileData = () => {
-
-        if (this.fileState.selectedFile) {
-            return (
-                <div>
-                    <h2> File Details: </h2>
-                    <p> File Name: {this.fileState.selectedFile.name} </p>
-                    <p> File Type: {this.fileState.selectedFile.type} </p>
-                </div>
-            );
-        }
-        else {
-        }
-    };
 
   pdfGenerator = () =>{
     var doc = new jsPDF('p', 'pt');
@@ -189,9 +154,14 @@ export default class PrintPDF extends  React.Component
   }
 
 
-  jsonGenerator = () => {
+    jsonGenerator = () => {
 
-    var jsonString = JSON.stringify(charsheet);
+        // The user should be able to upload a file, have the contents of that file populate the fields, and be able to re-download the modified file
+        // currently the user can upload and re-download a file, but any changes made after the upload do not populate in when redownloading,
+        // there seems to be an issue with the distinction between charsheet and this.charsheet
+        var jsonString;
+        jsonString = JSON.stringify(this.props.data);
+
     var jsonBlob = new Blob([jsonString], { type: "text/plain;charset=utf-8" });
 
     FileSaver.saveAs(jsonBlob, "My_Character.txt");
@@ -202,17 +172,6 @@ export default class PrintPDF extends  React.Component
       <div className="Button">
         <Button variant="outline-primary" onClick={this.pdfGenerator}>Print PDF</Button>
         <Button variant="outline-primary" onClick={this.jsonGenerator}>Download JSON</Button>
-            <Form variant="outline-primary">
-                <Form.File
-                    id="custom-file"
-                    label= {this.fileState.nameofFile}
-                    custom
-                    onChange= {this.onFileChange}
-                />
-            </Form>
-        <Button variant="outline-primary" onClick={this.onFileUpload}>Upload File</Button>
-        {this.fileData()}
-      </div>
     );
     }
 }

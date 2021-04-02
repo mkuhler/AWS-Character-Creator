@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button, Form, Col} from 'react-bootstrap';
+import charsheet from './CharSheetData.js';
 import classInfo from './data.js'
 
 class CharacterDetails extends React.Component{
@@ -16,7 +17,9 @@ constructor(charProps){
     selected1: "--", selected2: "--", selected3: "--", selected4: "--", selected5: "--", selected6: "--",
     genMethod: "Manual", rollDisplay: false,
 
-    classBonus: "", raceBonus: ""
+    classBonus: "", raceBonus: "",
+    localChar: this.props.data
+
   }
   this.dropdownChange = this.dropdownChange.bind(this)
   this.abilityGenMethod = this.abilityGenMethod.bind(this)
@@ -35,12 +38,13 @@ constructor(charProps){
     this.props.dataChange(ability_scoreChanges)
   }
 
-  //Loops through a set number of label fields and sets the text to the result of rolling a 4d6
+  //Loops through a set number of label fields and sets the text to the result of rolling a 4d6 and dropping lowest roll
   abilityRoll = () => {
     this.setState({rolled: true})
 
     for (var i = 0; i < 6; i++) {
-      var rollSum = Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + Math.floor(Math.random() * 6) + 4
+      var rollArr = [Math.floor(Math.random() * 6) + 1, Math.floor(Math.random() * 6) + 1, Math.floor(Math.random() * 6) + 1, Math.floor(Math.random() * 6) + 1]
+      var rollSum = rollArr.reduce((a, b) => a + b, 0) - Math.min(...rollArr)
       var labelName = "roll" + (i+1)
 
       this.setState({[labelName]: [rollSum]})
@@ -58,12 +62,12 @@ constructor(charProps){
     //Error checking: checks if all drop down lists have been changed
     if ("--" === this.state.selected1 || "--" === this.state.selected2 || "--" === this.state.selected3 
     || "--" === this.state.selected4 || "--" === this.state.selected5 || "--" === this.state.selected6) {
-      console.log("Not all ability drop down lists have been changed.")
+      alert("Error: Not all ability drop down lists have been changed.")
       return
     }
     //Error checking: checks if ability scores have been rolled
     else if(!this.state.rolled){
-      console.log("Didn't roll ability values yet.")
+      alert("Error: Didn't roll ability values yet.")
       return
     }
     //Error checking: checks if there is a duplicate drop down ability selected
@@ -74,19 +78,17 @@ constructor(charProps){
         var temp = "selected" + (j+1)
 
         if (this.state.[select] == this.state.[temp]) {
-          console.log("You're attempting to allocate your ability score to a duplicate ability.")
+          alert("Error: You're attempting to allocate your ability score to a duplicate ability.")
           return
         }
       }
     }
 
     //Checks for bonuses selected
-    if(this.props.data.basic_info.class_bonus_chosen.length == 3) {
+    if(this.props.data.basic_info.class_bonus_chosen.length == 3)
       this.state.classBonus = abilityNames[abilityABR.indexOf(this.props.data.basic_info.class_bonus_chosen.toUpperCase())]
-    }
-    if(this.props.data.basic_info.race_bonus_chosen.length == 3) {
+    if(this.props.data.basic_info.race_bonus_chosen.length == 3)
       this.state.raceBonus = abilityNames[abilityABR.indexOf(this.props.data.basic_info.race_bonus_chosen.toUpperCase())]
-    }
 
     //Loop to allocate values
     for (var i = 0; i < 6; i++) {
@@ -102,12 +104,14 @@ constructor(charProps){
 
       //Applies class and race bonuses to corresponding abilities
       if(this.state.[selected[i]] === this.state.classBonus)
-            rollVal += 2
+        rollVal += 2
       if(this.state.[selected[i]] === this.state.raceBonus)
-            rollVal += 2
+        rollVal += 2
 
       ability_scoreChanges.[this.state.[selected[i]]] = rollVal
     }
+    if(this.state.classBonus === "" || this.state.raceBonus === "") alert("Error: No class or race bonus selected.")
+
     this.props.dataChange(ability_scoreChanges)
   }
 
@@ -134,6 +138,14 @@ constructor(charProps){
         elementList[i].style.display = 'block'
       }
     }
+    else if(event.target.value === "Point Buy") {
+      this.setState({rollDisplay: false})
+
+      //iterates through element list and makes elements for Rolling invisible
+      for (var i = 15; i < elementList.length-8; i++) {
+        elementList[i].style.display = 'none'
+      }
+    }
     else {
       this.setState({rollDisplay: false})
 
@@ -144,19 +156,11 @@ constructor(charProps){
     }
   }
 
-  //Changes value of ability scores
-  abilityHandler(event) {
-    const{name, value} = event.target
-    var ability_scoreChanges = {...this.props.data.ability_scores}
-
-    //checks for numerical input then changes props and fields accordingly
-    if (this.props.onlyNum(event)) {
-      ability_scoreChanges.[name] = value
-      this.props.dataChange(ability_scoreChanges)
-    }
-  }
-
 //this.props.data.basic_info.name returns Madison
+    //changeHandler() {
+     //   this.state.localChar = this.props.data;
+    //}
+
 
   render() {
       console.log(this.props.data.basic_info);
@@ -165,7 +169,7 @@ constructor(charProps){
       const abilityNames = [["strength", "STR"], ["constitution", "CON"], ["dexterity", "DEX"], ["intelligence", "INT"], ["wisdom", "WIS"], ["charisma", "CHA"]]
       const selectedAndRoll = [["selected1", "roll1"], ["selected2", "roll2"], ["selected3", "roll3"], ["selected4", "roll4"], ["selected5", "roll5"], ["selected6", "roll6"]]
       const modifierNames = [["strength_mod", "STR"], ["constitution_mod", "CON"], ["dexterity_mod", "DEX"], ["intelligence_mod", "INT"], ["wisdom_mod", "WIS"], ["charisma_mod", "CHA"]]
-      
+
       return(
         <Form id="form">
           <Form.Group controlId="basic_info">
@@ -173,13 +177,15 @@ constructor(charProps){
             <Form.Row>
               <Col xs={5}>
                 <Form.Label>Character Name</Form.Label>
-                <Form.Control type="text"
-                            name="name"
-                            onChange={this.props.handleChange}/>
+                          <Form.Control type="text"
+                              name="name"
+                              value={this.props.data.basic_info.name}
+                              onChange={this.props.handleChange}
+                          />
               </Col>
               <Col xs={5}>
-                <Form.Label>Race</Form.Label>
-                <Form.Control name = "race" type="text" list="races" onChange={this.props.handleChange}/>
+                          <Form.Label>Race</Form.Label>
+                          <Form.Control name="race" type="text" list="races" value={this.props.data.basic_info.race} onChange={this.props.handleChange} />
                   <datalist name="race" id="races">
                       {classInfo.races.map((option) =>
                         <option value={option.name}></option>
@@ -191,7 +197,7 @@ constructor(charProps){
             <Form.Row>
               <Col xs={5}>
                 <Form.Label>Class</Form.Label>
-                <Form.Control name = "class" type="text" list="classes" onChange={this.props.handleChange}/>
+                          <Form.Control name="class" type="text" list="classes" value={this.props.data.basic_info.class} onChange={this.props.handleChange}/>
                   <datalist name="class" id="classes">
                       {classInfo.classes.map((option) =>
                         <option value={option.name}></option>
@@ -201,38 +207,44 @@ constructor(charProps){
               <Col xs={5}>
                 <Form.Label>Level</Form.Label>
                 <Form.Control type="text"
-                            name="level"
+                              name="level"
+                              value={this.props.data.basic_info.level}
                             placeholder="1"
                             onChange={this.props.handleChange}/>
               </Col>
             </Form.Row>
 
             <Form.Row>
+
               <Col xs={2}>
                 <Form.Label>Height</Form.Label>
                 <Form.Control type="text"
                               name="height"
+                              value={this.props.data.basic_info.height}
                               onChange={this.props.handleChange}/>
               </Col>
 
               <Col xs={2}>
                 <Form.Label>Weight</Form.Label>
                 <Form.Control type="text"
-                                name="weight"
+                              name="weight"
+                              value={this.props.data.basic_info.weight}
                                 onChange={this.props.handleChange}/>
               </Col>
 
               <Col xs={2}>
                 <Form.Label>Age</Form.Label>
                 <Form.Control type="text"
-                                  name="age"
+                              name="age"
+                              value={this.props.data.basic_info.age}
                                   onChange={this.props.handleChange}/>
               </Col>
 
               <Col xs={2}>
                 <Form.Label>Gender</Form.Label>
                 <Form.Control type="text"
-                                  name="gender"
+                              name="gender"
+                              value={this.props.data.basic_info.gender}
                                   onChange={this.props.handleChange}/>
               </Col>
             </Form.Row>
@@ -260,7 +272,7 @@ constructor(charProps){
                               name={option[0]}
                               value={this.props.data.ability_scores.[option[0]]}
                               style={{textAlign: "center"}}
-                              onChange={e => {this.abilityHandler(e)}} />
+                              onChange={e => {this.props.onlyNum(e)}} />
                 </Col>
               )}
             </Form.Row>
@@ -298,13 +310,13 @@ constructor(charProps){
                               name="strength_mod"
                               value={this.props.data.ability_scores.[option[0]]}
                               style={{ textAlign: "center" }}
-                              onChange={e => {this.abilityHandler(e)}} />
+                              onChange={e => {this.props.onlyNum(e)}} />
               </Col>
               )}
             </Form.Row>
             <Button style={{ width: "100px", marginTop: 20, marginLeft: 305, backgroundColor: "#12A924", borderColor: "#12A924" }} onClick={this.calcMod}>Calculate</Button>
-          </Form.Group>
-          <Button style={{float:"right", marginBottom: 10}} variant="primary" onClick={this.props.nextStep}>Next</Button>
+       </Form.Group>
+       <Button style={{float:"right", marginBottom: 10}} variant="primary" onClick={this.props.nextStep}>Next</Button>
       </Form>
       );
 
