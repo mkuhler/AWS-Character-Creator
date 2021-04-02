@@ -6,6 +6,10 @@ const charsheet = {
 
     //version_number: "1.0.0", // should this be a single string or two floats for major/minor version?
 
+    siteName: "AWS Character Creator",
+    linkToSite: "",
+    linkToRepo: "https://github.com/mkuhler/AWS-Character-Creator",
+
     // a version number should be set somewhere in the "main part of the program. This would be stored as a variable in a newly created sheet or read in from an existing one
     major_version: 1, // if major versions are different then the sheet should no longer be compatible.
     minor_version: 0, // if minor versions are differnt but major versions are the same the sheet should still be compatible
@@ -16,7 +20,7 @@ const charsheet = {
     // first page consist of basic info - things related to name, class, level, race, height, weight, age and gender
     basic_info: {
 
-        name: "Madison", // ***** used for determining name of file saved
+        name: "", // ***** used for determining name of file saved
 
         // bonuses increase the character's corresponding stats, are we calculating that or having the user do it? If we pull the data from this file it should be possible for use to calculate it
         class: "", // *****
@@ -63,15 +67,15 @@ const charsheet = {
     // maybe call this something else?
     character_attributes: { // 2nd page, deals with attributes relating to initiative, hitpoints, saving throws, recoveries, death saves
 
-        initiative: 0, // ***** should we calculate this? Level is a string to accommodate novice tiers so that may hinder things. generally (always?) a positive number
+        initiative: "", // ***** should we calculate this? Level is a string to accommodate novice tiers so that may hinder things. generally (always?) a positive number
         initiative_description: "Level + Dex Mod", // has a default value, but user can change as some classes/races have different methods for calculating
 
-        hitpoints_max: 0, // ***** calculated with consitution and class/race (?), probably best left to user?
+        hitpoints_max: "", // ***** calculated with consitution and class/race (?), probably best left to user?
         hitpoints_current: "", // DO NOT SHOW THIS FIELD TO USER. final sheet should have this always be blank so user can write in values
 
-        armor_class: 0, // *****
-        physical_defense: 0, // ***** all neeeded to determine enemy damage dealt
-        mental_defense: 0, // *****
+        armor_class: "", // *****
+        physical_defense: "", // ***** all neeeded to determine enemy damage dealt
+        mental_defense: "", // *****
 
         // ***** not sure if theses should be strings?
         saving_throws_easy: 6,
@@ -79,7 +83,7 @@ const charsheet = {
         saving_throws_hard: 16,
         saving_throws_optional: "", // optional descriptive text for user to include some mention of their character specific calculations
 
-        death_saves_max: 0, // ***** not sure how to calculate. in Tim's sheets these are skulls / checkboxes for user to scratch off, a number may suffice but wouldn't be as visually appealling
+        death_saves_max: "", // ***** not sure how to calculate. in Tim's sheets these are skulls / checkboxes for user to scratch off, a number may suffice but wouldn't be as visually appealling
         death_saves_current: "", // DO NOT SHOW THIS FIELD TO USER. final sheet should have this always be blank so user can write in values
     }, // end of 2nd page
 
@@ -114,6 +118,8 @@ const charsheet = {
         // the number can modify some values, but is likely context specific and would best be left to the user
         // there doesn't seem to be a specific minimum or maximum number of backgrounds a character can have (most of Tim's have 2 or 3), so we may need to allow the user to add more fields
         // 3 sets fields by default may be good, if the user doesn't input values print blank?
+        //background_numbers: [],
+        //background_names: [],
         backgrounds: [(0, ""), (0, ""), (0, "")],
 
         // talents and feautres are a bit to complex/specific to create one specific type of tuple or object, so they're best represented as an array of strings (at least for now)

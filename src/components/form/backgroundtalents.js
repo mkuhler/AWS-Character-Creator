@@ -10,7 +10,7 @@ class BackgroundTalents extends React.Component {
       this.state = {
         official: true,
         mage: false,
-        numOfIcons: 1
+        numOfIcons: 3
 
       };
 
@@ -72,14 +72,14 @@ class BackgroundTalents extends React.Component {
       for(var i = 0; i < this.state.numOfIcons; i++){
         inputs.push(
           <Form.Row>
-          <Col xs = {5} >
-            <Form.Control name = "icon_relationship_names" type="text" arrayindex={i}  list="icon_relationships"  onChange={this.props.handleChange}/>
+                <Col xs={5} >
+                    <Form.Control name="icon_relationship_names" type="text" arrayindex={i} list="icon_relationships" value={this.props.data.background_talents.icon_relationship_names[i]} onChange={this.props.handleChange} />
           </Col>
           <Col xs = {2}>
-            <Form.Control name = "icon_relationship_points" type="text" arrayindex={i} onChange={this.props.handleChange} />
+                    <Form.Control name="icon_relationship_points" type="text" arrayindex={i} value={this.props.data.background_talents.icon_relationship_points[i]} onChange={this.props.handleChange} />
           </Col>
           <Col xs = {5}>
-            <Form.Control name = "icon_relationship_statuses" type="text" arrayindex={i} onChange={this.props.handleChange}/>
+                    <Form.Control name="icon_relationship_statuses" type="text" arrayindex={i} value={this.props.data.background_talents.icon_relationship_statuses[i]} onChange={this.props.handleChange}/>
           </Col>
           </Form.Row>)
 
