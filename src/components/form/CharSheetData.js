@@ -24,13 +24,13 @@ const charsheet = {
 
         // bonuses increase the character's corresponding stats, are we calculating that or having the user do it? If we pull the data from this file it should be possible for use to calculate it
         class: "", // *****
-        class_bonus_options: ["", ""], // two options specific to class, present 2 for base game classes but allow user to select any two to support homebrewing
+        class_bonus_options: [""], // two options specific to class, present 2 for base game classes but allow user to select any two to support homebrewing
         class_bonus_chosen: "", // which of the two bonus options the user selects, no default?
 
         level: "", // ***** level actually needs to be a string to allow for novice tiers, no default? N0 (lowest possible level) by default?
 
         race: "", // ***** elf, dragonborn, etc. no defualt?
-        race_bonus_options: ["", ""], // two options specific to race, present 2 for base game classes but allow user to select any two to support homebrewing
+        race_bonus_options: [""], // two options specific to race, present 2 for base game classes but allow user to select any two to support homebrewing
         race_bonus_chosen: "", // which of the two bonus options the user chose
 
         height: "", // height and weight are enterred as two separate values but should be displayed in the same field in the final sheet
@@ -126,7 +126,8 @@ const charsheet = {
         // example - ["Breath Weapon: (Racial) Once per batle, make a close - quarters breath weapon atack as a quick action against one nearby enemy +7 vs PD; 3d6 fire damage",
         //            "Spirit Talking: Twice per day, you may speak to spirits." ]
         // no real limit on the number a character can have
-        talents_and_features: ["", ""]
+        talents_and_features_name: [""],
+        talents_and_features_description: [""]
 
     }, // end of 3rd page
 
@@ -164,13 +165,13 @@ const charsheet = {
 
     inventory_feats_and_journal: { // 6th page
 
-        inventory: ["", ""], // array of strings
+        inventory: [""], // array of strings
 
-        magic_items: ["", ""], // array of strings
+        magic_items: [""], // array of strings
 
         journal_and_background_story: "", // array of strins instead ?
 
-        feats: ["", ""] // array of strings, generally the name of the feat and the tier, example - "Elemental Healer (A)"
+        feats: [""] // array of strings, generally the name of the feat and the tier, example - "Elemental Healer (A)"
     }, // end of 6th page
 
 
@@ -227,7 +228,7 @@ const power = {
         power_hit: "", // can be left blank
         power_miss: "", // can be left blank
 
-        power_other: ["", ""] // array of strings (?) so the user can write any information not covered above
+        power_other: [""] // array of strings (?) so the user can write any information not covered above
     }
 
 }

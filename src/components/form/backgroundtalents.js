@@ -9,8 +9,8 @@ class BackgroundTalents extends React.Component {
       super(props);
       this.state = {
         official: true,
-        mage: false,
-        numOfIcons: 3
+          mage: false,
+          numOfIcons: Math.max(this.props.data.inventory_feats_and_journal.inventory.length, 3)
 
       };
 
@@ -89,7 +89,7 @@ class BackgroundTalents extends React.Component {
     }
 
     addOneIcon() {
-        if (this.state.numOfIcons < 10) {
+        if (this.state.numOfIcons < 15) {
             this.setState((prevState) => {
                 return {
                     ...prevState,
@@ -178,6 +178,7 @@ class BackgroundTalents extends React.Component {
                                 <Form.Control type="text"
                                     //not sure of what name yet
                                     name="featName"
+                                    value={this.props.data.background_talents.one_unique_thing}
                                     onChange={this.props.handleChange} />
                             </Col>
                         </Form.Row>
