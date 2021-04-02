@@ -141,13 +141,13 @@ export default class PrintPDF extends  React.Component
     doc.text(7,30,"FEATS").text(205,30,"GEAR EQUIPMENT & MONEY").text(405,30,"MAGIC ITEMS");
     doc.setFont('').setTextColor(''); //reset font and color
 
-    // var feats = ["Actor", "Alert", "Athlete", "Charger","Chef", "Actor", "Alert", "Athlete", "Charger","Chef", "Actor", "Alert", "Athlete", "Charger","Chef"];
-    var items = ["Actor", "Charger","Chef", "Actor", "Alert", "Athlete", "Charger","Chef"];
-    // // var magic = ["Actor", "Alert", "Athlete", "Charger","Chef", "Actor","Chef", "Actor", "Alert", "Athlete", "Charger","Chef"];
-    //
-    // this.extend_textfield(feats, doc, 10);
-    this.extend_textfield(items, doc, 208);
-    // this.extend_textfield(magic, doc, 408);
+    var feats = charsheet.inventory_feats_and_journal.feats;
+    var inventory = charsheet.inventory_feats_and_journal.inventory;
+    var magic = charsheet.inventory_feats_and_journal.magic_items
+    ;
+    this.extend_textfield(feats, doc, 10);
+    this.extend_textfield(inventory, doc, 208);
+    this.extend_textfield(magic, doc, 408);
 
     doc.rect(7, 35, 170, FIXED_HEIGHT);      //FEATS
     doc.rect(205, 35, 170, FIXED_HEIGHT);    //GEAR EQUIPMENT & MONEY
