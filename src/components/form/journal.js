@@ -179,7 +179,7 @@ class Journal extends React.Component {
 
         return (
             <Container>
-                <ProgressBar static now={99} />
+
 
                 <Form>
                     <Form.Group controlId="inventory_feats_and_journal">
