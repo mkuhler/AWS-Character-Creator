@@ -9,7 +9,12 @@ import FileSaver from 'file-saver';
 import axios from 'axios';
 import classInfo from './data.js'
 
-export default class PrintPDF extends  React.Component{
+var FIXED_HEIGHT = 180; //fixed size for FEATS, GEAR EQUIPMENT & MONEY, MAGIC ITEMS
+var HEIGHT_DIFFER = 0;     //will be used to calculate the hight difference if the textfield change in size
+
+export default class PrintPDF extends  React.Component
+{
+
 
     fileState = {
         selectedFile: null,
@@ -127,28 +132,61 @@ export default class PrintPDF extends  React.Component{
       doc.setFont('').setTextColor('').text(375, 225, ": " + saving_throws_optional); //reset font and color
     }
 
+    ////////////////////////////////////////////////////////////////////////////////
     //SECOND PAGE INFORMATION
+    ////////////////////////////////////////////////////////////////////////////////
+
     doc.addPage();
     doc.setFont('fantasy').setTextColor("#808080").setFontSize(11);
-    doc.text(7,30,"FEATS").text(205,30,"GEAR EQUIPMENT & MONEY").text(405,30,"MAGIC ITEMS").text(7,280,"JOURNAL / BACKSTORY");
-    doc.addImage(sword_image(),'PNG',7,225, 570,30);
+    doc.text(7,30,"FEATS").text(205,30,"GEAR EQUIPMENT & MONEY").text(405,30,"MAGIC ITEMS");
+    doc.setFont('').setTextColor(''); //reset font and color
 
+    // var feats = ["Actor", "Alert", "Athlete", "Charger","Chef", "Actor", "Alert", "Athlete", "Charger","Chef", "Actor", "Alert", "Athlete", "Charger","Chef"];
+    var items = ["Actor", "Charger","Chef", "Actor", "Alert", "Athlete", "Charger","Chef"];
+    // // var magic = ["Actor", "Alert", "Athlete", "Charger","Chef", "Actor","Chef", "Actor", "Alert", "Athlete", "Charger","Chef"];
+    //
+    // this.extend_textfield(feats, doc, 10);
+    this.extend_textfield(items, doc, 208);
+    // this.extend_textfield(magic, doc, 408);
 
-    //FEATS
-    doc.rect(7, 35, 170, 180);
-
-    //GEAR EQUIPMENT & MONEY
-    doc.rect(205, 35, 170, 180);
-
-    //MAGIC ITEMS
-    doc.rect(405, 35, 170, 180);
+    doc.rect(7, 35, 170, FIXED_HEIGHT);      //FEATS
+    doc.rect(205, 35, 170, FIXED_HEIGHT);    //GEAR EQUIPMENT & MONEY
+    doc.rect(405, 35, 170, FIXED_HEIGHT);    //MAGIC ITEMS
 
     //BACKSTORY
-    doc.rect(7, 285, 570, 510);
+    doc.rect(7, 285 + HEIGHT_DIFFER, 570, 510);
 
+
+    doc.setFont('fantasy').setTextColor("#808080").setFontSize(11);
+    doc.text(7,280 + HEIGHT_DIFFER, "JOURNAL / BACKSTORY");
+    doc.addImage(sword_image(),'PNG',7,225 + HEIGHT_DIFFER, 570,30);
 
     doc.save("My_Character.pdf");
     }
+
+  /**
+  * Adds items from array to pdf while checking
+  * to see if strings exceed space from text field.
+  *
+  * @param  items   the list that will be added to document
+  * @param  doc     the pdf document
+  * @param  x_Cord  the cordinate to start place the string
+  * @return         void
+  */
+  extend_textfield = (items, doc, x_Cord) => {
+    HEIGHT_DIFFER = 180;
+
+    var y_Cord = 50;
+    for(var i = 0; i <items.length; i++)
+    {
+      doc.text(x_Cord, y_Cord, items[i]);
+      if(y_Cord > FIXED_HEIGHT){
+        FIXED_HEIGHT += 15
+      }
+      y_Cord += 15;
+    }
+      HEIGHT_DIFFER = FIXED_HEIGHT - HEIGHT_DIFFER;
+  }
 
 
   jsonGenerator = () => {
