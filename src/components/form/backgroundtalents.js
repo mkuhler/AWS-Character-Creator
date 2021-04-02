@@ -10,7 +10,7 @@ class BackgroundTalents extends React.Component {
       this.state = {
         official: true,
         mage: false,
-        numOfIcons: 3
+        numOfIcons: 1
 
       };
 
@@ -83,29 +83,20 @@ class BackgroundTalents extends React.Component {
           </Col>
           </Form.Row>)
 
-
-
         inputs.push()
       }
-
-
       return inputs;
-
-
-
-
-
-
-
     }
 
-    addOneIcon(){
-      this.setState((prevState) => {
-        return{
-          ...prevState,
-          numOfIcons: prevState.numOfIcons + 1
+    addOneIcon() {
+        if (this.state.numOfIcons < 10) {
+            this.setState((prevState) => {
+                return {
+                    ...prevState,
+                    numOfIcons: prevState.numOfIcons + 1
+                }
+            })
         }
-      })
     }
 
     subOneIcon(){
