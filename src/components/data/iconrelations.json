@@ -1,0 +1,10 @@
+{
+  "official" : ["Mageflame", "Conqueror", "Tempter", "Lord of the Forge",
+  "Elven Court", "Ivory Throne", "Gatekeeper", "Wildwalker", "Deathless", "Devourer", "Godspeaker",
+  "Faceless", "Council of Scales", "Dweller Below"],
+
+  "magelist" : ["Archmage", "Crusader", "Diabolist", "Dwarf King", "Elf Queen", "Emperor", "Great Gold Wyrm",
+    "High Druid", "Lich King", "Orc Lord", "Priestess", "Prince of Shadows", "The Three" ],
+
+  "custom" : []
+}
