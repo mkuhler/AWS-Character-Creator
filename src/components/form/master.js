@@ -1,12 +1,14 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import gamedata from './data.js';
+import GameData from './data.js';
 import InfoCard from './infocard.js';
 import CharacterDetails from './characterdetails.js';
 import PrintPDF from "./PrintPDF.js";
 import charsheet from './CharSheetData.js';
 import CharacterAttributes from './characterattributes.js';
 import BackgroundTalents from './backgroundtalents.js';
+import UploadButton from './UploadButton.js';
+import { parse } from '../../../node_modules/url/url.js';
 import Journal from './journal.js';
 
 
@@ -18,12 +20,17 @@ class MasterForm extends React.Component {
 
     this.state = {
       step: 1,
-      data: charsheet
+      currentMajorVersion: 1,
+      currentMinorVersion: 0,
+      data: charsheet,
+      defaultSheet: charsheet,
+      fileState: null,
+      fileUploadStatus: "Upload a File"
     };
 
   this.handleChange = this.handleChange.bind(this)
   this.dataChange = this.dataChange.bind(this)
-
+  this.onFileChange = this.onFileChange.bind(this)
   }
 
   nextStep = () => {
@@ -44,8 +51,133 @@ class MasterForm extends React.Component {
   }
 
 
+  onFileChange = event => {
+
+      //console.log(event.target.files[0])
+      //this.fileState = { selectedFile: event.target.files[0] };
+      //this.fileState.nameofFile = String(this.fileState.selectedFile.name);
+      // console.log('hello');
+      const fileReader = new FileReader();
+
+      if (event.target.files[0] != null) {
+
+          console.log("Event target file: " + event.target.files[0].name);
+
+          var allowedFileTypes = /(\.txt)$/i;         // /(\.txt|\.doc|\.docx)$/i;
+          if (allowedFileTypes.exec(event.target.files[0].name))
+          {
+              fileReader.readAsText(event.target.files[0], "UTF-8");
+              fileReader.onload = event => {
+                  console.log("e.target.result", event.target.result);
+                  //setFiles(event.target.result);
+                  this.state.selectedFile = event.target.result;
+
+                  var parsedFile = JSON.parse(event.target.result);
+
+                  if (parsedFile.major_version != null && parsedFile.major_version == this.state.currentMajorVersion) {
+                      console.log("parsedFile Major Version # ", parsedFile.major_version);
+
+                      //var keysMatch = this.checkfileCompatibility(parsedFile);
+
+                      var keysMatch = true;
+                      var mismatchedKey = "";
+
+
+                      if (keysMatch)
+                      {
+
+                          Object.assign(this.state.data, parsedFile);
+                          //for (var i = 0; i < Object.keys(parsedFile).length; i++)
+                          //{
+                          //    var key1 = Object.keys(parsedFile)[i];
+
+                          //    console.log("Checking outer key: " + key1);
+                          //    Object.assign(this.state.data.[key1], parsedFile.[key1]);
+                          //}
+
+                          //for (var i = 0; i < Object.keys(parsedFile).length; i++)
+                          //{
+                          //    var key1 = Object.keys(parsedFile)[i];
+
+                          //    console.log("Checking outer key: " + key1);
+                          //    if (typeof parsedFile.[key1] !== 'object') // key is not an object
+                          //    {
+                          //        console.log(key1 + " is not an object");
+                          //        this.state.data.[key1] = parsedFile.[key1];
+                          //    }
+                          //    if (typeof  parsedFile.[key1] === 'object')
+                          //    {
+                          //        console.log(key1 + " is an object");
+                          //        for (var j = 0; j < Object.keys(parsedFile.[key1]).length; j++)
+                          //        {
+                          //            var key2 = Object.keys(parsedFile.[key1])[j];
+                          //            console.log("Checking inner key: " + Object.keys(parsedFile.[key1])[j]);
+
+                          //            if (typeof parsedFile.[key1].[key2] !== 'object') // key is not an object
+                          //            {
+                          //                this.state.data.[key1].[key2] = parsedFile.[key1].[key2];
+                          //            }
+                          //            if (typeof parsedFile.[key1].[key2] === 'object')
+                          //            {
+
+
+                          //console.log(parsedFile);
+                          console.log(this.state.data);
+                          //console.log("Charsheet: " + this.state.data);
+                          //console.log("Character name: " + this.state.data.basic_info.name);
+
+                          let statusLabel = document.getElementById('fileStatus');
+                          statusLabel.innerText = "File Uploaded";
+
+
+                          this.forceUpdate()
+
+                      }
+                      else // key mismatch
+                      {
+                          let statusLabel = document.getElementById('fileStatus');
+                          statusLabel.innerText = "Key: " + mismatchedKey + " does not match expected input";
+                      }
+
+                      //CharacterDetails.render();
+                  }
+                  else // version numbers dont match
+                  {
+                      let statusLabel = document.getElementById('fileStatus');
+                      statusLabel.innerText = "Missing file version";
+
+                      if (parsedFile.major_version != null && parsedFile.minor_version != null)
+                      {
+                          statusLabel.innerText = "Incompatible file version: " + parsedFile.major_version + "." + parsedFile.minor_version;
+                      }
+                  }
+              };
+          }
+          else // file extensions incorrect
+          {
+              let statusLabel = document.getElementById('fileStatus');
+              statusLabel.innerText = "Incorrect file extension";
+          }
+      }
+      else // no file selected
+      {
+          let statusLabel = document.getElementById('fileStatus');
+          statusLabel.innerText = "No File Selected";
+      }
+
+      this.forceUpdate()
+    }
+
+
+
+    
+
+
   handleChange(event) {
-    const { name, value } = event.target
+      const { name, value } = event.target
+
+      console.log(event)
+
     //Custom attributes need to be grabbed from the DOM api
     const category = event.target.id
     const subcategory = event.target.getAttribute('subcategory')
@@ -53,6 +185,9 @@ class MasterForm extends React.Component {
 
     if (subcategory != null) {
       this.state.data.[category].[subcategory].[name] = value
+
+    } else if (category === "ability_scores"){
+      this.state.data.[category].[name] = parseInt(value)
     } else if(arrayindex != null){
       this.state.data.[category].[name].[arrayindex] = value
     }else {
@@ -61,6 +196,27 @@ class MasterForm extends React.Component {
     this.forceUpdate()
 
     if (name == "class") {
+
+      const class_list = GameData.classes
+      var result = class_list.find(game_class => game_class.name === value);
+      if (typeof(result) === 'undefined' || value == null) {
+        this.state.data.[category].class_bonus_options = []
+      } else {
+        this.state.data.[category].class_bonus_options = result.class_bonus
+      }
+      this.state.data.[category].class_bonus_chosen = ""
+    }
+
+    if (name == "race") {
+      const race_list = GameData.races
+      var result = race_list.find(game_race => game_race.name === value);
+      if (typeof(result) === 'undefined' || value == null) {
+        this.state.data.[category].race_bonus_options = []
+      } else {
+        this.state.data.[category].race_bonus_options = result.race_bonus
+      }
+      this.state.data.[category].race_bonus_chosen = ""
+      
       const class_list = gamedata.classes
       var result = class_list.find(game_class => {
         if(game_class.name === value) {
@@ -83,9 +239,10 @@ class MasterForm extends React.Component {
     //console.log(subcategory)
     //console.log(category)
     //this.state.data.[category].[name] = value
-    console.log(this.state.data.basic_info)
+    //console.log(this.state.data.basic_info)
     // console.log(this.state.data.character_attributes)
-    // console.log(this.state.data.ability_scores)
+      // console.log(this.state.data.ability_scores)
+
   }
 
 
@@ -98,9 +255,24 @@ class MasterForm extends React.Component {
   dataChange(value){
     var data = {...this.state.data}
     data.ability_scores = value
-    this.setState({data})
+    this.state.data.ability_scores = value
 
+    this.forceUpdate()
     console.log(this.state.data.ability_scores)
+  }
+
+  //Function that takes in an event to check if its value contains only numerical input
+  //returns true if it contains on numbers and calls handleChange to handle backend changes
+  onlyNum = (event) => {
+    const re = /^[0-9\b]+$/;
+
+    //checks if value is blank and then checks if the value contains only numerical input
+    if (event.target.value === '' || re.test(event.target.value)) {
+      this.handleChange(event)
+      return true
+    }
+    else
+      return false
   }
 
   render() {
@@ -116,6 +288,7 @@ class MasterForm extends React.Component {
                 handleChange = {this.handleChange}
                 dataChange = {this.dataChange}
                 data = {this.state.data}
+                onlyNum = {this.onlyNum}
                 />
             </Col>
             <Col xs={4}>
@@ -130,6 +303,9 @@ class MasterForm extends React.Component {
                 handleChange={this.handleChange}
               />
             </Col>
+              <UploadButton
+              onChange={this.onFileChange}
+              />
             <PrintPDF
               data={this.state.data}
             />
@@ -149,9 +325,11 @@ class MasterForm extends React.Component {
                 data={this.state.data}
               />
             </Col>
+
             <PrintPDF
               data={this.state.data}
             />
+
           </Row>
 
         </Container>
@@ -175,6 +353,7 @@ class MasterForm extends React.Component {
 
         </Container>
 
+
       case 4:
         <h3> Inventory & Journal </h3>
         return <Container>
@@ -194,6 +373,7 @@ class MasterForm extends React.Component {
           </Row>
 
         </Container>
+
 
     }
   }

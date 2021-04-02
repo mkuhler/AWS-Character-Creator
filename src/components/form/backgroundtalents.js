@@ -1,4 +1,5 @@
 import React from 'react';
+import charsheet from './CharSheetData.js';
 import { Button, Form, Col, Container, ProgressBar } from 'react-bootstrap';
 import IconRelationships from "../data/iconrelations.json";
 
@@ -176,6 +177,7 @@ class BackgroundTalents extends React.Component {
                                 <Form.Label>One Unique Thing</Form.Label>
                                 <Form.Control type="text"
                                     name="one_unique_thing"
+                                    value={this.props.data.background_talents.one_unique_thing}
                                     onChange={this.props.handleChange} />
                             </Col>
                         </Form.Row>

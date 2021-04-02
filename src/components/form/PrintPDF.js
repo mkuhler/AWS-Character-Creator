@@ -7,58 +7,23 @@ import { lengthy_entry, get_ellispis } from './FontFunctions.js';
 import { shield, attack_information, intitive } from './encodebase64.js';
 import FileSaver from 'file-saver';
 import axios from 'axios';
+import { parse } from '../../../node_modules/querystring/index.js';
 
 
 export default class PrintPDF extends  React.Component{
 
     fileState = {
         selectedFile: null,
-        nameofFile: "Upload a file"
     };
-
-    onFileChange = event => {
-        this.fileState = { selectedFile: event.target.files[0] };
-        this.fileState.nameofFile = String(this.fileState.selectedFile.name);
-    };
-
-    onFileUpload = () => {
-        const formData = new FormData();
-
-        // formData.append("myFile", this.fileState.selectedFile, this.fileState.selectedFile.name);
-
-        //this.fileState.nameofFile = String(this.fileState.selectedFile.name);
-
-        charsheet = JSON.parse(this.fileState.text);
-
-        // console.log(this.state.selectedFile);
-
-        axios.post("api/uploadfile", formData);
-    };
-
-    fileData = () => {
-
-        if (this.fileState.selectedFile) {
-            return (
-                <div>
-                    <h2> File Details: </h2>
-                    <p> File Name: {this.fileState.selectedFile.name} </p>
-                    <p> File Type: {this.fileState.selectedFile.type} </p>
-                </div>
-            );
-        }
-        else {
-        }
-    };
-
 
   pdfGenerator = () =>{
     var doc = new jsPDF('p', 'pt');
 
-    var name = charsheet.basic_info.name;
-    var race_and_class = charsheet.basic_info.race_info.race + " - " +charsheet.basic_info.class_info.class;
-    var height_and_weight = charsheet.basic_info.height + "  -  " +charsheet.basic_info.weight;
-    var age_and_gender = charsheet.basic_info.age + "  -  " +charsheet.basic_info.gender;
-    var level = charsheet.basic_info.level;
+    var name = this.props.data.basic_info.name;
+    var race_and_class = this.props.data.basic_info.race + " - " +this.props.data.basic_info.class;
+    var height_and_weight = this.props.data.basic_info.height + "  -  " +this.props.data.basic_info.weight;
+    var age_and_gender = this.props.data.basic_info.age + "  -  " +this.props.data.basic_info.gender;
+    var level = this.props.data.basic_info.level;
 
     doc.addImage(shield(),'PGN',170,10, 60,70);
     doc.addImage(attack_information(), 'PGN', 270, 10, 210, 90);
@@ -84,9 +49,14 @@ export default class PrintPDF extends  React.Component{
     }
 
 
-  jsonGenerator = () => {
+    jsonGenerator = () => {
 
-    var jsonString = JSON.stringify(charsheet);
+        // The user should be able to upload a file, have the contents of that file populate the fields, and be able to re-download the modified file
+        // currently the user can upload and re-download a file, but any changes made after the upload do not populate in when redownloading,
+        // there seems to be an issue with the distinction between charsheet and this.charsheet
+        var jsonString;
+        jsonString = JSON.stringify(this.props.data);
+
     var jsonBlob = new Blob([jsonString], { type: "text/plain;charset=utf-8" });
 
     FileSaver.saveAs(jsonBlob, "My_Character.txt");
@@ -97,16 +67,7 @@ export default class PrintPDF extends  React.Component{
       <div className="Button">
         <Button variant="outline-primary" onClick={this.pdfGenerator}>Print PDF</Button>
         <Button variant="outline-primary" onClick={this.jsonGenerator}>Download JSON</Button>
-            <Form variant="outline-primary">
-                <Form.File 
-                    id="custom-file"
-                    label= {this.fileState.nameofFile}
-                    custom
-                    onChange= {this.onFileChange}
-                />
-            </Form>
-        <Button variant="outline-primary" onClick={this.onFileUpload}>Upload File</Button>
-        {this.fileData()}
+
       </div>
     );
     }
