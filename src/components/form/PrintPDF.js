@@ -172,7 +172,7 @@ export default class PrintPDF extends  React.Component
       <div className="Button">
         <Button variant="outline-primary" onClick={this.pdfGenerator}>Print PDF</Button>
         <Button variant="outline-primary" onClick={this.jsonGenerator}>Download JSON</Button>
-      </div>  
+      </div>
     );
     }
 }

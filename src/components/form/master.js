@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, ProgressBar } from 'react-bootstrap';
 import GameData from './data.js';
 import InfoCard from './infocard.js';
 import CharacterDetails from './characterdetails.js';
@@ -280,6 +280,7 @@ class MasterForm extends React.Component {
     switch (step) {
       case 1:
         return <Container>
+          <ProgressBar now={0} />
           <Row>
 
             <Col xs={8}>
@@ -315,6 +316,7 @@ class MasterForm extends React.Component {
       case 2:
         <h3>Background Information Page Two</h3>
         return <Container>
+          <ProgressBar now={25} />
           <Row>
 
             <Col xs={10}>
@@ -336,6 +338,7 @@ class MasterForm extends React.Component {
       case 3:
         <h3>Background Information Page Three</h3>
         return <Container>
+          <ProgressBar now={50} />
           <Row>
 
             <Col xs={10}>
@@ -357,6 +360,7 @@ class MasterForm extends React.Component {
       case 4:
         <h3> Inventory & Journal </h3>
         return <Container>
+          <ProgressBar now={75} />
           <Row>
 
             <Col xs={10}>

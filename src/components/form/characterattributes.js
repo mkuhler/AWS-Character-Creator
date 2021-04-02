@@ -1,6 +1,6 @@
 import React from 'react';
 import charsheet from './CharSheetData.js';
-import { Button, Form, Col, Container, ProgressBar } from 'react-bootstrap';
+import { Button, Form, Col, Container } from 'react-bootstrap';
 
 class CharacterAttributes extends React.Component {
 
@@ -16,7 +16,7 @@ class CharacterAttributes extends React.Component {
         return (
 
             <Container>
-                <ProgressBar animated now={33} />
+
 
                 <Form>
                     <Form.Group controlId="character_attributes">
