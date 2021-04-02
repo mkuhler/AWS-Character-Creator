@@ -5,5 +5,14 @@ export const font = {
     },
     type_font:{
       medieval: "truesdell"
-    }
-}
+    },
+    LINE_HEIGHT: 1.2
+};
+
+// Unit: Points
+export const page = {
+  PAGE_WIDTH: 612,
+  PAGE_HEIGHT: 792,    
+  PAGE_MARGIN: 36,
+  DEFAULT_PADDING: 18
+};
