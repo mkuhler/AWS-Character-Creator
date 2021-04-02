@@ -69,84 +69,23 @@ class BackgroundTalents extends React.Component {
 
     createDropDown(){
       var inputs = []
-        for (var i = 0; i < this.state.numOfIcons; i++){
-
-            console.log("BACKGROUND: " + this.props.data.background_talents);
-           // console.log("ICONS: " + this.props.data.background_talents.icon_relationships);
-            //console.log("NAME: " + this.props.data.background_talents.icon_relationships_names[i]);
-            //console.log("POINT: " + this.props.data.background_talents.icon_relationships_points[i]);
-            //console.log("STATUS: " + this.props.data.background_talents.icon_relationships_statuses[i]);
-
-            var nameVal = ""; 
-            var pointVal = "";
-            var statusVal = "";
-
-            if (this.props.data.background_talents.icon_relationships_names != null && this.props.data.background_talents.icon_relationships_names[i] != null) {
-                nameVal = this.props.data.background_talents.icon_relationships_names[i]
-
-                inputs.push(
-                    <Form.Row>
-                        <Col xs={5} >
-                            <Form.Control name="icon_relationships_names" list="icon_relationship_names" arrayindex={i} type="text" value={nameVal} onChange={this.props.handleChange} />
-                        </Col>
-                        <Col xs={2}>
-                            <Form.Control name="icon_relationships_points" type="text" value={pointVal} onChange={this.props.handleChange} />
-                        </Col>
-                        <Col xs={5}>
-                            <Form.Control name="icon_relationships_statuses" type="select" value={statusVal} onChange={this.props.handleChange} />
-                        </Col>
-                    </Form.Row>)
-
-
-
-                inputs.push()
-            }
-
-            //if (i < Object.keys(this.props.data.background_talents.icon_relationships.name).length - 1)
-            //{
-            //    nameVal = this.props.data.background_talents.icon_relationships.name[i]
-            //}
-
-            //if (i < this.props.data.background_talents.icon_relationships.name.length - 1)
-            //{
-            //    pointVal = this.props.data.background_talents.icon_relationships.points[i]
-            //}
-
-            //if (i < this.props.data.background_talents.icon_relationships.name.length - 1)
-            //{
-            //    statusVal = this.props.data.background_talents.icon_relationships.status[i]
-            //}
-
-            else {
-
-
-                inputs.push(
-                    <Form.Row>
-                        <Col xs={5} >
-                            <Form.Control name="icon_relationships_names" list="icon_relationships" arrayindex={parseInt(i)} type="text" onChange={this.props.handleChange} />
-                        </Col>
-                        <Col xs={2}>
-                            <Form.Control name="" type="text" onChange={this.props.handleChange} />
-                        </Col>
-                        <Col xs={5}>
-                            <Form.Control name="" type="select" onChange={this.props.handleChange} />
-                        </Col>
-                    </Form.Row>)
-            }
-
+      for(var i = 0; i < this.state.numOfIcons; i++){
+        inputs.push(
+          <Form.Row>
+          <Col xs = {5} >
+            <Form.Control name = "icon_relationship_names" type="text" arrayindex={i}  list="icon_relationships"  onChange={this.props.handleChange}/>
+          </Col>
+          <Col xs = {2}>
+            <Form.Control name = "icon_relationship_points" type="text" arrayindex={i} onChange={this.props.handleChange} />
+          </Col>
+          <Col xs = {5}>
+            <Form.Control name = "icon_relationship_statuses" type="text" arrayindex={i} onChange={this.props.handleChange}/>
+          </Col>
+          </Form.Row>)
 
         inputs.push()
       }
-
-
       return inputs;
-
-
-
-
-
-
-
     }
 
     addOneIcon() {
@@ -177,8 +116,7 @@ class BackgroundTalents extends React.Component {
 
 
     render() {
-        console.log(IconRelationships.official[0])
-        console.log(this.state.numOfIcons)
+
         console.log(this.props.data.background_talents)
 
         return (

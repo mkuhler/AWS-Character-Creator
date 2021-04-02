@@ -60,7 +60,7 @@ class Journal extends React.Component {
         inputs.push(
           <Form.Row>
           <Col xs = {7} >
-            <Form.Control name = "feats" type="text" arrayindex={i} onChange={this.props.handleChange}/>
+            <Form.Control name = "inventory" type="text" arrayindex={i} onChange={this.props.handleChange}/>
           </Col>
           </Form.Row>)
         inputs.push()
@@ -89,7 +89,7 @@ class Journal extends React.Component {
         inputs.push(
           <Form.Row>
           <Col xs = {7} >
-            <Form.Control name = "magic_items" type="text" arrayindex={i} onChange={this.props.handleChange}/>
+            <Form.Control name = "feats" type="text" arrayindex={i} onChange={this.props.handleChange}/>
           </Col>
           </Form.Row>)
         inputs.push()
