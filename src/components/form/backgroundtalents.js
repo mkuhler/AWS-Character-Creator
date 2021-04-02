@@ -73,13 +73,13 @@ class BackgroundTalents extends React.Component {
         inputs.push(
           <Form.Row>
                 <Col xs={5} >
-                    <Form.Control name="icon_relationship_names" type="text" arrayindex={i} list="icon_relationships" value={this.props.data.background_talents.icon_relationship_names[i]} onChange={this.props.handleChange} />
+                    <Form.Control name="icon_relationship_names" type="text" arrayindex={i} list="icon_relationships" value={this.props.data.background_talents.icon_relationship_names[i]} placeholder="Name" onChange={this.props.handleChange} />
           </Col>
           <Col xs = {2}>
-                    <Form.Control name="icon_relationship_points" type="text" arrayindex={i} value={this.props.data.background_talents.icon_relationship_points[i]} onChange={this.props.handleChange} />
+                    <Form.Control name="icon_relationship_points" type="text" arrayindex={i} value={this.props.data.background_talents.icon_relationship_points[i]} placeholder="Points" onChange={this.props.handleChange} />
           </Col>
           <Col xs = {5}>
-                    <Form.Control name="icon_relationship_statuses" type="text" arrayindex={i} value={this.props.data.background_talents.icon_relationship_statuses[i]} onChange={this.props.handleChange}/>
+                    <Form.Control name="icon_relationship_statuses" type="text" arrayindex={i} value={this.props.data.background_talents.icon_relationship_statuses[i]} placeholder="Status" onChange={this.props.handleChange}/>
           </Col>
           </Form.Row>)
 
