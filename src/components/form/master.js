@@ -9,6 +9,7 @@ import CharacterAttributes from './characterattributes.js';
 import BackgroundTalents from './backgroundtalents.js';
 import UploadButton from './UploadButton.js';
 import { parse } from '../../../node_modules/url/url.js';
+import Journal from './journal.js';
 
 
 //import the rest of form components
@@ -180,17 +181,22 @@ class MasterForm extends React.Component {
     //Custom attributes need to be grabbed from the DOM api
     const category = event.target.id
     const subcategory = event.target.getAttribute('subcategory')
+    const arrayindex = event.target.getAttribute('arrayindex')
 
     if (subcategory != null) {
       this.state.data.[category].[subcategory].[name] = value
+
     } else if (category === "ability_scores"){
       this.state.data.[category].[name] = parseInt(value)
-    } else {
+    } else if(arrayindex != null){
+      this.state.data.[category].[name].[arrayindex] = value
+    }else {
       this.state.data.[category].[name] = value
     }
     this.forceUpdate()
 
     if (name == "class") {
+
       const class_list = GameData.classes
       var result = class_list.find(game_class => game_class.name === value);
       if (typeof(result) === 'undefined' || value == null) {
@@ -210,6 +216,24 @@ class MasterForm extends React.Component {
         this.state.data.[category].race_bonus_options = result.race_bonus
       }
       this.state.data.[category].race_bonus_chosen = ""
+      
+      const class_list = gamedata.classes
+      var result = class_list.find(game_class => {
+        if(game_class.name === value) {
+          this.state.data.[category].class_bonus_options = game_class.class_bonus
+          console.log(game_class.class_bonus)
+        }
+      })
+    }
+
+    if (name == "race") {
+      const race_list = gamedata.races
+      var result = race_list.find(game_race => {
+        if(game_race.name === value) {
+          this.state.data.[category].race_bonus_options = game_race.race_bonus
+          console.log(game_race.race_bonus)
+        }
+      })
     }
     // console.log(event.target.id)
     //console.log(subcategory)
@@ -220,6 +244,12 @@ class MasterForm extends React.Component {
       // console.log(this.state.data.ability_scores)
 
   }
+
+
+
+
+
+
 
   //Literally only updates ability score values for backend
   dataChange(value){
@@ -310,6 +340,27 @@ class MasterForm extends React.Component {
 
             <Col xs={10}>
               <BackgroundTalents
+                nextStep={this.nextStep}
+                prevStep={this.prevStep}
+                handleChange={this.handleChange}
+                data={this.state.data}
+              />
+            </Col>
+            <PrintPDF
+              data={this.state.data}
+            />
+          </Row>
+
+        </Container>
+
+
+      case 4:
+        <h3> Inventory & Journal </h3>
+        return <Container>
+          <Row>
+
+            <Col xs={10}>
+              <Journal
                 nextStep={this.nextStep}
                 prevStep={this.prevStep}
                 handleChange={this.handleChange}

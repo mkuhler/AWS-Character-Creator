@@ -12,7 +12,7 @@ const charsheet = {
     linkToRepo: "https://github.com/mkuhler/AWS-Character-Creator",
 
     // a version number should be set somewhere in the "main part of the program. This would be stored as a variable in a newly created sheet or read in from an existing one
-    major_version: 1, // if major versions are different then the sheet should no longer be compatible. 
+    major_version: 1, // if major versions are different then the sheet should no longer be compatible.
     minor_version: 0, // if minor versions are differnt but major versions are the same the sheet should still be compatible
     // major and minor version would be combined in to a version number, i.e. 1.2.15
 
@@ -34,7 +34,7 @@ const charsheet = {
         race_bonus_options: ["", ""], // two options specific to race, present 2 for base game classes but allow user to select any two to support homebrewing
         race_bonus_chosen: "", // which of the two bonus options the user chose
 
-        height: "", // height and weight are enterred as two separate values but should be displayed in the same field in the final sheet 
+        height: "", // height and weight are enterred as two separate values but should be displayed in the same field in the final sheet
         weight: "",
 
         age: "", // similar to height/weight, age and gender are two separate fields but are displayed in the same box on the final sheet
@@ -93,7 +93,7 @@ const charsheet = {
     }, // end of 2nd page
 
 
-    background_talents: { // 3rd page, deals with information related to icon relationships, "one unique thing", backgrounds, and talents and features 
+    background_talents: { // 3rd page, deals with information related to icon relationships, "one unique thing", backgrounds, and talents and features
 
         // an array of tuples, each tuple has a string for a name, an int value for relationship tier, and a string value for the relationship being negative/positive
         // example - icon relationships [("Great Gold Wyrm", 1, "positive"), ("Darkness Between Starts", 2, "negative")]
@@ -184,7 +184,7 @@ const charsheet = {
             text_box: {
                 title: "",
                 content: ""
-                
+
             },
 
             text_box: {
