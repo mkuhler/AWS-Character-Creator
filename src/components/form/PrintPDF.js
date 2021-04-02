@@ -3,7 +3,7 @@ import CharacterDetails from './characterdetails.js';
 import {Button, Form, Col, Figure} from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import charsheet from './CharSheetData.js';
-import { lengthy_entry, get_ellispis, createTextBox, createTitle } from './FontFunctions.js';
+import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph } from './FontFunctions.js';
 import { font, page } from './FontSizing.js';
 import { basic_info, sword_image } from './encodebase64.js';
 import FileSaver from 'file-saver';
@@ -100,28 +100,32 @@ export default class PrintPDF extends  React.Component
 
     var sectionTitle;
     var i;
-    var offset;
+    var offset = (page.PAGE_MARGIN / 2);
+    var boxWidth = (page.PAGE_WIDTH / 3) - offset - 40;
     var height = 280;
+    var sectionText = "";
+
     for (i = 0; i < 3; i++) {
       switch(i) {
         case 0:
           sectionTitle = "Icon Relationships";
+          sectionText = "";
           break;
         case 1:
           sectionTitle = "One Unique Thing";
+          sectionText = charsheet.background_talents.one_unique_thing;
           break;
         case 2:
           sectionTitle = "Backgrounds";
+          sectionText = "";
           break;
       }
       
-      offset = page.PAGE_MARGIN / 2;
+      // TODO: Figure out how to make the boxes full-width without the -25 in width for line 121
       createTitle(doc, offset + (page.PAGE_WIDTH / 3 * i), height, sectionTitle);
-      createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 25, 75, 0);
+      var paragraph = createParagraph(doc, sectionText, boxWidth - page.DEFAULT_PADDING);
+      createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, paragraph);
     }
-    // Icon Relationships
-    // One Unique Thing
-    // Backgrounds
 
     ////////////////////////////////////////////////////////////////////////////////
     //SECOND PAGE INFORMATION

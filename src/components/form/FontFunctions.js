@@ -98,13 +98,11 @@ export function getTextHeight(text,  fontSize = font.font_size.DEFAULT_FONT_SIZE
  * @param  {String} font          = font.type_font.DEFAULT, text font
  * @return {Array}                Array of string lines split by maxLineWidth
  */
-export function createParagraph(doc, text, maxLineWidth, font = font.type_font.DEFAULT, fontSize = font.font_size.DEFAULT_FONT_SIZE) {
-  var textLines = doc
-    .setFont(font)
-    .setFontSize(fontSize)
-    .splitTextToSize(text, maxLineWidth);
-
-    return textLines;
+export function createParagraph(doc, text, maxLineWidth, fontType = font.type_font.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
+    //var textLines = doc.splitTextToSize(text, maxLineWidth);
+    console.log(fontType);
+    return  doc.setFontSize(fontSize)
+               .splitTextToSize(text, maxLineWidth);
 }
 
 /**
@@ -117,7 +115,9 @@ export function createParagraph(doc, text, maxLineWidth, font = font.type_font.D
  * @param  {Number} padding       = page.DEFAULT_PADDING, Padding of the text box
  * @return {jsPDF}                  Rectangle around text
  */
-export function createTextBox(doc, x, y, width, height, padding = page.DEFAULT_PADDING) {
-  return doc.rect(x - padding, y - padding, width + padding, height + padding);
+export function createTextBox(doc, x, y, width, height, text = "", padding = page.DEFAULT_PADDING) {
+  
+  return doc.text(text, x + padding, y + padding)
+            .rect(x, y, width + padding, height + padding);
   //return doc.rect(x, y, width, height);
 }
