@@ -2,20 +2,15 @@ import { font } from './FontSizing.js'
 
 function measureInputText(name)
 {
-    console.log("--------measureInputText--------");
-
     var canvas = document.createElement("canvas");
     var ctx = canvas.getContext("2d");
     var txtWidth = ctx.measureText(name).width;
-    console.log(txtWidth);
     return txtWidth;
 }
 
 export function lengthy_entry(entry)
 {
-    console.log("--------lengthy_entry--------");
     var inputLength = Math.round(measureInputText(entry));
-    console.log(inputLength);
 
     if(inputLength > 120 && inputLength < 175)
     {
