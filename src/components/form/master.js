@@ -170,7 +170,7 @@ class MasterForm extends React.Component {
 
 
 
-    
+
 
 
   handleChange(event) {
@@ -216,8 +216,8 @@ class MasterForm extends React.Component {
         this.state.data.[category].race_bonus_options = result.race_bonus
       }
       this.state.data.[category].race_bonus_chosen = ""
-      
-      const class_list = gamedata.classes
+
+      const class_list = GameData.classes
       var result = class_list.find(game_class => {
         if(game_class.name === value) {
           this.state.data.[category].class_bonus_options = game_class.class_bonus
@@ -227,7 +227,7 @@ class MasterForm extends React.Component {
     }
 
     if (name == "race") {
-      const race_list = gamedata.races
+      const race_list = GameData.races
       var result = race_list.find(game_race => {
         if(game_race.name === value) {
           this.state.data.[category].race_bonus_options = game_race.race_bonus
