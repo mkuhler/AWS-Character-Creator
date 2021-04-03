@@ -3,15 +3,13 @@ import CharacterDetails from './characterdetails.js';
 import {Button, Form, Col, Figure} from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import charsheet from './CharSheetData.js';
-import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph } from './FontFunctions.js';
-import { font, page } from './FontSizing.js';
+import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph, extend_textfield } from './PDFFunctions.js';
+import { font, page, feat_magic_gear } from './PDFConstants.js';
 import { basic_info, sword_image } from './encodebase64.js';
 import FileSaver from 'file-saver';
 import axios from 'axios';
 import { parse } from '../../../node_modules/querystring/index.js';
-
-var FIXED_HEIGHT = 180; //fixed size for FEATS, GEAR EQUIPMENT & MONEY, MAGIC ITEMS
-var HEIGHT_DIFFER = 0;     //will be used to calculate the hight difference if the textfield change in size
+import { renderToString } from "react-dom/server";
 
 export default class PrintPDF extends  React.Component
 {
@@ -51,7 +49,11 @@ export default class PrintPDF extends  React.Component
     var saving_throws_optional = charsheet.character_attributes.saving_throws_optional;
     var death_saves_max = charsheet.character_attributes.death_saves_max;
     var icon_relationships = charsheet.background_talents.icon_relationships;
+    var icon_names = icon_relationships.name;
+    var icon_points = icon_relationships.points;
+    var icon_statuses = icon_relationships.status;
     var icon_relationships_other = charsheet.background_talents.icon_relationship_other;
+    var backgrounds = charsheet.background_talents.backgrounds;
 
     doc.addImage(basic_info(),'PNG',7,15, 570,247);
 
@@ -105,36 +107,47 @@ export default class PrintPDF extends  React.Component
     var offset = (page.PAGE_MARGIN / 2);
     var boxWidth = (page.PAGE_WIDTH / 3) - offset - 40;
     var height = 280;
-    var sectionText = "";
+    var line = "";
 
     for (i = 0; i < 3; i++) {
+      var sectionText = [];
+
       switch(i) {
         case 0:
           sectionTitle = "Icon Relationships";
-          /*for(relationship in icon_relationships) {
-            //relationship.name
-            //relationship.points
-            //relationship.status
-            sectionText += relationship.name + ": " + relationship.points + " " + relationship.status;
-          }*/
           
-          sectionText = "";
+          // Loop through relationships and add to array of strings
+          // ICON_RELATIONSHIP OBJ WITH ARRAYS IN EACH
+          /*for(relationship in icon_relationships) {
+            line = relationship.name + ": " + relationship.points + " " + relationship.status;
+            sectionText.push(line);
+          }*/
+
           break;
         case 1:
           sectionTitle = "One Unique Thing";
-          sectionText = charsheet.background_talents.one_unique_thing;
+          sectionText = createParagraph(doc, charsheet.background_talents.one_unique_thing, boxWidth - page.DEFAULT_PADDING);
           break;
         case 2:
           sectionTitle = "Backgrounds";
-          sectionText = "";
+          
+          // Loop through backgrounds and add to array of strings
+          /*var j; 
+          for (j = 0; j < backgrounds.length; j++) {
+            var background = backgrounds[j];
+            line = background[0] + " " + background[1];
+            console.log(background);
+            sectionText.push(line);
+          }*/
           break;
       }
-      
+
       // TODO: Figure out how to make the boxes full-width without the -25 in width for line 121
       createTitle(doc, offset + (page.PAGE_WIDTH / 3 * i), height, sectionTitle);
-      var paragraph = createParagraph(doc, sectionText, boxWidth - page.DEFAULT_PADDING);
-      createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, paragraph);
+      createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, sectionText);
     }
+
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //SECOND PAGE INFORMATION
@@ -149,49 +162,24 @@ export default class PrintPDF extends  React.Component
     var inventory = charsheet.inventory_feats_and_journal.inventory;
     var magic = charsheet.inventory_feats_and_journal.magic_items
     ;
-    this.extend_textfield(feats, doc, 10);
-    this.extend_textfield(inventory, doc, 208);
-    this.extend_textfield(magic, doc, 408);
+    extend_textfield(feats, doc, 10);
+    extend_textfield(inventory, doc, 208);
+    extend_textfield(magic, doc, 408);
 
-    doc.rect(7, 35, 170, FIXED_HEIGHT);      //FEATS
-    doc.rect(205, 35, 170, FIXED_HEIGHT);    //GEAR EQUIPMENT & MONEY
-    doc.rect(405, 35, 170, FIXED_HEIGHT);    //MAGIC ITEMS
+    doc.rect(7, 35, 170, feat_magic_gear.FIXED_HEIGHT);      //FEATS
+    doc.rect(205, 35, 170, feat_magic_gear.FIXED_HEIGHT);    //GEAR EQUIPMENT & MONEY
+    doc.rect(405, 35, 170, feat_magic_gear.FIXED_HEIGHT);    //MAGIC ITEMS
 
     //BACKSTORY
-    doc.rect(7, 285 + HEIGHT_DIFFER, 570, 510);
+    doc.rect(7, 285 + feat_magic_gear.HEIGHT_DIFFER, 570, 510);
 
 
     doc.setFont('fantasy').setTextColor("#808080").setFontSize(11);
-    doc.text(7,280 + HEIGHT_DIFFER, "JOURNAL / BACKSTORY");
-    doc.addImage(sword_image(),'PNG',7,225 + HEIGHT_DIFFER, 570,30);
+    doc.text(7,280 + feat_magic_gear.HEIGHT_DIFFER, "JOURNAL / BACKSTORY");
+    doc.addImage(sword_image(),'PNG',7,225 + feat_magic_gear.HEIGHT_DIFFER, 570,30);
 
     doc.save("My_Character.pdf");
     }
-
-  /**
-  * Adds items from array to pdf while checking
-  * to see if strings exceed space from text field.
-  *
-  * @param  items   the list that will be added to document
-  * @param  doc     the pdf document
-  * @param  x_Cord  the cordinate to start place the string
-  * @return         void
-  */
-  extend_textfield = (items, doc, x_Cord) => {
-    HEIGHT_DIFFER = 180;
-
-    var y_Cord = 50;
-    for(var i = 0; i <items.length; i++)
-    {
-      doc.text(x_Cord, y_Cord, items[i]);
-      if(y_Cord > FIXED_HEIGHT){
-        FIXED_HEIGHT += 15
-      }
-      y_Cord += 15;
-    }
-      HEIGHT_DIFFER = FIXED_HEIGHT - HEIGHT_DIFFER;
-  }
-
 
     jsonGenerator = () => {
 
