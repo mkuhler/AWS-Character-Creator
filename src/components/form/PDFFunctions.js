@@ -1,4 +1,4 @@
-import { font, page } from './FontSizing.js'
+import { font, page } from './PDFConstants.js'
 
 function measureInputText(name)
 {
@@ -100,7 +100,7 @@ export function getTextHeight(text,  fontSize = font.font_size.DEFAULT_FONT_SIZE
  */
 export function createParagraph(doc, text, maxLineWidth, fontType = font.type_font.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
     //var textLines = doc.splitTextToSize(text, maxLineWidth);
-    console.log(fontType);
+    //console.log(fontType);
     return  doc.setFontSize(fontSize)
                .splitTextToSize(text, maxLineWidth);
 }

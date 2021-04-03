@@ -3,8 +3,8 @@ import CharacterDetails from './characterdetails.js';
 import {Button, Form, Col, Figure} from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import charsheet from './CharSheetData.js';
-import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph } from './FontFunctions.js';
-import { font, page } from './FontSizing.js';
+import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph } from './PDFFunctions.js';
+import { font, page } from './PDFConstants.js';
 import { basic_info, sword_image } from './encodebase64.js';
 import FileSaver from 'file-saver';
 import axios from 'axios';
@@ -147,8 +147,8 @@ export default class PrintPDF extends  React.Component
 
     var feats = charsheet.inventory_feats_and_journal.feats;
     var inventory = charsheet.inventory_feats_and_journal.inventory;
-    var magic = charsheet.inventory_feats_and_journal.magic_items
-    ;
+    var magic = charsheet.inventory_feats_and_journal.magic_items;
+    
     this.extend_textfield(feats, doc, 10);
     this.extend_textfield(inventory, doc, 208);
     this.extend_textfield(magic, doc, 408);
@@ -157,12 +157,13 @@ export default class PrintPDF extends  React.Component
     doc.rect(205, 35, 170, FIXED_HEIGHT);    //GEAR EQUIPMENT & MONEY
     doc.rect(405, 35, 170, FIXED_HEIGHT);    //MAGIC ITEMS
 
+    
     //BACKSTORY
-    doc.rect(7, 285 + HEIGHT_DIFFER, 570, 510);
+    doc.rect(7, 285 + HEIGHT_DIFFER, 570, 200);
 
 
     doc.setFont('fantasy').setTextColor("#808080").setFontSize(11);
-    doc.text(7,280 + HEIGHT_DIFFER, "JOURNAL / BACKSTORY");
+    doc.text(7,280 + HEIGHT_DIFFER, "JOURNAL");
     doc.addImage(sword_image(),'PNG',7,225 + HEIGHT_DIFFER, 570,30);
 
     doc.save("My_Character.pdf");
