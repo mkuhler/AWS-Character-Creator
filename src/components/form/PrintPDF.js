@@ -160,16 +160,18 @@ export default class PrintPDF extends  React.Component
 
     var feats = charsheet.inventory_feats_and_journal.feats;
     var inventory = charsheet.inventory_feats_and_journal.inventory;
-    var magic = charsheet.inventory_feats_and_journal.magic_items
-    ;
+    var magic = charsheet.inventory_feats_and_journal.magic_items;
+
     extend_textfield(feats, doc, 10);
     extend_textfield(inventory, doc, 208);
     extend_textfield(magic, doc, 408);
+
 
     doc.rect(7, 35, 170, feat_magic_gear.FIXED_HEIGHT);      //FEATS
     doc.rect(205, 35, 170, feat_magic_gear.FIXED_HEIGHT);    //GEAR EQUIPMENT & MONEY
     doc.rect(405, 35, 170, feat_magic_gear.FIXED_HEIGHT);    //MAGIC ITEMS
 
+    
     //BACKSTORY
     doc.rect(7, 285 + feat_magic_gear.HEIGHT_DIFFER, 570, 510);
 

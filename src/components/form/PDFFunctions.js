@@ -95,17 +95,15 @@ export function getTextHeight(text,  fontSize = font.font_size.DEFAULT_FONT_SIZE
  * @param  {jsPDF}  doc           PDF document object
  * @param  {String} text          Text to be split into multiple lines
  * @param  {Number} maxLineWidth  The maximum width of the text
- * @param  {String} font          = font.font_type.DEFAULT, text font
+ * @param  {String} font          = font.type_font.DEFAULT, text font
  * @return {Array}                Array of string lines split by maxLineWidth
  */
-export function createParagraph(doc, text, maxLineWidth, fontType = font.font_type.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
+export function createParagraph(doc, text, maxLineWidth, fontType = font.type_font.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
     //var textLines = doc.splitTextToSize(text, maxLineWidth);
-    console.log(fontType);
+    //console.log(fontType);
     return  doc.setFontSize(fontSize)
                .splitTextToSize(text, maxLineWidth);
 }
-
-
 
 /**
  * Create a box around text
@@ -118,13 +116,11 @@ export function createParagraph(doc, text, maxLineWidth, fontType = font.font_ty
  * @return {jsPDF}                  Rectangle around text
  */
 export function createTextBox(doc, x, y, width, height, text = "", padding = page.DEFAULT_PADDING) {
-
+  
   return doc.text(text, x + padding, y + padding)
             .rect(x, y, width + padding, height + padding);
   //return doc.rect(x, y, width, height);
 }
-
-
   /**
   * Adds items from array to pdf while checking
   * to see if strings exceed space from text field.
@@ -134,7 +130,7 @@ export function createTextBox(doc, x, y, width, height, text = "", padding = pag
   * @param  x_Cord  the cordinate to start place the string
   * @return         void
   */
-  export function extend_textfield(items, doc, x_Cord){
+   export function extend_textfield(items, doc, x_Cord){
     
     feat_magic_gear.HEIGHT_DIFFER = 180;
 
