@@ -3,7 +3,8 @@ import CharacterDetails from './characterdetails.js';
 import {Button, Form, Col, Figure} from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import charsheet from './CharSheetData.js';
-import { lengthy_entry, get_ellispis } from './FontFunctions.js';
+import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph } from './FontFunctions.js';
+import { font, page } from './FontSizing.js';
 import { basic_info, sword_image } from './encodebase64.js';
 import FileSaver from 'file-saver';
 import axios from 'axios';
@@ -49,6 +50,8 @@ export default class PrintPDF extends  React.Component
     var saving_throws_hard = charsheet.character_attributes.saving_throws_hard;
     var saving_throws_optional = charsheet.character_attributes.saving_throws_optional;
     var death_saves_max = charsheet.character_attributes.death_saves_max;
+    var icon_relationships = charsheet.background_talents.icon_relationships;
+    var icon_relationships_other = charsheet.background_talents.icon_relationship_other;
 
     doc.addImage(basic_info(),'PNG',7,15, 570,247);
 
@@ -95,6 +98,42 @@ export default class PrintPDF extends  React.Component
     if(saving_throws_optional != ""){
       doc.setFont('fantasy').setTextColor("#808080").setFontSize(8).text(328, 225, "OPTIONAL ");
       doc.setFont('').setTextColor('').text(375, 225, ": " + saving_throws_optional); //reset font and color
+    }
+
+    var sectionTitle;
+    var i;
+    var offset = (page.PAGE_MARGIN / 2);
+    var boxWidth = (page.PAGE_WIDTH / 3) - offset - 40;
+    var height = 280;
+    var sectionText = "";
+
+    for (i = 0; i < 3; i++) {
+      switch(i) {
+        case 0:
+          sectionTitle = "Icon Relationships";
+          /*for(relationship in icon_relationships) {
+            //relationship.name
+            //relationship.points
+            //relationship.status
+            sectionText += relationship.name + ": " + relationship.points + " " + relationship.status;
+          }*/
+          
+          sectionText = "";
+          break;
+        case 1:
+          sectionTitle = "One Unique Thing";
+          sectionText = charsheet.background_talents.one_unique_thing;
+          break;
+        case 2:
+          sectionTitle = "Backgrounds";
+          sectionText = "";
+          break;
+      }
+      
+      // TODO: Figure out how to make the boxes full-width without the -25 in width for line 121
+      createTitle(doc, offset + (page.PAGE_WIDTH / 3 * i), height, sectionTitle);
+      var paragraph = createParagraph(doc, sectionText, boxWidth - page.DEFAULT_PADDING);
+      createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, paragraph);
     }
 
     ////////////////////////////////////////////////////////////////////////////////

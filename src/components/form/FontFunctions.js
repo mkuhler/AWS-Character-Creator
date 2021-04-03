@@ -1,4 +1,4 @@
-import { font } from './FontSizing.js'
+import { font, page } from './FontSizing.js'
 
 function measureInputText(name)
 {
@@ -48,4 +48,76 @@ export function get_ellispis(name)
   else {
     return name
   }
+}
+
+/**
+ * Creates formatted title text
+ * @param  {jsPDF}  doc     PDF document object
+ * @return {Number}         x-coordinate of the text
+ * @return {Number}         y-coordinate of the text
+ * @return {String}         string containing text to format
+ * @return {Number}         = font.font_size.DEFAULT_FONT_SIZE, option to modify font size
+ */
+export function createTitle(doc, x, y, text, fontSize = font.font_size.DEFAULT_FONT_SIZE){
+  return doc.setFont('fantasy')
+            .setTextColor("#808080")
+            .setFontSize(fontSize)
+            .text(x, y, text.toUpperCase());
+}
+
+/**
+ * Convert inches value to points
+ * @param  {Number} inches  Inches value
+ * @return {Number}         Value in points
+ */
+export function convertInchesToPoints(inches) { return inches * 72; }
+
+/**
+ * Convert inches value to points
+ * @param  {Number} points  Points value
+ * @return {Number}         Value in inches
+ */
+export function convertPointsToInches(points) { return points / 72; }
+
+/**
+ * Get the height of a paragraph of text
+ * @param  {Array}  paragraph  Array of strings separated by line
+ * @param  {Number} fontSize = DEFAULT_FONT_SIZE Size of the text
+ * @return {Number}            Height of the paragraph
+ */
+export function getTextHeight(text,  fontSize = font.font_size.DEFAULT_FONT_SIZE, lineHeight = font.DEFAULT_LINE_HEIGHT) {
+  const numLines = text.length;
+  return (numLines * fontSize * lineHeight);
+}
+
+/**
+ * Split a string of text into an array of lines to create a paragraph of text
+ * @param  {jsPDF}  doc           PDF document object
+ * @param  {String} text          Text to be split into multiple lines
+ * @param  {Number} maxLineWidth  The maximum width of the text
+ * @param  {String} font          = font.type_font.DEFAULT, text font
+ * @return {Array}                Array of string lines split by maxLineWidth
+ */
+export function createParagraph(doc, text, maxLineWidth, fontType = font.type_font.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
+    //var textLines = doc.splitTextToSize(text, maxLineWidth);
+    console.log(fontType);
+    return  doc.setFontSize(fontSize)
+               .splitTextToSize(text, maxLineWidth);
+}
+
+/**
+ * Create a box around text
+ * @param  {jsPDF}  doc             PDF document object
+ * @param  {Number} x               x-coordinate of the text
+ * @param  {Number} y               y-coordinate of the text
+ * @param  {Number} paragraphHeight Height of the paragraph
+ * @param  {Number} maxLineWidth  = Width of the paragraph
+ * @param  {Number} padding       = page.DEFAULT_PADDING, Padding of the text box
+ * @return {jsPDF}                  Rectangle around text
+ */
+export function createTextBox(doc, x, y, width, height, text = "", padding = page.DEFAULT_PADDING) {
+  
+  return doc.text(text, x + padding, y + padding)
+            .rect(x, y, width + padding, height + padding);
+  //return doc.rect(x, y, width, height);
 }
