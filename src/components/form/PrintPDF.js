@@ -50,6 +50,8 @@ export default class PrintPDF extends  React.Component
     var saving_throws_hard = charsheet.character_attributes.saving_throws_hard;
     var saving_throws_optional = charsheet.character_attributes.saving_throws_optional;
     var death_saves_max = charsheet.character_attributes.death_saves_max;
+    var icon_relationships = charsheet.background_talents.icon_relationships;
+    var icon_relationships_other = charsheet.background_talents.icon_relationship_other;
 
     doc.addImage(basic_info(),'PNG',7,15, 570,247);
 
@@ -109,6 +111,13 @@ export default class PrintPDF extends  React.Component
       switch(i) {
         case 0:
           sectionTitle = "Icon Relationships";
+          /*for(relationship in icon_relationships) {
+            //relationship.name
+            //relationship.points
+            //relationship.status
+            sectionText += relationship.name + ": " + relationship.points + " " + relationship.status;
+          }*/
+          
           sectionText = "";
           break;
         case 1:
