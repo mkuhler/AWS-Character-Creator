@@ -102,17 +102,17 @@ const charsheet = {
 
         // the genreator should support at least up to 5 (or more?) icon relationships, 1 by default
         icon_relationships: {
-                //relationship:
-                //{   // ex Lich King 1 Negative, Emporer 2 Conflicted
-                //    name: "", // who the relationship is with
-                //    points: 0, // the numerical level of the relationship, (should be a positive or abs value number, no 0?)
-                //    status: "" // positive, negative, or conflicted
-                //},
+            //relationship:
+            //{   // ex Lich King 1 Negative, Emporer 2 Conflicted
+            //    name: "", // who the relationship is with
+            //    points: 0, // the numerical level of the relationship, (should be a positive or abs value number, no 0?)
+            //    status: "" // positive, negative, or conflicted
+            //},
 
-                name: [""],
-                points: [""], // should be a number (positive or negative)
-                status: [""],
-            },
+            name: [""],
+            points: [""], // should be a number (positive or negative)
+            status: [""],
+        },
         icon_relationships_other: "", // an additional field for players to include any clarifications for icon relationships, blank by default
 
         one_unique_thing: "", // effectively just a string, can have impacts on skills (?) but that would best be left for the user to modify
@@ -165,13 +165,13 @@ const charsheet = {
 
     inventory_feats_and_journal: { // 6th page
 
-        inventory: ["",""], // array of strings
+        inventory: ["", ""], // array of strings
 
-        magic_items: ["",""], // array of strings
+        magic_items: ["", ""], // array of strings
 
         journal_and_background_story: "", // array of strins instead ?
 
-        feats: ["",""] // array of strings, generally the name of the feat and the tier, example - "Elemental Healer (A)"
+        feats: ["", ""] // array of strings, generally the name of the feat and the tier, example - "Elemental Healer (A)"
     }, // end of 6th page
 
 
@@ -205,20 +205,22 @@ const charsheet = {
 // frankly I'm not sure if this is the correct way to do this
 const power = {
 
-    power_name: "", // *****
 
-    // powers will have 2 frequencies, the second will be "None" by default, and can be changed by the user
-    // this allows for a 2nd frequency without it being required, if None, do not print on sheet, but keep track of in data
-
-    // likely best handled by a drop down list, options (in order of priority) are: At-Will, Cyclical, Battle-Based, Recharge, Daily, and Other
-    // i.e. if color coding a power that is Battle-Based and daily, color it as a Battle-Based power
-    power_frequency_1: "", // *****
-    power_uses_1: -1, // -1 means "infinite use" such as an At-Will or Cyclical power; Battle-Based needs an int from 1-5, Recharge from 1-20, Daily from 1-5, Other is up to the player
-
-    power_frequency_2: "None", // not applicatble by default, i.e. only one frequncy
-    power_uses_2: 0,
 
     power_description: {
+
+        power_name: "", // *****
+
+        // powers will have 2 frequencies, the second will be "None" by default, and can be changed by the user
+        // this allows for a 2nd frequency without it being required, if None, do not print on sheet, but keep track of in data
+
+        // likely best handled by a drop down list, options (in order of priority) are: At-Will, Cyclical, Battle-Based, Recharge, Daily, and Other
+        // i.e. if color coding a power that is Battle-Based and daily, color it as a Battle-Based power
+        power_frequency_1: "", // *****
+        power_uses_1: -1, // -1 means "infinite use" such as an At-Will or Cyclical power; Battle-Based needs an int from 1-5, Recharge from 1-20, Daily from 1-5, Other is up to the player
+
+        power_frequency_2: "None", // not applicatble by default, i.e. only one frequncy
+        power_uses_2: 0,
 
         power_action_type: "Standard Action", // Standard action is default if not specified, other options like "Ranged Spell", Close-Quarters Spell", etc.
         power_range: "", // no defualt, something like "One nearby enemy", "Enemy with most hitpoints", etc.
