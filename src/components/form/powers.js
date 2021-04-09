@@ -39,8 +39,10 @@ class Powers extends React.Component {
         var inputs = []
         for (var i = 0; i < this.state.numOfPowers; i++) {
             inputs.push(
-                <>
+                <>                    <h3>Power {i}</h3>
+
                     <Form.Row>
+
                         <Col xs={5}>
                             <Form.Label>Power Name</Form.Label>
                             <Form.Control type="text"
@@ -49,7 +51,7 @@ class Powers extends React.Component {
                                 onChange={this.props.handleChange} />
                         </Col>
                         <Col xs={5}>
-                            <Form.Label>Power Frequency 1</Form.Label>
+                            <Form.Label>Power Frequency</Form.Label>
                             <Form.Control as="select"
                                 name="power_frequency"
                                 arrayindex={i}
@@ -64,7 +66,6 @@ class Powers extends React.Component {
                             </Form.Control>
                         </Col>
                     </Form.Row>
-                    <h3>Power Description</h3>
                     <Form.Row>
                         <Col xs={5}>
                             <Form.Label>Power Action Type</Form.Label>
@@ -76,6 +77,8 @@ class Powers extends React.Component {
                                 <option>Melee Attack</option>
                                 <option>Momentum Attack</option>
                                 <option>Ranged</option>
+                                <option>Standard Action</option>
+
                             </Form.Control>
                         </Col>
                         <Col xs={5}>
