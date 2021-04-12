@@ -98,11 +98,17 @@ export function getTextHeight(text,  fontSize = font.font_size.DEFAULT_FONT_SIZE
  * @param  {String} font          = font.type_font.DEFAULT, text font
  * @return {Array}                Array of string lines split by maxLineWidth
  */
-export function createParagraph(doc, text, maxLineWidth, fontType = font.type_font.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
+export function createParagraph(doc, text, startHight, startWidth, maxLineWidth, fontType = font.type_font.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
     //var textLines = doc.splitTextToSize(text, maxLineWidth);
     //console.log(fontType);
-    return  doc.setFontSize(fontSize)
-               .splitTextToSize(text, maxLineWidth);
+    // return  doc.setFontSize(fontSize)
+    //            .splitTextToSize(text, maxLineWidth);
+    var lines = doc.setFontSize(fontSize)
+                   .setTextColor('')
+                   .splitTextToSize(text, maxLineWidth);
+    console.log(lines.length);
+    doc.text(startHight, startWidth, lines);
+    return lines;
 }
 
 /**
@@ -121,6 +127,7 @@ export function createTextBox(doc, x, y, width, height, text = "", padding = pag
             .rect(x, y, width + padding, height + padding);
   //return doc.rect(x, y, width, height);
 }
+
   /**
   * Adds items from array to pdf while checking
   * to see if strings exceed space from text field.
@@ -130,18 +137,34 @@ export function createTextBox(doc, x, y, width, height, text = "", padding = pag
   * @param  x_Cord  the cordinate to start place the string
   * @return         void
   */
-   export function extend_textfield(items, doc, x_Cord){
-    
-    feat_magic_gear.HEIGHT_DIFFER = 180;
-
-    var y_Cord = 50;
+   export function add_items(items, doc, x_Cord, box_hight, hight_difference)
+   { 
+    var y_cord = 50;
     for(var i = 0; i <items.length; i++)
     {
-      doc.text(x_Cord, y_Cord, items[i]);
-      if(y_Cord > feat_magic_gear.FIXED_HEIGHT){
-        feat_magic_gear.FIXED_HEIGHT += 15
-      }
-      y_Cord += 15;
+      doc.setFontSize(10)
+         .setTextColor('')
+         .text(x_Cord, y_cord, items[i]);
+      y_cord += 15;
     }
-    feat_magic_gear.HEIGHT_DIFFER = feat_magic_gear.FIXED_HEIGHT - feat_magic_gear.HEIGHT_DIFFER;
+    expand_textfield(items, y_cord, box_hight, hight_difference)
+  }
+
+  export function expand_textfield(entry, y_cord, box_hight, hight_difference)
+  {
+  feat_magic_gear.FIXED_HEIGHT = box_hight;
+  feat_magic_gear.HEIGHT_DIFFER = hight_difference;
+
+  for(var i = 0; i <entry.length; i++)
+  {
+    if(y_cord > box_hight){
+      feat_magic_gear.FIXED_HEIGHT += 15
+    }
+    y_cord -= 15;
+
+  }
+  console.log(feat_magic_gear.FIXED_HEIGHT)
+  console.log(feat_magic_gear.HEIGHT_DIFFER)
+  feat_magic_gear.HEIGHT_DIFFER = feat_magic_gear.FIXED_HEIGHT - feat_magic_gear.HEIGHT_DIFFER;
+  console.log(feat_magic_gear.HEIGHT_DIFFER)
   }

@@ -3,8 +3,9 @@ import CharacterDetails from './characterdetails.js';
 import {Button, Form, Col, Figure} from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import charsheet from './CharSheetData.js';
-import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph, extend_textfield } from './PDFFunctions.js';
+import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph, add_items, expand_textfield } from './PDFFunctions.js';
 import { font, page, feat_magic_gear } from './PDFConstants.js';
+
 import { basic_info, sword_image } from './encodebase64.js';
 import FileSaver from 'file-saver';
 import axios from 'axios';
@@ -99,7 +100,7 @@ export default class PrintPDF extends  React.Component
 
     if(saving_throws_optional != ""){
       doc.setFont('fantasy').setTextColor("#808080").setFontSize(8).text(328, 225, "OPTIONAL ");
-      doc.setFont('').setTextColor('').text(375, 225, ": " + saving_throws_optional); //reset font and color
+      doc.setFont('arial').setTextColor('').text(375, 225, ": " + saving_throws_optional); //reset font and color
     }
 
     var sectionTitle;
@@ -126,7 +127,7 @@ export default class PrintPDF extends  React.Component
           break;
         case 1:
           sectionTitle = "One Unique Thing";
-          sectionText = createParagraph(doc, charsheet.background_talents.one_unique_thing, boxWidth - page.DEFAULT_PADDING);
+          // sectionText = createParagraph(doc, charsheet.background_talents.one_unique_thing, boxWidth - page.DEFAULT_PADDING);
           break;
         case 2:
           sectionTitle = "Backgrounds";
@@ -153,32 +154,34 @@ export default class PrintPDF extends  React.Component
     //SECOND PAGE INFORMATION
     ////////////////////////////////////////////////////////////////////////////////
 
-    doc.addPage();
-    doc.setFont('fantasy').setTextColor("#808080").setFontSize(11);
-    doc.text(7,30,"FEATS").text(205,30,"GEAR EQUIPMENT & MONEY").text(405,30,"MAGIC ITEMS");
-    doc.setFont('').setTextColor(''); //reset font and color
-
     var feats = charsheet.inventory_feats_and_journal.feats;
     var inventory = charsheet.inventory_feats_and_journal.inventory;
     var magic = charsheet.inventory_feats_and_journal.magic_items;
+    var background = charsheet.inventory_feats_and_journal.journal_and_background_story;
+    var inventory_height = 35;
+    var journal_ycord = 0;
 
-    extend_textfield(feats, doc, 10);
-    extend_textfield(inventory, doc, 208);
-    extend_textfield(magic, doc, 408);
+    doc.addPage();
+    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0), inventory_height - 5, "FEATS"); 
+    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 1), inventory_height - 5, "GEAR EQUIPMENT & MONEY");
+    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 2), inventory_height - 5, "MAGIC ITEMS");
 
+    add_items(feats, doc, 10, 180, 180);
+    add_items(inventory, doc, 208, feat_magic_gear.FIXED_HEIGHT, 180);
+    add_items(magic, doc, 408, feat_magic_gear.FIXED_HEIGHT, 180);
 
-    doc.rect(7, 35, 170, feat_magic_gear.FIXED_HEIGHT);      //FEATS
-    doc.rect(205, 35, 170, feat_magic_gear.FIXED_HEIGHT);    //GEAR EQUIPMENT & MONEY
-    doc.rect(405, 35, 170, feat_magic_gear.FIXED_HEIGHT);    //MAGIC ITEMS
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 1), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 2), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
 
-    
-    //BACKSTORY
-    doc.rect(7, 285 + feat_magic_gear.HEIGHT_DIFFER, 570, 510);
-
-
-    doc.setFont('fantasy').setTextColor("#808080").setFontSize(11);
-    doc.text(7,280 + feat_magic_gear.HEIGHT_DIFFER, "JOURNAL / BACKSTORY");
-    doc.addImage(sword_image(),'PNG',7,225 + feat_magic_gear.HEIGHT_DIFFER, 570,30);
+    //Height difference save to
+    journal_ycord = feat_magic_gear.HEIGHT_DIFFER 
+    doc.addImage(sword_image(),'PNG',7,230 + journal_ycord, 570,30);  
+  
+    let paragraphlength = createParagraph(doc, background, offset + (page.PAGE_WIDTH / 3 * 0) + 5, 300 + journal_ycord, 570, '', 10 );
+    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0),280 + journal_ycord, "JOURNAL");
+    expand_textfield(paragraphlength, 285 + journal_ycord, 200, 300);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), 285 + journal_ycord, (page.PAGE_WIDTH / 3) + 360, 150 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
 
     doc.save("My_Character.pdf");
     }

@@ -19,6 +19,6 @@ export const page = {
 };
 
 export const feat_magic_gear = {
-  FIXED_HEIGHT: 180, //fixed size for FEATS, GEAR EQUIPMENT & MONEY, MAGIC ITEMS
+  FIXED_HEIGHT: 0, //fixed size for FEATS, GEAR EQUIPMENT & MONEY, MAGIC ITEMS
   HEIGHT_DIFFER: 0
 };
