@@ -168,7 +168,7 @@ export function createTextBox(doc, x, y, width, height, text = "", padding = pag
 
   for(var i = 0; i < entry.length; i++)
   {
-    if(i > numberof_entries){
+    if(i > number_of_entries){
       feat_magic_gear.FIXED_HEIGHT += 15
     }
   }

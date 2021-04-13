@@ -166,9 +166,9 @@ export default class PrintPDF extends  React.Component
     createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 1), inventory_height - 5, "GEAR EQUIPMENT & MONEY");
     createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 2), inventory_height - 5, "MAGIC ITEMS");
 
-    add_items(feats, doc, 10, 180, 180);
-    add_items(inventory, doc, 208, feat_magic_gear.FIXED_HEIGHT, 180);
-    add_items(magic, doc, 408, feat_magic_gear.FIXED_HEIGHT, 180);
+    add_items(inventory, doc, 10, 180, 180);
+    add_items(feats, doc, 215, feat_magic_gear.FIXED_HEIGHT, 180);
+    add_items(magic, doc, 418, feat_magic_gear.FIXED_HEIGHT, 180);
 
     createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
     createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 1), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
