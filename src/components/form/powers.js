@@ -40,6 +40,8 @@ class Powers extends React.Component {
         for (var i = 0; i < this.state.numOfPowers; i++) {
             inputs.push(
                 <>
+                <br/>
+                <h5>Power {i+1} </h5>
                     <Form.Row>
                         <Col xs={5}>
                             <Form.Label>Power Name</Form.Label>
@@ -64,7 +66,7 @@ class Powers extends React.Component {
                             </Form.Control>
                         </Col>
                     </Form.Row>
-                    <h3>Power Description</h3>
+
                     <Form.Row>
                         <Col xs={5}>
                             <Form.Label>Power Action Type</Form.Label>
@@ -141,11 +143,13 @@ class Powers extends React.Component {
 
             <Container>
                 <Form>
-                    <Button variant="outline-success" size="sm" onClick={this.addOnePower}> + </Button>{' '}
-                    <Button variant="outline-danger" size="sm" onClick={this.subOnePower}> - </Button>{' '}
+                <br />
+                <h3>Powers</h3>
+
+                <Button variant="outline-success" size="sm" onClick={this.addOnePower}> + </Button>{' '}
+                <Button variant="outline-danger" size="sm" onClick={this.subOnePower}> - </Button>{' '}
                     <Form.Group controlId="power_description">
-                        <h3>Background Information Page Three</h3>
-                        <br />
+
 
                         {this.createPowers()}
 

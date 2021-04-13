@@ -188,7 +188,7 @@ class MasterForm extends React.Component {
     } else if (category === "ability_scores") {
       this.state.data.[category].[name] = parseInt(value)
     } else if (arrayindex != null) {
-      this.state.data.[category].[name].[arrayindex] = value
+      this.state.data.[category].[name][arrayindex] = value
     } else {
       this.state.data.[category].[name] = value
     }
