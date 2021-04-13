@@ -180,7 +180,7 @@ export default class PrintPDF extends  React.Component
   
     let paragraphlength = createParagraph(doc, background, offset + (page.PAGE_WIDTH / 3 * 0) + 5, 300 + journal_ycord, 570, '', 10 );
     createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0),280 + journal_ycord, "JOURNAL");
-    expand_textfield(paragraphlength, 285 + journal_ycord, 200, 300);
+    expand_textfield(paragraphlength, 285 + journal_ycord, 150, 150, 13);
     createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), 285 + journal_ycord, (page.PAGE_WIDTH / 3) + 360, 150 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
 
     doc.save("My_Character.pdf");

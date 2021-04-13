@@ -106,7 +106,6 @@ export function createParagraph(doc, text, startHight, startWidth, maxLineWidth,
     var lines = doc.setFontSize(fontSize)
                    .setTextColor('')
                    .splitTextToSize(text, maxLineWidth);
-    console.log(lines.length);
     doc.text(startHight, startWidth, lines);
     return lines;
 }
@@ -129,12 +128,13 @@ export function createTextBox(doc, x, y, width, height, text = "", padding = pag
 }
 
   /**
-  * Adds items from array to pdf while checking
-  * to see if strings exceed space from text field.
+  * Adds items from array to pdf
   *
-  * @param  items   the list that will be added to document
-  * @param  doc     the pdf document
-  * @param  x_Cord  the cordinate to start place the string
+  * @param  items             the list that will be added to document
+  * @param  doc               the pdf document
+  * @param  x_Cord            the cordinate to start place the string
+  * @param  box_hight         fixed size of the textfield area
+  * @param  hight_difference  difference between the original text area to the expanded area
   * @return         void
   */
    export function add_items(items, doc, x_Cord, box_hight, hight_difference)
@@ -147,24 +147,31 @@ export function createTextBox(doc, x, y, width, height, text = "", padding = pag
          .text(x_Cord, y_cord, items[i]);
       y_cord += 15;
     }
-    expand_textfield(items, y_cord, box_hight, hight_difference)
+    expand_textfield(items, y_cord, box_hight, hight_difference, 10)
   }
 
-  export function expand_textfield(entry, y_cord, box_hight, hight_difference)
+  /**
+  * Checks to see if the strings goes over the text field
+  *
+  * @param  entry             the list that will be added to document
+  * @param  y_cord            the pdf document
+  * @param  box_hight         the cordinate to start place the string
+  * @param  hight_difference  fixed size of the textfield area, usually the same are box_height
+  * @param  number_of_entries How many entries fit in the textbox
+  * @return         void
+  * 
+  */
+  export function expand_textfield(entry, y_cord, box_hight, hight_difference, number_of_entries)
   {
   feat_magic_gear.FIXED_HEIGHT = box_hight;
   feat_magic_gear.HEIGHT_DIFFER = hight_difference;
 
-  for(var i = 0; i <entry.length; i++)
+  for(var i = 0; i < entry.length; i++)
   {
-    if(y_cord > box_hight){
+    if(i > numberof_entries){
       feat_magic_gear.FIXED_HEIGHT += 15
     }
-    y_cord -= 15;
-
   }
-  console.log(feat_magic_gear.FIXED_HEIGHT)
-  console.log(feat_magic_gear.HEIGHT_DIFFER)
+
   feat_magic_gear.HEIGHT_DIFFER = feat_magic_gear.FIXED_HEIGHT - feat_magic_gear.HEIGHT_DIFFER;
-  console.log(feat_magic_gear.HEIGHT_DIFFER)
   }
