@@ -23,6 +23,18 @@ class CharacterAttributes extends React.Component {
                         <h3>Character Attributes</h3>
 
                         <Form.Row>
+                            <Form.Label> {"(Level: " + this.props.data.basic_info.level + ")"} </Form.Label>
+                            <Form.Label> {"(STR Mod: " + this.props.data.ability_scores.strength_mod + ")"} </Form.Label>
+                            <Form.Label> {"(CON Mod: " + this.props.data.ability_scores.constitution_mod + ")"} </Form.Label>
+                            <Form.Label> {"(DEX Mod: " + this.props.data.ability_scores.dexterity_mod + ")"} </Form.Label>
+                            <Form.Label> {"(INT Mod: " + this.props.data.ability_scores.intelligence_mod + ")"} </Form.Label>
+                            <Form.Label> {"(WIS Mod: " + this.props.data.ability_scores.wisdom_mod + ")"} </Form.Label>
+                            <Form.Label> {"(CHA Mod: " + this.props.data.ability_scores.charisma_mod + ")"} </Form.Label>
+                        </Form.Row>
+
+
+
+                        <Form.Row>
                             <Col xs={3}>
                                 <Form.Label>Initiative</Form.Label>
                                 <Form.Control type="text"
@@ -123,9 +135,12 @@ class CharacterAttributes extends React.Component {
                             </Col>
                         </Form.Row>
 
+
                     </Form.Group>
                     <Button style={{ float: "left", marginBottom: 10 }} variant="primary" onClick={this.props.prevStep}>Previous</Button>
                     <Button style={{ float: "right", marginBottom: 10 }} variant="primary" onClick={this.props.nextStep}>Next</Button>
+
+
                 </Form>
             </Container>
         );

@@ -6,7 +6,6 @@ const charsheet = {
 
     //version_number: "1.0.0", // should this be a single string or two floats for major/minor version?
 
-
     siteName: "AWS Character Creator",
     linkToSite: "",
     linkToRepo: "https://github.com/mkuhler/AWS-Character-Creator",
@@ -25,13 +24,13 @@ const charsheet = {
 
         // bonuses increase the character's corresponding stats, are we calculating that or having the user do it? If we pull the data from this file it should be possible for use to calculate it
         class: "", // *****
-        class_bonus_options: ["", ""], // two options specific to class, present 2 for base game classes but allow user to select any two to support homebrewing
+        class_bonus_options: [""], // two options specific to class, present 2 for base game classes but allow user to select any two to support homebrewing
         class_bonus_chosen: "", // which of the two bonus options the user selects, no default?
 
         level: "", // ***** level actually needs to be a string to allow for novice tiers, no default? N0 (lowest possible level) by default?
 
         race: "", // ***** elf, dragonborn, etc. no defualt?
-        race_bonus_options: ["", ""], // two options specific to race, present 2 for base game classes but allow user to select any two to support homebrewing
+        race_bonus_options: [""], // two options specific to race, present 2 for base game classes but allow user to select any two to support homebrewing
         race_bonus_chosen: "", // which of the two bonus options the user chose
 
         height: "", // height and weight are enterred as two separate values but should be displayed in the same field in the final sheet
@@ -78,10 +77,6 @@ const charsheet = {
         physical_defense: "", // ***** all neeeded to determine enemy damage dealt
         mental_defense: "", // *****
 
-        recoveries_max: "",
-        recoveries_current: "", // DO NOT SHOW TO USER, just represent on sheet
-        recoveries_calculation: "", // generally something like "4d6 + 4"
-
         // ***** not sure if theses should be strings?
         saving_throws_easy: 6,
         saving_throws_medium: 11, // not entirely sure how these are calcultated, every single sheet Tim has sent has 6/11/16 as the values
@@ -101,7 +96,8 @@ const charsheet = {
         // 3 sets fields by default may be good, if the user doesn't input values print blank?
 
         // the genreator should support at least up to 5 (or more?) icon relationships, 1 by default
-        icon_relationships: {
+
+        //icon_relationships: {
                 //relationship:
                 //{   // ex Lich King 1 Negative, Emporer 2 Conflicted
                 //    name: "", // who the relationship is with
@@ -109,10 +105,11 @@ const charsheet = {
                 //    status: "" // positive, negative, or conflicted
                 //},
 
-                name: [""],
-                points: [""], // should be a number (positive or negative)
-                status: [""],
-            },
+                icon_relationship_names: [""],
+                icon_relationship_points: [""], // should be a number (positive or negative)
+                icon_relationship_statuses: [""],
+            //},
+
         icon_relationships_other: "", // an additional field for players to include any clarifications for icon relationships, blank by default
 
         one_unique_thing: "", // effectively just a string, can have impacts on skills (?) but that would best be left for the user to modify
@@ -121,13 +118,16 @@ const charsheet = {
         // the number can modify some values, but is likely context specific and would best be left to the user
         // there doesn't seem to be a specific minimum or maximum number of backgrounds a character can have (most of Tim's have 2 or 3), so we may need to allow the user to add more fields
         // 3 sets fields by default may be good, if the user doesn't input values print blank?
-        backgrounds: [("", ""), ("", ""), ("", "")],
+        //background_numbers: [],
+        //background_names: [],
+        backgrounds: [(0, ""), (0, ""), (0, "")],
 
         // talents and feautres are a bit to complex/specific to create one specific type of tuple or object, so they're best represented as an array of strings (at least for now)
         // example - ["Breath Weapon: (Racial) Once per batle, make a close - quarters breath weapon atack as a quick action against one nearby enemy +7 vs PD; 3d6 fire damage",
         //            "Spirit Talking: Twice per day, you may speak to spirits." ]
         // no real limit on the number a character can have
-        talents_and_features: ["", ""],
+        talents_and_features_names: [""],
+        talents_and_features_descriptions: [""]
 
     }, // end of 3rd page
 
@@ -165,14 +165,41 @@ const charsheet = {
 
     inventory_feats_and_journal: { // 6th page
 
-        inventory: ["",""], // array of strings
+        inventory: [""], // array of strings
 
-        magic_items: ["",""], // array of strings
+        magic_items: [""], // array of strings
 
         journal_and_background_story: "", // array of strins instead ?
 
-        feats: ["",""] // array of strings, generally the name of the feat and the tier, example - "Elemental Healer (A)"
+        feats: [""] // array of strings, generally the name of the feat and the tier, example - "Elemental Healer (A)"
     }, // end of 6th page
+
+    power_description: {
+
+        power_name: [""], // *****
+
+        // powers will have 2 frequencies, the second will be "None" by default, and can be changed by the user
+        // this allows for a 2nd frequency without it being required, if None, do not print on sheet, but keep track of in data
+
+        // likely best handled by a drop down list, options (in order of priority) are: At-Will, Cyclical, Battle-Based, Recharge, Daily, and Other
+        // i.e. if color coding a power that is Battle-Based and daily, color it as a Battle-Based power
+        power_frequency_1: [""], // *****
+        power_uses_1: [""], // -1 means "infinite use" such as an At-Will or Cyclical power; Battle-Based needs an int from 1-5, Recharge from 1-20, Daily from 1-5, Other is up to the player
+
+        power_frequency_2: [""], // not applicatble by default, i.e. only one frequncy
+        power_uses_2: [""],
+
+        power_action_type: [""], // Standard action is default if not specified, other options like "Ranged Spell", Close-Quarters Spell", etc.
+        power_range: [""], // no defualt, something like "One nearby enemy", "Enemy with most hitpoints", etc.
+
+        power_target: [""], // all powers I've seen have a target at least, but maybe allow this to be blank just in case
+        power_attack:[""], // can be left blank as not all powers have an attack
+        power_hit: [""], // can be left blank
+        power_miss: [""], // can be left blank
+
+        power_other: [""] // array of strings (?) so the user can write any information not covered above
+    }
+
 
 
     /*
@@ -203,34 +230,14 @@ const charsheet = {
 
 // a separate object for powers, character power would be an array of these
 // frankly I'm not sure if this is the correct way to do this
+// a separate object for powers, character power would be an array of these
+// frankly I'm not sure if this is the correct way to do this
 const power = {
 
-    power_name: "", // *****
 
-    // powers will have 2 frequencies, the second will be "None" by default, and can be changed by the user
-    // this allows for a 2nd frequency without it being required, if None, do not print on sheet, but keep track of in data
 
-    // likely best handled by a drop down list, options (in order of priority) are: At-Will, Cyclical, Battle-Based, Recharge, Daily, and Other
-    // i.e. if color coding a power that is Battle-Based and daily, color it as a Battle-Based power
-    power_frequency_1: "", // *****
-    power_uses_1: -1, // -1 means "infinite use" such as an At-Will or Cyclical power; Battle-Based needs an int from 1-5, Recharge from 1-20, Daily from 1-5, Other is up to the player
-
-    power_frequency_2: "None", // not applicatble by default, i.e. only one frequncy
-    power_uses_2: 0,
-
-    power_description: {
-
-        power_action_type: "Standard Action", // Standard action is default if not specified, other options like "Ranged Spell", Close-Quarters Spell", etc.
-        power_range: "", // no defualt, something like "One nearby enemy", "Enemy with most hitpoints", etc.
-
-        power_target: "", // all powers I've seen have a target at least, but maybe allow this to be blank just in case
-        power_attack: "", // can be left blank as not all powers have an attack
-        power_hit: "", // can be left blank
-        power_miss: "", // can be left blank
-
-        power_other: ["", ""] // array of strings (?) so the user can write any information not covered above
-    }
 
 }
+
 
 export default charsheet;
