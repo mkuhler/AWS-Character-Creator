@@ -307,7 +307,7 @@ constructor(charProps){
               <Col xs={2}>
                 <Form.Label style={{ marginLeft: 40, fontSize: 15 }}>{option[1]}</Form.Label>
                 <Form.Control type="text"
-                              name="strength_mod"
+                              name={option[0]}
                               value={this.props.data.ability_scores.[option[0]]}
                               style={{ textAlign: "center" }}
                               onChange={e => {this.props.onlyNum(e)}} />
