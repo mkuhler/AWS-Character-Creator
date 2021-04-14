@@ -10,6 +10,7 @@ import BackgroundTalents from './backgroundtalents.js';
 import UploadButton from './UploadButton.js';
 import { parse } from '../../../node_modules/url/url.js';
 import Journal from './journal.js';
+import Powers from './powers.js';
 
 
 //import the rest of form components
@@ -334,6 +335,26 @@ class MasterForm extends React.Component {
             <Col xs={10}>
               <Journal
                 nextStep={this.nextStep}
+                prevStep={this.prevStep}
+                handleChange={this.handleChange}
+                data={this.state.data}
+              />
+            </Col>
+            <PrintPDF
+              data={this.state.data}
+            />
+          </Row>
+
+        </Container>
+
+      case 5:
+        <h3> Powers </h3>
+        return <Container>
+          <ProgressBar now={100} />
+          <Row>
+
+            <Col xs={10}>
+              <Powers
                 prevStep={this.prevStep}
                 handleChange={this.handleChange}
                 data={this.state.data}
