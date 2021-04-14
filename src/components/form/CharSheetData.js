@@ -197,7 +197,9 @@ const charsheet = {
         power_hit: [""], // can be left blank
         power_miss: [""], // can be left blank
 
-        power_other: [""] // array of strings (?) so the user can write any information not covered above
+        power_other: [""], // array of strings (?) so the user can write any information not covered above
+
+        power_text: [""]
     }
 
 
