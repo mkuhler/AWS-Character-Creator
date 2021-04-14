@@ -1,7 +1,7 @@
 import React from 'react';
 import charsheet from './CharSheetData.js';
 import { Button, Form, Col, Container, ProgressBar } from 'react-bootstrap';
-import IconRelationships from "../data/iconrelations.json";
+import powerdata from "../data/powerdata.json";
 
 class Powers extends React.Component {
 
@@ -57,22 +57,15 @@ class Powers extends React.Component {
                     <Form.Row>
                         <Col xs={5}>
                             <Form.Label>Power Frequency 1</Form.Label>
-                            <Form.Control as="select"
+                            <Form.Control type="text"
                                 name="power_frequency_1"
                                 value={this.props.data.power_description.power_frequency_1[i]}
                                 arrayindex={i}
-                                onChange={this.props.handleChange}>
-                                <option>--</option>
-                                <option>At-Will</option>
-                                <option>Cyclical</option>
-                                <option>Battle-Based</option>
-                                <option>Recharge</option>
-                                <option>Daily</option>
-                                <option>Per Level</option>
-                                <option>Per Tier</option>
-                                <option>Magic Item</option>
-                                <option>Other</option>
-                            </Form.Control>
+                                onChange={this.props.handleChange}
+                                list ="frequency"
+                                />
+
+
                         </Col>
 
                         <Col xs={2}>
@@ -88,22 +81,15 @@ class Powers extends React.Component {
                     <Form.Row>
                         <Col xs={5}>
                             <Form.Label>Power Frequency 2</Form.Label>
-                            <Form.Control as="select"
+                            <Form.Control type="select"
                                 name="power_frequency_2"
                                 arrayindex={i}
                                 value={this.props.data.power_description.power_frequency_2[i]}
-                                onChange={this.props.handleChange}>
-                                <option>--</option>
-                                <option>At-Will</option>
-                                <option>Cyclical</option>
-                                <option>Battle-Based</option>
-                                <option>Recharge</option>
-                                <option>Daily</option>
-                                <option>Per Level</option>
-                                <option>Per Tier</option>
-                                <option>Magic Item</option>
-                                <option>Other</option>
-                            </Form.Control>
+                                onChange={this.props.handleChange}
+                                list="frequency"/>
+
+
+
                         </Col>
 
                         <Col xs={2}>
@@ -115,20 +101,17 @@ class Powers extends React.Component {
                                 onChange={this.props.handleChange} />
                         </Col>
                     </Form.Row>
-                                
+
                      <Form.Row>
                         <Col xs={5}>
                             <Form.Label>Power Action Type</Form.Label>
-                            <Form.Control as="select"
+                            <Form.Control type="text"
                                 name="power_action_type"
                                 arrayindex={i}
                                 value = { this.props.data.power_description.power_action_type[i] }
-                                onChange={this.props.handleChange}>
-                                <option>--</option>
-                                <option>Melee Attack</option>
-                                <option>Momentum Attack</option>
-                                <option>Ranged</option>
-                            </Form.Control>
+                                onChange={this.props.handleChange}
+                                list = "action_type" />
+
                         </Col>
                         <Col xs={5}>
                             <Form.Label>Power Range</Form.Label>
@@ -212,6 +195,17 @@ class Powers extends React.Component {
 
                         {console.log(this.props.data.power_description)}
                         {this.createPowers()}
+                        <datalist name ="frequency" id="frequency">
+                          {powerdata.frequency.map((frequency) =>
+                            <option key={frequency} value={frequency}></option>
+                          )}
+                        </datalist>
+
+                        <datalist name ="action_type" id="action_type">
+                          {powerdata.action_type.map((action_type) =>
+                            <option key={action_type} value={action_type}></option>
+                          )}
+                        </datalist>
 
                     </Form.Group>
 
@@ -313,7 +307,7 @@ class Powers extends React.Component {
                     //        onChange={this.props.handleChange} />
                     //</Form.Row>
 
-                
+
 
 
 export default Powers;
