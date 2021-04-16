@@ -39,7 +39,7 @@ export const powers = {
     PURPLE: '#6a4c93',
     CYAN: '#cbf3f0'
   },
-
+  FREQUENCY_CHECKBOX: ['Battle-Based', 'Recharge', 'Daily'],
   FONT_SIZE: 10,
   KEY_PREFIX: 'power_',
   WIDTH: 190,

@@ -164,17 +164,26 @@ function getPowerColor(type) {
 
 export function createPowerHeader(doc, x, y, name, frequency) {
   let headerColor = getPowerColor(frequency);       // Power color-coded based on its frequency
-  var freqency_width = doc.getTextWidth(frequency);
+  var freqencyWidth = doc.getTextWidth(frequency);
   let width = powers.WIDTH - powers.MARGIN;
   let height = powers.header.HEIGHT - powers.MARGIN;
 
-  return doc.setFillColor(headerColor)
-            .rect(x, y, width, height, 'F')
-            .setTextColor('white')
-            .setFontSize(powers.FONT_SIZE)
-            .setFont(font.font_type.DEFAULT, 'bold')
-            .text(name, x + powers.PADDING, y + powers.PADDING)
-            .text(frequency, x + (width - powers.PADDING - freqency_width), y + powers.PADDING);
+  doc.setFillColor(headerColor)
+     .rect(x, y, width, height, 'F')
+
+  // TODO: CHECK FOR NUMBER OF BOXES TO ADD
+  let checkboxOffset = 0;
+  if (powers.FREQUENCY_CHECKBOX.includes(frequency)) {
+    checkboxOffset = 10;
+    doc.setFillColor('white')
+       .rect(x + (width - powers.PADDING), y + 4, 10, 10, 'FD');
+  }
+
+  doc.setTextColor('white')
+     .setFontSize(powers.FONT_SIZE)
+     .setFont(font.font_type.DEFAULT, 'bold')
+     .text(name, x + powers.PADDING, y + powers.PADDING)
+     .text(frequency, x + width - (powers.PADDING + freqencyWidth + checkboxOffset), y + powers.PADDING);
 }
 
 /**
