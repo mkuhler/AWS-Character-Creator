@@ -95,10 +95,10 @@ export function getTextHeight(text,  fontSize = font.font_size.DEFAULT_FONT_SIZE
  * @param  {jsPDF}  doc           PDF document object
  * @param  {String} text          Text to be split into multiple lines
  * @param  {Number} maxLineWidth  The maximum width of the text
- * @param  {String} font          = font.type_font.DEFAULT, text font
+ * @param  {String} font          = font.font_type.DEFAULT, text font
  * @return {Array}                Array of string lines split by maxLineWidth
  */
-export function createParagraph(doc, text, maxLineWidth, fontType = font.type_font.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
+export function createParagraph(doc, text, maxLineWidth, fontType = font.font_type.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
     //var textLines = doc.splitTextToSize(text, maxLineWidth);
     //console.log(fontType);
     return  doc.setFontSize(fontSize)
