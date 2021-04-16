@@ -154,12 +154,13 @@ export default class PrintPDF extends  React.Component
     var colSpace_1 = powers.Y;
     var currentHeight = colSpace_0;
     var powerHeight = 0;
-    let power_arr = [{power_name: "Melee Basic Attack", 
+    let power_arr = [ 
+              {power_name: "Cleave", power_frequency_1: "Daily", power_description: {power_action_type: "Maneuver"}},
+              {power_name: "Melee Basic Attack", 
               power_frequency_1: "At-Will", 
               power_description: {power_action_type: "Standard Action", 
                                   power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}}, 
-              {power_name: "Cleave", power_frequency_1: "Daily", power_description: {power_action_type: "Maneuver"}},
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
               {power_name: "Vitality Drain", power_frequency_1: "Cyclical", power_description: {power_action_type: "Standard Action"}},
               {power_name: "Test Test", power_frequency_1: "Battle-Based", power_description: {power_action_type: "Standard Action"}}];
 

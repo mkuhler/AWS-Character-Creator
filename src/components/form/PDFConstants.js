@@ -35,7 +35,7 @@ export const powers = {
     ORANGE: '#f8961e',
     YELLOW: '#f9c74f',
     GREEN: '#90be6d',
-    BLUE: '#577590',
+    BLUE: '#118ab2',
     PURPLE: '#6a4c93',
     CYAN: '#cbf3f0'
   },
