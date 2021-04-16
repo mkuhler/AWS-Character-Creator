@@ -1,4 +1,4 @@
-import { font, page, feat_magic_gear } from './PDFConstants.js'
+import { font, page, feat_magic_gear, powers } from './PDFConstants.js'
 
 function measureInputText(name)
 {
@@ -121,6 +121,114 @@ export function createTextBox(doc, x, y, width, height, text = "", padding = pag
             .rect(x, y, width + padding, height + padding);
   //return doc.rect(x, y, width, height);
 }
+
+/**
+ * @brief Given the power type, returns the appropriate color code
+ * @param {String} type 
+ * @returns 
+ */
+function getPowerColor(type) {
+  let color = 'red';
+  
+  switch(type) {
+    case 'At-Will':
+      color = '#90be6d';      // GREEN
+      break;
+
+    case 'Cyclical':
+      color = '#f9c74f';     // YELLOW
+      break;
+
+    case 'Battle-Based':
+      color = '#6a4c93';    // PURPLE
+      break; 
+
+    case 'Recharge':
+      color = '#f94144';    // RED
+      break;
+
+    case 'Daily':
+      color = '#f8961e';    // ORANGE
+      break;
+    
+    case 'Other':
+      color = '#577590';    // BLUE
+      break;
+    
+    default:
+      color = '#cbf3f0';    // LIGHT BLUE
+      break;
+  }
+  return color;
+}
+
+export function createPowerHeader(doc, x, y, name, frequency) {
+  let headerColor = getPowerColor(frequency);       // Power color-coded based on its frequency
+  var freqency_width = doc.getTextWidth(frequency);
+  let width = powers.WIDTH - powers.MARGIN;
+  let height = powers.header.HEIGHT - powers.MARGIN;
+
+  return doc.setFillColor(headerColor)
+            .rect(x, y, width, height, 'F')
+            .setTextColor('white')
+            .setFontSize(powers.FONT_SIZE)
+            .setFont(font.font_type.DEFAULT, 'bold')
+            .text(name, x + powers.PADDING, y + powers.PADDING)
+            .text(frequency, x + (width - powers.PADDING - freqency_width), y + powers.PADDING);
+}
+
+export function createPowerBody(doc, x, y, description) {
+  let action_type = description.power_action_type;
+  let target = description.power_target;
+  let attack = description.power_attack;
+
+  // Loop through the power description object and print each
+  Object.keys(description).forEach(function(key, index) {
+    let keyName = key;
+    let value = description[key];
+
+    if (key === 'power_action_type') {
+      keyName = description[key];
+      value = '';
+    } 
+    else if (key.startsWith(powers.KEY_PREFIX)) {
+      keyName = key.slice((powers.KEY_PREFIX).length).replace('_', ' ') + ': ';
+      keyName = keyName.charAt(0).toUpperCase() + keyName.slice(1);
+    }
+    
+    let value_x = doc.getTextWidth(keyName);
+    let line_y = y + (font.LINE_HEIGHT * index);
+
+    // TODO: SET TEXT SMALLER OR ELIPSIS IF IT EXCEEDS THE BOUNDARIES
+    // TODO: SCALE BASED ON HOW MUCH ROOM LEFT
+    doc.setFontSize(10)
+       .setTextColor('black')
+       .setFontSize(powers.FONT_SIZE)
+       .setFont(font.font_type.DEFAULT, 'bold')
+       .text(keyName, x, line_y)
+       .setFont(font.font_type.DEFAULT, 'normal')
+       .text(value, x + value_x + powers.PADDING, line_y)
+       ;
+  });
+}
+
+/**
+ * @brief Creates a power on the page with a header and body
+ * @param {jsPDF}   doc 
+ * @param {int}     row 
+ * @param {int}     col 
+ * @param {Object}  power 
+ */
+export function createPower(doc, row, col, power) {
+
+  let x = powers.X + (col * powers.WIDTH) + page.PAGE_MARGIN
+  let header_y = powers.Y + (row * (powers.header.HEIGHT + powers.body.HEIGHT)) + page.PAGE_MARGIN;
+  let body_y = header_y + powers.header.HEIGHT + page.PAGE_MARGIN;
+
+  createPowerHeader(doc, x, header_y, power.power_name, power.power_frequency_1);
+  createPowerBody(doc, x, body_y, power.power_description);       
+}
+
   /**
   * Adds items from array to pdf while checking
   * to see if strings exceed space from text field.

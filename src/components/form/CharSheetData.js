@@ -223,7 +223,7 @@ const power = {
         power_action_type: "Standard Action", // Standard action is default if not specified, other options like "Ranged Spell", Close-Quarters Spell", etc.
         power_range: "", // no defualt, something like "One nearby enemy", "Enemy with most hitpoints", etc.
 
-        power_target: "", // all powers I've seen have a target at least, but maybe allow this to be blank just in case
+        power_target: "One Engaged Creature", // all powers I've seen have a target at least, but maybe allow this to be blank just in case
         power_attack: "", // can be left blank as not all powers have an attack
         power_hit: "", // can be left blank
         power_miss: "", // can be left blank
