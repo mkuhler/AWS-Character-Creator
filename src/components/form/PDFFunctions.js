@@ -132,31 +132,31 @@ function getPowerColor(type) {
   
   switch(type) {
     case 'At-Will':
-      color = '#90be6d';      // GREEN
+      color = powers.color.GREEN;      // GREEN
       break;
 
     case 'Cyclical':
-      color = '#f9c74f';     // YELLOW
+      color = powers.color.YELLOW;     // YELLOW
       break;
 
     case 'Battle-Based':
-      color = '#6a4c93';    // PURPLE
+      color = powers.color.PURPLE;    // PURPLE
       break; 
 
     case 'Recharge':
-      color = '#f94144';    // RED
+      color = powers.color.RED;    // RED
       break;
 
     case 'Daily':
-      color = '#f8961e';    // ORANGE
+      color = powers.color.ORANGE;    // ORANGE
       break;
     
     case 'Other':
-      color = '#577590';    // BLUE
+      color = powers.color.BLUE;    // BLUE
       break;
     
     default:
-      color = '#cbf3f0';    // LIGHT BLUE
+      color = powers.color.CYAN;    // CYAN
       break;
   }
   return color;

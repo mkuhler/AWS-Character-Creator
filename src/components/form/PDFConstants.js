@@ -30,6 +30,16 @@ export const powers = {
   body: {
     HEIGHT: 100
   },
+  color: {
+    RED: '#f94144',
+    ORANGE: '#f8961e',
+    YELLOW: '#f9c74f',
+    GREEN: '#90be6d',
+    BLUE: '#577590',
+    PURPLE: '#6a4c93',
+    CYAN: '#cbf3f0'
+  },
+
   FONT_SIZE: 10,
   KEY_PREFIX: 'power_',
   WIDTH: 190,
