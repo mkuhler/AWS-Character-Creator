@@ -25,10 +25,10 @@ export const feat_magic_gear = {
 
 export const powers = {
   header: {
-    HEIGHT: 25
+    HEIGHT: 24
   },
   body: {
-    HEIGHT: 60
+    HEIGHT: 100
   },
   FONT_SIZE: 10,
   KEY_PREFIX: 'power_',

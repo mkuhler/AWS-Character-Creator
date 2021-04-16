@@ -152,7 +152,13 @@ export default class PrintPDF extends  React.Component
     var currentCol = 0;
     var colSpace_0 = page.PAGE_HEIGHT - powers.X;
     var colSpace_1 = page.PAGE_HEIGHT - powers.X;
-    powers = [{power_name: "Melee Basic Attack", power_frequency_1: "At-Will", power_description: {power_action_type: "Standard Action", power_target: "One Engaged Creature"}}, 
+    var heightRemaining = colSpace_0;
+    var powerHeight = 0;
+    powers = [{power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}}, 
               {power_name: "Cleave", power_frequency_1: "Daily", power_description: {power_action_type: "Maneuver"}},
               {power_name: "Vitality Drain", power_frequency_1: "Cyclical", power_description: {power_action_type: "Standard Action"}},
               {power_name: "Test Test", power_frequency_1: "Battle-Based", power_description: {power_action_type: "Standard Action"}}];
@@ -161,8 +167,16 @@ export default class PrintPDF extends  React.Component
     powers.map((power, key) => {
       currentCol = key % 2;
       currentRow = (key !== 0 && currentCol === 0) ? currentRow + 1 : currentRow;
+      heightRemaining = (currentCol === 0) ? colSpace_0 : colSpace_1; 
       
-      createPower(doc, currentRow, currentCol, power);
+      powerHeight = createPower(doc, currentRow, currentCol, power);
+      
+      if (currentCol === 0) {
+        colSpace_0 -= powerHeight;
+      } else {
+        colSpace_1 -= powerHeight;
+      }
+      
     });
 
 

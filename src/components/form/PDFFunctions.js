@@ -178,9 +178,7 @@ export function createPowerHeader(doc, x, y, name, frequency) {
 }
 
 export function createPowerBody(doc, x, y, description) {
-  let action_type = description.power_action_type;
-  let target = description.power_target;
-  let attack = description.power_attack;
+  let heightTotal = 0;
 
   // Loop through the power description object and print each
   Object.keys(description).forEach(function(key, index) {
@@ -190,14 +188,24 @@ export function createPowerBody(doc, x, y, description) {
     if (key === 'power_action_type') {
       keyName = description[key];
       value = '';
-    } 
-    else if (key.startsWith(powers.KEY_PREFIX)) {
+    } else if (key.startsWith(powers.KEY_PREFIX)) {
       keyName = key.slice((powers.KEY_PREFIX).length).replace('_', ' ') + ': ';
-      keyName = keyName.charAt(0).toUpperCase() + keyName.slice(1);
     }
+
+    keyName = keyName.charAt(0).toUpperCase() + keyName.slice(1);
     
+    // Break up the value into lines based on the maximum width of powers
+    value = createParagraph(doc, (keyName + ": " + value), powers.WIDTH, font.font_type.DEFAULT, powers.FONT_SIZE);
+    value[0] = value[0].substring(value[0].indexOf(": ") + 3);
+
     let value_x = doc.getTextWidth(keyName);
-    let line_y = y + (font.LINE_HEIGHT * index);
+    let line_y = Number(y + (font.LINE_HEIGHT * index));
+
+    // If the text of our power starts to exceed the maximum, break
+    if ((heightTotal + font.LINE_HEIGHT)  >= powers.body.HEIGHT) {
+      doc.text('...', x + value_x, line_y + (index * line_y));
+      return heightTotal;
+    }
 
     // TODO: SET TEXT SMALLER OR ELIPSIS IF IT EXCEEDS THE BOUNDARIES
     // TODO: SCALE BASED ON HOW MUCH ROOM LEFT
@@ -205,11 +213,23 @@ export function createPowerBody(doc, x, y, description) {
        .setTextColor('black')
        .setFontSize(powers.FONT_SIZE)
        .setFont(font.font_type.DEFAULT, 'bold')
-       .text(keyName, x, line_y)
-       .setFont(font.font_type.DEFAULT, 'normal')
-       .text(value, x + value_x + powers.PADDING, line_y)
-       ;
+       .text(keyName, x, line_y);
+    
+    // Loop through each line of the value text and add to the page, checking with max height. 
+    let line_x = x + value_x;
+    
+    value.forEach((line, lineIndex) => {
+      line_x = (lineIndex === 0) ? x + value_x : x;
+
+      doc.setFont(font.font_type.DEFAULT, 'normal')
+         .text(line, line_x, line_y + (lineIndex * font.LINE_HEIGHT));
+    });
+    
+    // Compute total height of the power's body
+    heightTotal += font.LINE_HEIGHT * value.length;
   });
+
+  return heightTotal;
 }
 
 /**
@@ -223,10 +243,12 @@ export function createPower(doc, row, col, power) {
 
   let x = powers.X + (col * powers.WIDTH) + page.PAGE_MARGIN
   let header_y = powers.Y + (row * (powers.header.HEIGHT + powers.body.HEIGHT)) + page.PAGE_MARGIN;
-  let body_y = header_y + powers.header.HEIGHT + page.PAGE_MARGIN;
+  let body_y = Number(header_y + powers.header.HEIGHT + page.PAGE_MARGIN);
 
   createPowerHeader(doc, x, header_y, power.power_name, power.power_frequency_1);
-  createPowerBody(doc, x, body_y, power.power_description);       
+  let bodyHeight = createPowerBody(doc, x, body_y, power.power_description); 
+  
+  return header_y + bodyHeight;
 }
 
   /**
