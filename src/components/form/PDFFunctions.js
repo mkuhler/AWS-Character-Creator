@@ -177,6 +177,14 @@ export function createPowerHeader(doc, x, y, name, frequency) {
             .text(frequency, x + (width - powers.PADDING - freqency_width), y + powers.PADDING);
 }
 
+/**
+ * 
+ * @param {jsPDF} doc 
+ * @param {Number} x 
+ * @param {Number} y 
+ * @param {String} description 
+ * @returns The total height of the body
+ */
 export function createPowerBody(doc, x, y, description) {
   let heightTotal = 0;
 
@@ -239,10 +247,10 @@ export function createPowerBody(doc, x, y, description) {
  * @param {int}     col 
  * @param {Object}  power 
  */
-export function createPower(doc, row, col, power) {
+export function createPower(doc, row, col, height, power) {
 
   let x = powers.X + (col * powers.WIDTH) + page.PAGE_MARGIN
-  let header_y = powers.Y + (row * (powers.header.HEIGHT + powers.body.HEIGHT)) + page.PAGE_MARGIN;
+  let header_y = height + page.PAGE_MARGIN;
   let body_y = Number(header_y + powers.header.HEIGHT + page.PAGE_MARGIN);
 
   createPowerHeader(doc, x, header_y, power.power_name, power.power_frequency_1);

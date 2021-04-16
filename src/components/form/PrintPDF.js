@@ -54,7 +54,7 @@ export default class PrintPDF extends  React.Component
     var icon_statuses = icon_relationships.status;
     var icon_relationships_other = charsheet.background_talents.icon_relationship_other;
     var backgrounds = charsheet.background_talents.backgrounds;
-    var powers = charsheet.character_powers.powers;
+    //var powers = charsheet.character_powers.powers;
 
     doc.addImage(basic_info(),'PNG',7,15, 570,247);
 
@@ -150,11 +150,11 @@ export default class PrintPDF extends  React.Component
 
     var currentRow = 0;
     var currentCol = 0;
-    var colSpace_0 = page.PAGE_HEIGHT - powers.X;
-    var colSpace_1 = page.PAGE_HEIGHT - powers.X;
-    var heightRemaining = colSpace_0;
+    var colSpace_0 = powers.Y;
+    var colSpace_1 = powers.Y;
+    var currentHeight = colSpace_0;
     var powerHeight = 0;
-    powers = [{power_name: "Melee Basic Attack", 
+    let power_arr = [{power_name: "Melee Basic Attack", 
               power_frequency_1: "At-Will", 
               power_description: {power_action_type: "Standard Action", 
                                   power_target: "One Engaged Creature",
@@ -164,17 +164,23 @@ export default class PrintPDF extends  React.Component
               {power_name: "Test Test", power_frequency_1: "Battle-Based", power_description: {power_action_type: "Standard Action"}}];
 
     // Generate Powers
-    powers.map((power, key) => {
+    power_arr.map((power, key) => {
       currentCol = key % 2;
       currentRow = (key !== 0 && currentCol === 0) ? currentRow + 1 : currentRow;
-      heightRemaining = (currentCol === 0) ? colSpace_0 : colSpace_1; 
-      
-      powerHeight = createPower(doc, currentRow, currentCol, power);
-      
-      if (currentCol === 0) {
-        colSpace_0 -= powerHeight;
+      currentHeight = (currentCol === 0) ? colSpace_0 : colSpace_1; 
+      console.log(power.power_name + " " + currentHeight);
+
+      if ((powerHeight + powers.header.HEIGHT + powers.body.HEIGHT) > page.HEIGHT) {
+        // ADD TO ARRAY OF POWERS NOT PRESENT ON FIRST PAGE, RELEGATE TO ANOTHER
       } else {
-        colSpace_1 -= powerHeight;
+        powerHeight = createPower(doc, currentRow, currentCol, currentHeight, power);
+        console.log(powerHeight);
+
+        if (currentCol === 0) {
+          colSpace_0 = powerHeight + powers.header.HEIGHT;    // Add a buffer space the size of the power's header
+        } else {
+          colSpace_1 = powerHeight + powers.header.HEIGHT;
+        }
       }
       
     });
