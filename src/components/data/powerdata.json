@@ -1,0 +1,6 @@
+{
+  "frequency" : ["--", "At-Will", "Cyclical", "Battle-Based", "Recharge", "Daily", "Per Level", "Per Tier", "Magic Item", "Other"],
+
+  "action_type" : ["--", "Melee Attack", "Momentum Attack", "Ranged Attack"]
+
+}
