@@ -3,8 +3,8 @@ import CharacterDetails from './characterdetails.js';
 import {Button, Form, Col, Figure} from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import charsheet from './CharSheetData.js';
-import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph, extend_textfield } from './PDFFunctions.js';
-import { font, page, feat_magic_gear } from './PDFConstants.js';
+import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph, extend_textfield, createPower } from './PDFFunctions.js';
+import { font, page, feat_magic_gear, powers } from './PDFConstants.js';
 import { basic_info, sword_image } from './encodebase64.js';
 import FileSaver from 'file-saver';
 import axios from 'axios';
@@ -54,6 +54,7 @@ export default class PrintPDF extends  React.Component
     var icon_statuses = icon_relationships.status;
     var icon_relationships_other = charsheet.background_talents.icon_relationship_other;
     var backgrounds = charsheet.background_talents.backgrounds;
+    //var powers = charsheet.character_powers.powers;
 
     doc.addImage(basic_info(),'PNG',7,15, 570,247);
 
@@ -147,6 +148,96 @@ export default class PrintPDF extends  React.Component
       createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, sectionText);
     }
 
+    var currentRow = 0;
+    var currentCol = 0;
+    var colSpace_0 = powers.Y;
+    var colSpace_1 = powers.Y;
+    var currentHeight = colSpace_0;
+    var powerHeight = 0;
+    let power_arr = [ 
+      {power_name: "Cleave", power_frequency_1: "Daily", power_description: {power_action_type: "Maneuver"}},
+      {power_name: "Melee Basic Attack", 
+      power_frequency_1: "At-Will", 
+      power_description: {power_action_type: "Standard Action", 
+                          power_target: "One Engaged Creature",
+                          power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                          
+      {power_name: "Vitality Drain", power_frequency_1: "Cyclical", power_description: {power_action_type: "Standard Action"}},
+      {power_name: "Test Test", power_frequency_1: "Battle-Based", power_description: {power_action_type: "Standard Action"}}];
+    
+      /*let power_arr = [ 
+              {power_name: "Cleave", power_frequency_1: "Daily", power_description: {power_action_type: "Maneuver"}},
+              {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                                  
+              {power_name: "Vitality Drain", power_frequency_1: "Cyclical", power_description: {power_action_type: "Standard Action"}},
+              {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                                  {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                                  {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                                  {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                                  {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                                  {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                                  {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                                  {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+              {power_name: "Test Test", power_frequency_1: "Battle-Based", power_description: {power_action_type: "Standard Action"}}];
+    */
+    let power_overflow = [];
+    
+    // Generate Powers
+    power_arr.map((power, key) => {
+      currentCol = key % 2;
+      currentRow = (key !== 0 && currentCol === 0) ? currentRow + 1 : currentRow;
+      currentHeight = (currentCol === 0) ? colSpace_0 : colSpace_1; 
+      
+      if ((currentHeight + powers.header.HEIGHT + powers.body.HEIGHT) > page.PAGE_HEIGHT) {
+        // ADD TO ARRAY OF POWERS NOT PRESENT ON FIRST PAGE, RELEGATE TO ANOTHER
+        power_overflow.push(power);
+      } else {
+        powerHeight = createPower(doc, currentRow, currentCol, currentHeight, power);
+
+        if (currentCol === 0) {
+          colSpace_0 = powerHeight + powers.header.HEIGHT;    // Add a buffer space the size of the power's header
+        } else {
+          colSpace_1 = powerHeight + powers.header.HEIGHT;
+        }
+      }
+      
+    });
 
 
     ////////////////////////////////////////////////////////////////////////////////
