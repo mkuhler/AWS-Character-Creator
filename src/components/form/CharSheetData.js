@@ -230,8 +230,6 @@ const charsheet = {
 
 }
 
-/*
-
 // a separate object for powers, character power would be an array of these
 // frankly I'm not sure if this is the correct way to do this
 // a separate object for powers, character power would be an array of these
@@ -258,8 +256,6 @@ const power = {
     }
 
 }
-
-*/
 
 
 export default charsheet;
