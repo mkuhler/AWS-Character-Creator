@@ -287,15 +287,14 @@ export default class PrintPDF extends  React.Component
     
     createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0),280 + journal_ycord, "JOURNAL");
     
-    let new_page = expand_textfield(doc,paragraphlength, 285 + journal_ycord, 150, 150, 13, 500);
+    expand_textfield(doc,paragraphlength, 285 + journal_ycord, 150, 150, false, 13, 350);
     
     createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), 285 + journal_ycord, (page.PAGE_WIDTH / 3) + 360, 150 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
             
-    if(new_page == true) { add_jounrnal_page(doc, offset, page.PAGE_WIDTH); }
+    add_jounrnal_page(doc, offset, page.PAGE_WIDTH);
 
-    doc.save("My_Character.pdf");
     feat_magic_gear.FIXED_HEIGHT = 180;
-
+    doc.save("My_Character.pdf");
     }
 
     jsonGenerator = () => {

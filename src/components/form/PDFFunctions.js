@@ -1,17 +1,13 @@
 import { connect } from 'formik';
 import jsPDF from 'jspdf';
-import { font, page, feat_magic_gear, powers } from './PDFConstants.js'
+import { font, page, feat_magic_gear, powers, journal } from './PDFConstants.js'
 
-/**  @const {String} - Extra journal information*/
-var EPIC_JOURNAL = ""
-
-/**  @const {Number} - The amount of lines that the text can hold*/
-var MAX_PARAGRAPH_LENGTH = 44
-
-/**  @const {Boolean} - continue adding pages*/
-var CONTINUE_PAGING = true
-
-var MAX_HEIGHT = 0
+// var EPIC_JOURNAL = ""
+// var MAX_PARAGRAPH_LENGTH = 44
+// var CONTINUE_PAGING = true
+// var MAX_HEIGHT = 0
+// var LINES=0
+// var PARAGRAPH_LINES = 0
 
 /**
  * Measure the text width of a string
@@ -157,17 +153,17 @@ export function createJournalParagraph(doc, text, startHight, startWidth, maxLin
                    .splitTextToSize(text, maxLineWidth)
 
     if(lines.length > 44){      
-      var break_paragraph = lines.length - MAX_PARAGRAPH_LENGTH
+      var break_paragraph = lines.length - journal.MAX_PARAGRAPH_LENGTH
 
       var lines = doc.setFontSize(fontSize)
                      .setTextColor('')
                      .splitTextToSize(text, maxLineWidth)
                      .slice(0, -break_paragraph);
 
-      EPIC_JOURNAL = doc.setFontSize(fontSize)
-                     .setTextColor('')
-                     .splitTextToSize(text, maxLineWidth)
-                     .slice(-break_paragraph);
+      journal.EPIC_JOURNAL = doc.setFontSize(fontSize)
+                                .setTextColor('')
+                                .splitTextToSize(text, maxLineWidth)
+                                .slice(-break_paragraph);
     }
 
     doc.text(startHight, startWidth, lines);
@@ -185,11 +181,10 @@ export function createJournalParagraph(doc, text, startHight, startWidth, maxLin
  * @return {jsPDF}                  Rectangle around text
  */
 export function createTextBox(doc, x, y, width, height, text = "", padding = page.DEFAULT_PADDING) {
-  
+  journal.MAX_HEIGHT = 0;
   return doc.text(text, x + padding, y + padding)
             .rect(x, y, width + padding, height + padding);
 
-  MAX_HEIGHT = 0;
 }
 
 /**
@@ -369,7 +364,7 @@ export function createPower(doc, row, col, height, power) {
       else
         y_Cord += 15;
     }
-    expand_textfield(doc, items, y_Cord, box_hight, hight_difference, 10, 1000)
+    expand_textfield(doc, items, y_Cord, box_hight, hight_difference, true, 10, 1000)
   }
 
   /**
@@ -384,28 +379,33 @@ export function createPower(doc, row, col, height, power) {
   * @param  {Number}   max_height           highest length of the entry box
   * @return {Boolean}                       max_height > FIXED_HEIGHT
   */
-  export function expand_textfield(doc, entry, y_cord, box_hight, hight_difference, number_of_entries, max_height)
+  export function expand_textfield(doc, entry, y_cord, box_hight, hight_difference, entries, number_of_entries, max_height)
   {
   feat_magic_gear.FIXED_HEIGHT = box_hight;
   feat_magic_gear.HEIGHT_DIFFER = hight_difference;
-  MAX_HEIGHT = max_height
+
+  journal.MAX_HEIGHT = max_height
 
   for(var i = 0; i < entry.length; i++)
   {
     if(i > number_of_entries){
       feat_magic_gear.FIXED_HEIGHT += 15
-      MAX_HEIGHT-=15
+      if(entries===true){
+        journal.LINES+=1
+        journal.PARAGRAPH_LINES+=15
+      }
     }
   }
 
-  if(feat_magic_gear.FIXED_HEIGHT < MAX_HEIGHT){
+  if(feat_magic_gear.FIXED_HEIGHT < journal.MAX_HEIGHT){
     feat_magic_gear.HEIGHT_DIFFER = feat_magic_gear.FIXED_HEIGHT - feat_magic_gear.HEIGHT_DIFFER;
-
-    MAX_PARAGRAPH_LENGTH-=4
+    
+    journal.MAX_PARAGRAPH_LENGTH-=journal.LINES
   }
   else{
-    feat_magic_gear.HEIGHT_DIFFER = MAX_HEIGHT 
-    return true;
+    feat_magic_gear.HEIGHT_DIFFER = journal.MAX_HEIGHT - journal.PARAGRAPH_LINES
+    journal.PARAGRAPH_LINES = 0;
+    journal.LINES = 0;
   }
 
   }
@@ -421,18 +421,17 @@ export function createPower(doc, row, col, height, power) {
   */
   export function add_jounrnal_page(doc, offset, page_width)
   {
-    MAX_PARAGRAPH_LENGTH = 66
-    doc.addPage();
-    add_page_number(doc);
-    createTitle(doc, offset + (page_width / 3 * 0), 20, "JOURNAL");
-    createTextBox(doc, offset + (page_width / 3 * 0), 30, (page.PAGE_WIDTH / 3) + 360, 750, "");
-    createJournalParagraph(doc, EPIC_JOURNAL, offset + 5, 40, 570, '', 10 );
+    if(journal.EPIC_JOURNAL!==''){
+      journal.MAX_PARAGRAPH_LENGTH = 66
+      doc.addPage();
+      add_page_number(doc);
+      createTitle(doc, offset + (page_width / 3 * 0), 20, "JOURNAL");
+      createTextBox(doc, offset + (page_width / 3 * 0), 30, (page.PAGE_WIDTH / 3) + 360, 750, "");
+      createJournalParagraph(doc, journal.EPIC_JOURNAL, offset + 5, 40, 570, '', 10 );
 
-    if(CONTINUE_PAGING)
-      epic_story(EPIC_JOURNAL.length, doc, offset, page_width)
-    else
-      MAX_PARAGRAPH_LENGTH = 44
+      epic_story(journal.EPIC_JOURNAL.length, doc, offset, page_width)
 
+    }
   }
 
   /**
@@ -447,13 +446,14 @@ export function createPower(doc, row, col, height, power) {
   * 
   */
     export function epic_story(story_lines, doc, offset, page_width){
-      if(story_lines> 66 && CONTINUE_PAGING)
+      if(story_lines > 66)
       {
         add_jounrnal_page(doc, offset, page_width)
       }
-      else{
-        CONTINUE_PAGING =true
-        MAX_PARAGRAPH_LENGTH = 44
+      else {
+        journal.CONTINUE_PAGING =true
+        journal.MAX_PARAGRAPH_LENGTH = 44
+        journal.EPIC_JOURNAL = ''
     }
   }
 
