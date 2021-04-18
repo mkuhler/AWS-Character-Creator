@@ -48,3 +48,10 @@ export const powers = {
   X: 200,
   Y: 380
 };
+
+export const journal = {
+  EPIC_JOURNAL : "",
+  MAX_PARAGRAPH_LENGTH : 44,
+  BORDER_HEIGHT : 0,
+  CONTINUE_PAGING : true
+};

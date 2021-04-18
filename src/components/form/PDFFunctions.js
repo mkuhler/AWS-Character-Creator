@@ -128,6 +128,21 @@ export function getTextHeight(text,  fontSize = font.font_size.DEFAULT_FONT_SIZE
  * Split a string of text into an array of lines to create a paragraph of text
  * @param  {jsPDF}  doc           PDF document object
  * @param  {String} text          Text to be split into multiple lines
+ * @param  {Number} maxLineWidth  The maximum width of the text
+ * @param  {String} font          = font.font_type.DEFAULT, text font
+ * @return {Array}                Array of string lines split by maxLineWidth
+ */
+ export function createParagraph(doc, text, maxLineWidth, fontType = font.font_type.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
+  //var textLines = doc.splitTextToSize(text, maxLineWidth);
+  //console.log(fontType);
+  return  doc.setFontSize(fontSize)
+             .splitTextToSize(text, maxLineWidth);
+}
+
+/**
+ * Split a string of text into an array of lines to create a paragraph of text
+ * @param  {jsPDF}  doc           PDF document object
+ * @param  {String} text          Text to be split into multiple lines
  * @param  {Number} startHight    Where to begin the paragraph
  * @param  {Number} startWidth    Inditation of the paragrpah
  * @param  {Number} maxLineWidth  The maximum width of the text
@@ -135,7 +150,7 @@ export function getTextHeight(text,  fontSize = font.font_size.DEFAULT_FONT_SIZE
  * @param  {String} fontSize      = font.type_font.MINIMUM_FONT_SIZE, text font size
  * @return {Array}                Array of string lines split by maxLineWidth
  */
-export function createParagraph(doc, text, startHight, startWidth, maxLineWidth, fontType = font.type_font.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
+export function createJournalParagraph(doc, text, startHight, startWidth, maxLineWidth, fontType = font.type_font.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
 
     var lines = doc.setFontSize(fontSize)
                    .setTextColor('')
@@ -411,7 +426,7 @@ export function createPower(doc, row, col, height, power) {
     add_page_number(doc);
     createTitle(doc, offset + (page_width / 3 * 0), 20, "JOURNAL");
     createTextBox(doc, offset + (page_width / 3 * 0), 30, (page.PAGE_WIDTH / 3) + 360, 750, "");
-    createParagraph(doc, EPIC_JOURNAL, offset + 5, 40, 570, '', 10 );
+    createJournalParagraph(doc, EPIC_JOURNAL, offset + 5, 40, 570, '', 10 );
 
     if(CONTINUE_PAGING)
       epic_story(EPIC_JOURNAL.length, doc, offset, page_width)
@@ -447,7 +462,6 @@ export function createPower(doc, row, col, height, power) {
   *
   * @param {jsPDF}  doc           PDF document object
   * @param {Number}   fontSize  = font.font_size.DEFAULT_FONT_SIZE, option to modify font siz
-
   * @return void
   * 
   */
@@ -458,4 +472,3 @@ export function createPower(doc, row, col, height, power) {
      .text(500,820, '' + doc.page); //print number bottom right
   doc.page ++;
  }
-

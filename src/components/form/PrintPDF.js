@@ -3,8 +3,8 @@ import CharacterDetails from './characterdetails.js';
 import {Button, Form, Col, Figure} from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import charsheet from './CharSheetData.js';
-import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph, add_items, expand_textfield, createPower, add_jounrnal_page, add_page_number } from './PDFFunctions.js';
-import { font, page, feat_magic_gear } from './PDFConstants.js';
+import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph, createJournalParagraph, add_items, expand_textfield, createPower, add_jounrnal_page, add_page_number } from './PDFFunctions.js';
+import { font, page, feat_magic_gear, powers } from './PDFConstants.js';
 import { basic_info, sword_image } from './encodebase64.js';
 import FileSaver from 'file-saver';
 import axios from 'axios';
@@ -282,7 +282,7 @@ export default class PrintPDF extends  React.Component
     journal_ycord = feat_magic_gear.HEIGHT_DIFFER 
     doc.addImage(sword_image(),'PNG',7,230 + journal_ycord, 570,30);  
   
-    let paragraphlength = createParagraph(doc, background, offset + (page.PAGE_WIDTH / 3 * 0) + 5, 300 + journal_ycord, 570, '', 10 );
+    let paragraphlength = createJournalParagraph(doc, background, offset + (page.PAGE_WIDTH / 3 * 0) + 5, 300 + journal_ycord, 570, '', 10 );
     
     
     createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0),280 + journal_ycord, "JOURNAL");
