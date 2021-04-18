@@ -3,14 +3,13 @@ import CharacterDetails from './characterdetails.js';
 import {Button, Form, Col, Figure} from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import charsheet from './CharSheetData.js';
-import { lengthy_entry, get_ellispis } from './FontFunctions.js';
+import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph, createJournalParagraph, add_items, expand_textfield, createPower, add_jounrnal_page, add_page_number } from './PDFFunctions.js';
+import { font, page, feat_magic_gear, powers } from './PDFConstants.js';
 import { basic_info, sword_image } from './encodebase64.js';
 import FileSaver from 'file-saver';
 import axios from 'axios';
 import { parse } from '../../../node_modules/querystring/index.js';
-
-var FIXED_HEIGHT = 180; //fixed size for FEATS, GEAR EQUIPMENT & MONEY, MAGIC ITEMS
-var HEIGHT_DIFFER = 0;     //will be used to calculate the hight difference if the textfield change in size
+import { renderToString } from "react-dom/server";
 
 export default class PrintPDF extends  React.Component
 {
@@ -22,6 +21,7 @@ export default class PrintPDF extends  React.Component
 
   pdfGenerator = () =>{
     var doc = new jsPDF('p', 'pt');
+    doc.page = 1;
 
     var name = charsheet.basic_info.name;
     var race_and_class = charsheet.basic_info.race + " - " + charsheet.basic_info.class;
@@ -49,12 +49,21 @@ export default class PrintPDF extends  React.Component
     var saving_throws_hard = charsheet.character_attributes.saving_throws_hard;
     var saving_throws_optional = charsheet.character_attributes.saving_throws_optional;
     var death_saves_max = charsheet.character_attributes.death_saves_max;
+    // var icon_relationships = charsheet.background_talents.icon_relationships;
+    var icon_names = charsheet.background_talents.icon_relationship_names;
+    var icon_points = charsheet.background_talents.icon_relationship_points;
+    var icon_statuses = charsheet.background_talents.icon_relationship_statuses;
+    var icon_relationships_other = charsheet.background_talents.icon_relationships_other;
+    var backgrounds = charsheet.background_talents.backgrounds;
+    var feat_name = charsheet.background_talents.talents_and_features_names;
+    var feat_description = charsheet.background_talents.talents_and_features_descriptionss;
+    //var powers = charsheet.character_powers.powers;
 
     doc.addImage(basic_info(),'PNG',7,15, 570,247);
 
     //Character basic informatoin
-    doc.setFontSize(lengthy_entry(name));
-    doc.text(10, 28, get_ellispis(name)); //name
+    doc.setFontSize(lengthy_entry(name, 120, 175));
+    doc.text(10, 28, get_ellispis(name, 175)); //name
 
 
     doc.setFontSize(lengthy_entry(race_and_class)).text(10, 62, race_and_class);
@@ -94,65 +103,191 @@ export default class PrintPDF extends  React.Component
 
     if(saving_throws_optional != ""){
       doc.setFont('fantasy').setTextColor("#808080").setFontSize(8).text(328, 225, "OPTIONAL ");
-      doc.setFont('').setTextColor('').text(375, 225, ": " + saving_throws_optional); //reset font and color
+      doc.setFont('arial').setTextColor('').text(375, 225, ": " + saving_throws_optional); //reset font and color
     }
+
+    var sectionText = "";
+    var i;
+    var offset = (page.PAGE_MARGIN / 2);
+    var boxWidth = (page.PAGE_WIDTH / 3) - offset - 40;
+    var height = 280;
+    var line = "";
+
+    for (i = 0; i < 3; i++) {
+      var sectionText = [];
+
+      switch(i) {
+        case 0:
+          sectionTitle = "Icon Relationships";
+          
+          // Loop through relationships and add to array of strings
+          // ICON_RELATIONSHIP OBJ WITH ARRAYS IN EACH
+          /*for(relationship in icon_relationships) {
+            line = relationship.name + ": " + relationship.points + " " + relationship.status;
+            sectionText.push(line);
+          }*/
+
+          break;
+        case 1:
+          sectionTitle = "One Unique Thing";
+          // sectionText = createParagraph(doc, charsheet.background_talents.one_unique_thing, boxWidth - page.DEFAULT_PADDING);
+          break;
+        case 2:
+          sectionTitle = "Backgrounds";
+          
+          // Loop through backgrounds and add to array of strings
+          /*var j; 
+          for (j = 0; j < backgrounds.length; j++) {
+            var background = backgrounds[j];
+            line = background[0] + " " + background[1];
+            console.log(background);
+            sectionText.push(line);
+          }*/
+          break;
+      }
+
+      // TODO: Figure out how to make the boxes full-width without the -25 in width for line 121
+      createTitle(doc, offset + (page.PAGE_WIDTH / 3 * i), height, sectionTitle);
+      createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, sectionText);
+
+    }
+
+
+    var currentRow = 0;
+    var currentCol = 0;
+    var colSpace_0 = powers.Y;
+    var colSpace_1 = powers.Y;
+    var currentHeight = colSpace_0;
+    var powerHeight = 0;
+    let power_arr = [ 
+      {power_name: "Cleave", power_frequency_1: "Daily", power_description: {power_action_type: "Maneuver"}},
+      {power_name: "Melee Basic Attack", 
+      power_frequency_1: "At-Will", 
+      power_description: {power_action_type: "Standard Action", 
+                          power_target: "One Engaged Creature",
+                          power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                          
+      {power_name: "Vitality Drain", power_frequency_1: "Cyclical", power_description: {power_action_type: "Standard Action"}},
+      {power_name: "Test Test", power_frequency_1: "Battle-Based", power_description: {power_action_type: "Standard Action"}}];
+    
+      /*let power_arr = [ 
+              {power_name: "Cleave", power_frequency_1: "Daily", power_description: {power_action_type: "Maneuver"}},
+              {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                                  
+              {power_name: "Vitality Drain", power_frequency_1: "Cyclical", power_description: {power_action_type: "Standard Action"}},
+              {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                                  {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                                  {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                                  {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                                  {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                                  {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                                  {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+                                  {power_name: "Melee Basic Attack", 
+              power_frequency_1: "At-Will", 
+              power_description: {power_action_type: "Standard Action", 
+                                  power_target: "One Engaged Creature",
+                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
+              {power_name: "Test Test", power_frequency_1: "Battle-Based", power_description: {power_action_type: "Standard Action"}}];
+    */
+    let power_overflow = [];
+    
+    // Generate Powers
+    power_arr.map((power, key) => {
+      currentCol = key % 2;
+      currentRow = (key !== 0 && currentCol === 0) ? currentRow + 1 : currentRow;
+      currentHeight = (currentCol === 0) ? colSpace_0 : colSpace_1; 
+      
+      if ((currentHeight + powers.header.HEIGHT + powers.body.HEIGHT) > page.PAGE_HEIGHT) {
+        // ADD TO ARRAY OF POWERS NOT PRESENT ON FIRST PAGE, RELEGATE TO ANOTHER
+        power_overflow.push(power);
+      } else {
+        powerHeight = createPower(doc, currentRow, currentCol, currentHeight, power);
+
+        if (currentCol === 0) {
+          colSpace_0 = powerHeight + powers.header.HEIGHT;    // Add a buffer space the size of the power's header
+        } else {
+          colSpace_1 = powerHeight + powers.header.HEIGHT;
+        }
+      }
+      
+    });
+
 
     ////////////////////////////////////////////////////////////////////////////////
     //SECOND PAGE INFORMATION
     ////////////////////////////////////////////////////////////////////////////////
 
-    doc.addPage();
-    doc.setFont('fantasy').setTextColor("#808080").setFontSize(11);
-    doc.text(7,30,"FEATS").text(205,30,"GEAR EQUIPMENT & MONEY").text(405,30,"MAGIC ITEMS");
-    doc.setFont('').setTextColor(''); //reset font and color
-
     var feats = charsheet.inventory_feats_and_journal.feats;
     var inventory = charsheet.inventory_feats_and_journal.inventory;
-    var magic = charsheet.inventory_feats_and_journal.magic_items
-    ;
-    this.extend_textfield(feats, doc, 10);
-    this.extend_textfield(inventory, doc, 208);
-    this.extend_textfield(magic, doc, 408);
+    var magic = charsheet.inventory_feats_and_journal.magic_items;
+    var background = charsheet.inventory_feats_and_journal.journal_and_background_story;
+    var inventory_height = 35;
+    var journal_ycord = 0;
 
-    doc.rect(7, 35, 170, FIXED_HEIGHT);      //FEATS
-    doc.rect(205, 35, 170, FIXED_HEIGHT);    //GEAR EQUIPMENT & MONEY
-    doc.rect(405, 35, 170, FIXED_HEIGHT);    //MAGIC ITEMS
+    doc.addPage();
+    add_page_number(doc);
+    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0), inventory_height - 5, "FEATS"); 
+    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 1), inventory_height - 5, "GEAR EQUIPMENT & MONEY");
+    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 2), inventory_height - 5, "MAGIC ITEMS");
 
-    //BACKSTORY
-    doc.rect(7, 285 + HEIGHT_DIFFER, 570, 510);
+    add_items(feats, doc, 10, 50, feat_magic_gear.FIXED_HEIGHT, 180);
+    add_items(inventory, doc, 215, 50, feat_magic_gear.FIXED_HEIGHT, 180);
+    add_items(magic, doc, 418, 50, feat_magic_gear.FIXED_HEIGHT, 180);
 
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 1), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 2), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
 
-    doc.setFont('fantasy').setTextColor("#808080").setFontSize(11);
-    doc.text(7,280 + HEIGHT_DIFFER, "JOURNAL / BACKSTORY");
-    doc.addImage(sword_image(),'PNG',7,225 + HEIGHT_DIFFER, 570,30);
+    //Height difference save to
+    journal_ycord = feat_magic_gear.HEIGHT_DIFFER 
+    doc.addImage(sword_image(),'PNG',7,230 + journal_ycord, 570,30);  
+  
+    let paragraphlength = createJournalParagraph(doc, background, offset + (page.PAGE_WIDTH / 3 * 0) + 5, 300 + journal_ycord, 570, '', 10 );
+    
+    
+    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0),280 + journal_ycord, "JOURNAL");
+    
+    expand_textfield(doc,paragraphlength, 285 + journal_ycord, 150, 150, false, 13, 350);
+    
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), 285 + journal_ycord, (page.PAGE_WIDTH / 3) + 360, 150 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+            
+    add_jounrnal_page(doc, offset, page.PAGE_WIDTH);
 
+    feat_magic_gear.FIXED_HEIGHT = 180;
     doc.save("My_Character.pdf");
     }
-
-  /**
-  * Adds items from array to pdf while checking
-  * to see if strings exceed space from text field.
-  *
-  * @param  items   the list that will be added to document
-  * @param  doc     the pdf document
-  * @param  x_Cord  the cordinate to start place the string
-  * @return         void
-  */
-  extend_textfield = (items, doc, x_Cord) => {
-    HEIGHT_DIFFER = 180;
-
-    var y_Cord = 50;
-    for(var i = 0; i <items.length; i++)
-    {
-      doc.text(x_Cord, y_Cord, items[i]);
-      if(y_Cord > FIXED_HEIGHT){
-        FIXED_HEIGHT += 15
-      }
-      y_Cord += 15;
-    }
-      HEIGHT_DIFFER = FIXED_HEIGHT - HEIGHT_DIFFER;
-  }
-
 
     jsonGenerator = () => {
 
