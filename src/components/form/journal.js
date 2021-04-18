@@ -8,10 +8,10 @@ class Journal extends React.Component {
       super(props);
       this.state = {
         official: true,
-        mage: false,
-        numOfInventory: 1,
-        numOfMagicItems: 1,
-        numOfFeats: 1
+          mage: false,
+          numOfInventory: Math.max(this.props.data.inventory_feats_and_journal.inventory.length, 3),
+          numOfMagicItems: Math.max(this.props.data.inventory_feats_and_journal.magic_items.length, 3),
+          numOfFeats: Math.max(this.props.data.inventory_feats_and_journal.feats.length, 3),
 
       };
 
@@ -59,8 +59,8 @@ class Journal extends React.Component {
       for(var i = 0; i < this.state.numOfInventory; i++){
         inputs.push(
           <Form.Row>
-          <Col xs = {7} >
-            <Form.Control name = "feats" type="text" arrayindex={i} onChange={this.props.handleChange}/>
+                <Col xs={7} >
+                    <Form.Control name="inventory" type="text" placeholder="Item" arrayindex={i} value={this.props.data.inventory_feats_and_journal.inventory[i]} onChange={this.props.handleChange} />
           </Col>
           </Form.Row>)
         inputs.push()
@@ -74,8 +74,8 @@ class Journal extends React.Component {
       for(var i = 0; i < this.state.numOfMagicItems; i++){
         inputs.push(
           <Form.Row>
-          <Col xs = {7} >
-            <Form.Control name = "magic_items" type="text" arrayindex={i} onChange={this.props.handleChange}/>
+                <Col xs={7} >
+                    <Form.Control name="magic_items" type="text" placeholder="Magic item" arrayindex={i} value={this.props.data.inventory_feats_and_journal.magic_items[i]} onChange={this.props.handleChange} />
           </Col>
           </Form.Row>)
         inputs.push()
@@ -89,7 +89,7 @@ class Journal extends React.Component {
         inputs.push(
           <Form.Row>
           <Col xs = {7} >
-            <Form.Control name = "magic_items" type="text" arrayindex={i} onChange={this.props.handleChange}/>
+                    <Form.Control name="feats" type="text" placeholder="Feat" arrayindex={i} value={this.props.data.inventory_feats_and_journal.feats[i]} onChange={this.props.handleChange}/>
           </Col>
           </Form.Row>)
         inputs.push()
@@ -97,13 +97,15 @@ class Journal extends React.Component {
       return inputs;
     }
 
-    addOneInventory(){
-      this.setState((prevState) => {
-        return{
-          ...prevState,
-          numOfInventory: prevState.numOfInventory + 1
+    addOneInventory() {
+        if (this.state.numOfInventory < 50) {
+            this.setState((prevState) => {
+                return {
+                    ...prevState,
+                    numOfInventory: prevState.numOfInventory + 1
+                }
+            })
         }
-      })
     }
 
     subOneInventory(){
@@ -122,13 +124,15 @@ class Journal extends React.Component {
     }
 
 
-    addOneMagicItems(){
-      this.setState((prevState) => {
-        return{
-          ...prevState,
-          numOfMagicItems: prevState.numOfMagicItems + 1
+    addOneMagicItems() {
+        if (this.state.numOfInventory < 30) {
+            this.setState((prevState) => {
+                return {
+                    ...prevState,
+                    numOfMagicItems: prevState.numOfMagicItems + 1
+                }
+            })
         }
-      })
     }
 
     subOneMagicItems(){
@@ -146,13 +150,15 @@ class Journal extends React.Component {
 
     }
 
-    addOneFeat(){
-      this.setState((prevState) => {
-        return{
-          ...prevState,
-          numOfFeats: prevState.numOfFeats + 1
+    addOneFeat() {
+        if (this.state.numOfInventory < 30) {
+            this.setState((prevState) => {
+                return {
+                    ...prevState,
+                    numOfFeats: prevState.numOfFeats + 1
+                }
+            })
         }
-      })
     }
 
     subOneFeat(){
@@ -220,7 +226,8 @@ class Journal extends React.Component {
                         <Form.Row>
                           <Form.Label>Journal & Background Story</Form.Label>
                           <Form.Control as="textarea" rows={3}
-                            name="journal_and_background_story"
+                                name="journal_and_background_story"
+                                value={this.props.data.inventory_feats_and_journal.journal_and_background_story}
                             onChange={this.props.handleChange}/>
                         </Form.Row>
                           <br />
@@ -241,6 +248,7 @@ class Journal extends React.Component {
 
                     </Form.Group>
                     <Button style={{ float: "left", marginBottom: 10 }} variant="primary" onClick={this.props.prevStep}>Previous</Button>
+                    <Button style={{ float: "right", marginBottom: 10 }} variant="primary" onClick={this.props.nextStep}>Next</Button>
                 </Form>
             </Container>
         );
