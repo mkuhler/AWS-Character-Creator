@@ -113,52 +113,44 @@ export default class PrintPDF extends  React.Component
     var height = 280;
     var line = "";
 
-    // for (i = 0; i < 3; i++) {
-    //   var sectionText = [];
+    for (i = 0; i < 3; i++) {
+      var sectionText = [];
 
-    //   switch(i) {
-    //     case 0:
-    //       sectionTitle = "Icon Relationships";
+      switch(i) {
+        case 0:
+          sectionTitle = "Icon Relationships";
           
-    //       // Loop through relationships and add to array of strings
-    //       // ICON_RELATIONSHIP OBJ WITH ARRAYS IN EACH
-    //       /*for(relationship in icon_relationships) {
-    //         line = relationship.name + ": " + relationship.points + " " + relationship.status;
-    //         sectionText.push(line);
-    //       }*/
+          // Loop through relationships and add to array of strings
+          // ICON_RELATIONSHIP OBJ WITH ARRAYS IN EACH
+          /*for(relationship in icon_relationships) {
+            line = relationship.name + ": " + relationship.points + " " + relationship.status;
+            sectionText.push(line);
+          }*/
 
-    //       break;
-    //     case 1:
-    //       sectionTitle = "One Unique Thing";
-    //       // sectionText = createParagraph(doc, charsheet.background_talents.one_unique_thing, boxWidth - page.DEFAULT_PADDING);
-    //       break;
-    //     case 2:
-    //       sectionTitle = "Backgrounds";
+          break;
+        case 1:
+          sectionTitle = "One Unique Thing";
+          // sectionText = createParagraph(doc, charsheet.background_talents.one_unique_thing, boxWidth - page.DEFAULT_PADDING);
+          break;
+        case 2:
+          sectionTitle = "Backgrounds";
           
-    //       // Loop through backgrounds and add to array of strings
-    //       /*var j; 
-    //       for (j = 0; j < backgrounds.length; j++) {
-    //         var background = backgrounds[j];
-    //         line = background[0] + " " + background[1];
-    //         console.log(background);
-    //         sectionText.push(line);
-    //       }*/
-    //       break;
-    //   }
+          // Loop through backgrounds and add to array of strings
+          /*var j; 
+          for (j = 0; j < backgrounds.length; j++) {
+            var background = backgrounds[j];
+            line = background[0] + " " + background[1];
+            console.log(background);
+            sectionText.push(line);
+          }*/
+          break;
+      }
 
-    //   // TODO: Figure out how to make the boxes full-width without the -25 in width for line 121
-    //   createTitle(doc, offset + (page.PAGE_WIDTH / 3 * i), height, sectionTitle);
-    //   createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, sectionText);
+      // TODO: Figure out how to make the boxes full-width without the -25 in width for line 121
+      createTitle(doc, offset + (page.PAGE_WIDTH / 3 * i), height, sectionTitle);
+      createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, sectionText);
 
-    // }
-
-    // createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0), height, "Icon Relationships");
-    // createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 1), height, "One Unique Thing");
-    // createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 2), height, "Backgrounds");
-
-
-    // add_items(feat_name, doc, 10, 230, 75, 75)
-    // createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), 285, (page.PAGE_WIDTH / 3) - offset - 40, 75 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+    }
 
 
     var currentRow = 0;
