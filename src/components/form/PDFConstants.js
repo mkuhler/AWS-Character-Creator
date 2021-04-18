@@ -53,5 +53,7 @@ export const journal = {
   EPIC_JOURNAL : "",
   MAX_PARAGRAPH_LENGTH : 44,
   BORDER_HEIGHT : 0,
-  CONTINUE_PAGING : true
+  CONTINUE_PAGING : true,
+  LINES : 0,
+  PARAGRAPH_LINES : 0
 };
