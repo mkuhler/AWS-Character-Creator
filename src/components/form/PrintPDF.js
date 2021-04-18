@@ -3,7 +3,7 @@ import CharacterDetails from './characterdetails.js';
 import {Button, Form, Col, Figure} from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import charsheet from './CharSheetData.js';
-import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph, add_items, expand_textfield } from './PDFFunctions.js';
+import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph, add_items, expand_textfield, add_jounrnal_page, add_page_number } from './PDFFunctions.js';
 import { font, page, feat_magic_gear } from './PDFConstants.js';
 
 import { basic_info, sword_image } from './encodebase64.js';
@@ -22,6 +22,7 @@ export default class PrintPDF extends  React.Component
 
   pdfGenerator = () =>{
     var doc = new jsPDF('p', 'pt');
+    doc.page = 1;
 
     var name = charsheet.basic_info.name;
     var race_and_class = charsheet.basic_info.race + " - " + charsheet.basic_info.class;
@@ -49,18 +50,20 @@ export default class PrintPDF extends  React.Component
     var saving_throws_hard = charsheet.character_attributes.saving_throws_hard;
     var saving_throws_optional = charsheet.character_attributes.saving_throws_optional;
     var death_saves_max = charsheet.character_attributes.death_saves_max;
-    var icon_relationships = charsheet.background_talents.icon_relationships;
-    var icon_names = icon_relationships.name;
-    var icon_points = icon_relationships.points;
-    var icon_statuses = icon_relationships.status;
-    var icon_relationships_other = charsheet.background_talents.icon_relationship_other;
+    // var icon_relationships = charsheet.background_talents.icon_relationships;
+    var icon_names = charsheet.background_talents.icon_relationship_names;
+    var icon_points = charsheet.background_talents.icon_relationship_points;
+    var icon_statuses = charsheet.background_talents.icon_relationship_statuses;
+    var icon_relationships_other = charsheet.background_talents.icon_relationships_other;
     var backgrounds = charsheet.background_talents.backgrounds;
+    var feat_name = charsheet.background_talents.talents_and_features_names;
+    var feat_description = charsheet.background_talents.talents_and_features_descriptionss;
 
     doc.addImage(basic_info(),'PNG',7,15, 570,247);
 
     //Character basic informatoin
-    doc.setFontSize(lengthy_entry(name));
-    doc.text(10, 28, get_ellispis(name)); //name
+    doc.setFontSize(lengthy_entry(name, 120, 175));
+    doc.text(10, 28, get_ellispis(name, 175)); //name
 
 
     doc.setFontSize(lengthy_entry(race_and_class)).text(10, 62, race_and_class);
@@ -103,50 +106,60 @@ export default class PrintPDF extends  React.Component
       doc.setFont('arial').setTextColor('').text(375, 225, ": " + saving_throws_optional); //reset font and color
     }
 
-    var sectionTitle;
+    var sectionText = "";
     var i;
     var offset = (page.PAGE_MARGIN / 2);
     var boxWidth = (page.PAGE_WIDTH / 3) - offset - 40;
     var height = 280;
     var line = "";
 
-    for (i = 0; i < 3; i++) {
-      var sectionText = [];
+    // for (i = 0; i < 3; i++) {
+    //   var sectionText = [];
 
-      switch(i) {
-        case 0:
-          sectionTitle = "Icon Relationships";
+    //   switch(i) {
+    //     case 0:
+    //       sectionTitle = "Icon Relationships";
           
-          // Loop through relationships and add to array of strings
-          // ICON_RELATIONSHIP OBJ WITH ARRAYS IN EACH
-          /*for(relationship in icon_relationships) {
-            line = relationship.name + ": " + relationship.points + " " + relationship.status;
-            sectionText.push(line);
-          }*/
+    //       // Loop through relationships and add to array of strings
+    //       // ICON_RELATIONSHIP OBJ WITH ARRAYS IN EACH
+    //       /*for(relationship in icon_relationships) {
+    //         line = relationship.name + ": " + relationship.points + " " + relationship.status;
+    //         sectionText.push(line);
+    //       }*/
 
-          break;
-        case 1:
-          sectionTitle = "One Unique Thing";
-          // sectionText = createParagraph(doc, charsheet.background_talents.one_unique_thing, boxWidth - page.DEFAULT_PADDING);
-          break;
-        case 2:
-          sectionTitle = "Backgrounds";
+    //       break;
+    //     case 1:
+    //       sectionTitle = "One Unique Thing";
+    //       // sectionText = createParagraph(doc, charsheet.background_talents.one_unique_thing, boxWidth - page.DEFAULT_PADDING);
+    //       break;
+    //     case 2:
+    //       sectionTitle = "Backgrounds";
           
-          // Loop through backgrounds and add to array of strings
-          /*var j; 
-          for (j = 0; j < backgrounds.length; j++) {
-            var background = backgrounds[j];
-            line = background[0] + " " + background[1];
-            console.log(background);
-            sectionText.push(line);
-          }*/
-          break;
-      }
+    //       // Loop through backgrounds and add to array of strings
+    //       /*var j; 
+    //       for (j = 0; j < backgrounds.length; j++) {
+    //         var background = backgrounds[j];
+    //         line = background[0] + " " + background[1];
+    //         console.log(background);
+    //         sectionText.push(line);
+    //       }*/
+    //       break;
+    //   }
 
-      // TODO: Figure out how to make the boxes full-width without the -25 in width for line 121
-      createTitle(doc, offset + (page.PAGE_WIDTH / 3 * i), height, sectionTitle);
-      createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, sectionText);
-    }
+    //   // TODO: Figure out how to make the boxes full-width without the -25 in width for line 121
+    //   createTitle(doc, offset + (page.PAGE_WIDTH / 3 * i), height, sectionTitle);
+    //   createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, sectionText);
+
+    // }
+
+    // createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0), height, "Icon Relationships");
+    // createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 1), height, "One Unique Thing");
+    // createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 2), height, "Backgrounds");
+
+
+    // add_items(feat_name, doc, 10, 230, 75, 75)
+    // createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), 285, (page.PAGE_WIDTH / 3) - offset - 40, 75 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+
 
 
 
@@ -162,13 +175,14 @@ export default class PrintPDF extends  React.Component
     var journal_ycord = 0;
 
     doc.addPage();
+    add_page_number(doc);
     createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0), inventory_height - 5, "FEATS"); 
     createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 1), inventory_height - 5, "GEAR EQUIPMENT & MONEY");
     createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 2), inventory_height - 5, "MAGIC ITEMS");
 
-    add_items(inventory, doc, 10, 180, 180);
-    add_items(feats, doc, 215, feat_magic_gear.FIXED_HEIGHT, 180);
-    add_items(magic, doc, 418, feat_magic_gear.FIXED_HEIGHT, 180);
+    add_items(feats, doc, 10, 50, feat_magic_gear.FIXED_HEIGHT, 180);
+    add_items(inventory, doc, 215, 50, feat_magic_gear.FIXED_HEIGHT, 180);
+    add_items(magic, doc, 418, 50, feat_magic_gear.FIXED_HEIGHT, 180);
 
     createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
     createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 1), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
@@ -179,11 +193,19 @@ export default class PrintPDF extends  React.Component
     doc.addImage(sword_image(),'PNG',7,230 + journal_ycord, 570,30);  
   
     let paragraphlength = createParagraph(doc, background, offset + (page.PAGE_WIDTH / 3 * 0) + 5, 300 + journal_ycord, 570, '', 10 );
+    
+    
     createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0),280 + journal_ycord, "JOURNAL");
-    expand_textfield(paragraphlength, 285 + journal_ycord, 150, 150, 13);
+    
+    let new_page = expand_textfield(doc,paragraphlength, 285 + journal_ycord, 150, 150, 13, 500);
+    
     createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), 285 + journal_ycord, (page.PAGE_WIDTH / 3) + 360, 150 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+            
+    if(new_page == true) { add_jounrnal_page(doc, offset, page.PAGE_WIDTH); }
 
     doc.save("My_Character.pdf");
+    feat_magic_gear.FIXED_HEIGHT = 180;
+
     }
 
     jsonGenerator = () => {
