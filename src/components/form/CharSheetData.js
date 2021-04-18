@@ -239,6 +239,22 @@ const power = {
 
 
 
+    power_frequency_2: "None", // not applicatble by default, i.e. only one frequncy
+    power_uses_2: 0,
+
+    power_description: {
+
+        power_action_type: "Standard Action", // Standard action is default if not specified, other options like "Ranged Spell", Close-Quarters Spell", etc.
+        power_range: "", // no defualt, something like "One nearby enemy", "Enemy with most hitpoints", etc.
+
+        power_target: "One Engaged Creature", // all powers I've seen have a target at least, but maybe allow this to be blank just in case
+        power_attack: "", // can be left blank as not all powers have an attack
+        power_hit: "", // can be left blank
+        power_miss: "", // can be left blank
+
+        power_other: ["", ""] // array of strings (?) so the user can write any information not covered above
+    }
+
 }
 
 
