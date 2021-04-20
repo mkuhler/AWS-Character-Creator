@@ -61,8 +61,6 @@ class CharacterAttributes extends React.Component {
                                     value={this.props.data.character_attributes.hitpoints_max}
                                     onChange={this.props.handleChange} />
                             </Col>
-                        </Form.Row>
-                        <Form.Row>
 
                             <Col xs={3}>
                                 <Form.Label>Armor Class</Form.Label>
@@ -71,7 +69,8 @@ class CharacterAttributes extends React.Component {
                                     value={this.props.data.character_attributes.armor_class}
                                     onChange={this.props.handleChange} />
                             </Col>
-
+                        </Form.Row>
+                        <Form.Row>
                             <Col xs={3}>
                                 <Form.Label>Physical Defense</Form.Label>
                                 <Form.Control type="text"
@@ -133,6 +132,23 @@ class CharacterAttributes extends React.Component {
                                     value={this.props.data.character_attributes.death_saves_max}
                                     onChange={this.props.handleChange} />
                             </Col>
+
+                            <Col xs={3}>
+                                <Form.Label>Recoveries</Form.Label>
+                                <Form.Control type="text"
+                                    name="recoveries"
+                                    value={this.props.data.character_attributes.recoveries}
+                                    onChange={this.props.handleChange} />
+                            </Col>
+
+                            <Col xs={3}>
+                                <Form.Label>Recoveries Description</Form.Label>
+                                <Form.Control type="text"
+                                    name="recoveries_optional"
+                                    value={this.props.data.character_attributes.recoveries_optional}
+                                    onChange={this.props.handleChange} />
+                            </Col>
+
                         </Form.Row>
 
 
