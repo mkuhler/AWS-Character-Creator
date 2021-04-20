@@ -152,7 +152,7 @@ export default class PrintPDF extends  React.Component
 
     }
 
-
+    var sectionTitle = "";
     var currentRow = 0;
     var currentCol = 0;
     var colSpace_0 = powers.Y;
@@ -256,6 +256,13 @@ export default class PrintPDF extends  React.Component
     var inventory_height = 35;
     var journal_ycord = 0;
 
+
+    var filename = "My_Character.pdf";
+
+    if (this.props.data.basic_info.name != "") {
+          filename = this.props.data.basic_info.name + ".pdf";
+    }
+
     doc.addPage();
     add_page_number(doc);
     createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0), inventory_height - 5, "FEATS"); 
@@ -286,7 +293,7 @@ export default class PrintPDF extends  React.Component
     add_jounrnal_page(doc, offset, page.PAGE_WIDTH);
 
     feat_magic_gear.FIXED_HEIGHT = 180;
-    doc.save("My_Character.pdf");
+    doc.save(filename);
     }
 
     jsonGenerator = () => {
@@ -299,7 +306,13 @@ export default class PrintPDF extends  React.Component
 
     var jsonBlob = new Blob([jsonString], { type: "text/plain;charset=utf-8" });
 
-    FileSaver.saveAs(jsonBlob, "My_Character.txt");
+        var filename = "My_Character.txt";
+
+        if (this.props.data.basic_info.name != "") {
+            filename = this.props.data.basic_info.name + ".txt";
+        }
+
+    FileSaver.saveAs(jsonBlob, filename);
   }
 
   render(){

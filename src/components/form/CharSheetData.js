@@ -83,6 +83,9 @@ const charsheet = {
         saving_throws_hard: 16,
         saving_throws_optional: "", // optional descriptive text for user to include some mention of their character specific calculations
 
+        recoveries: "", // how many recoveries the player has, for example "3d6+3"
+        recoveries_optional: "", // optional description of recoveries, for example: "Feat: Reroll three dice and take higher result"
+
         death_saves_max: "", // ***** not sure how to calculate. in Tim's sheets these are skulls / checkboxes for user to scratch off, a number may suffice but wouldn't be as visually appealling
         death_saves_current: "", // DO NOT SHOW THIS FIELD TO USER. final sheet should have this always be blank so user can write in values
     }, // end of 2nd page
@@ -118,9 +121,9 @@ const charsheet = {
         // the number can modify some values, but is likely context specific and would best be left to the user
         // there doesn't seem to be a specific minimum or maximum number of backgrounds a character can have (most of Tim's have 2 or 3), so we may need to allow the user to add more fields
         // 3 sets fields by default may be good, if the user doesn't input values print blank?
-        //background_numbers: [],
-        //background_names: [],
-        backgrounds: [(0, ""), (0, ""), (0, "")],
+        background_numbers: [],
+        background_names: [],
+        //backgrounds: [(0, ""), (0, ""), (0, "")],
 
         // talents and feautres are a bit to complex/specific to create one specific type of tuple or object, so they're best represented as an array of strings (at least for now)
         // example - ["Breath Weapon: (Racial) Once per batle, make a close - quarters breath weapon atack as a quick action against one nearby enemy +7 vs PD; 3d6 fire damage",
@@ -143,23 +146,23 @@ const charsheet = {
     }, // end 4th page
 
 
+    // currently not in use, to be added in a later implementation
+    //incremental_advances: { // 5th page dealing with incremental advances, I thought it may be best to have this page be after powers/etc. because incremental advances are related to those things
 
-    incremental_advances: { // 5th apge dealing with incremental advances, I thought it may be best to have this page be after powers/etc. because incremental advances are related to those things
+    //    // values in incremental advances will have at minimum a boolean keeping track of if that advance is selected or not
+    //    // some values may require a string for the name of the advance and as such are represented as tuples - (bool, "str")
+    //    // There is no limit on the number of powers on which advances can be taken, so this will need to be dynamic array of tuples
 
-        // values in incremental advances will have at minimum a boolean keeping track of if that advance is selected or not
-        // some values may require a string for the name of the advance and as such are represented as tuples - (bool, "str")
-        // There is no limit on the number of powers on which advances can be taken, so this will need to be dynamic array of tuples
+    //    // all false by defualt, if false no name needed?
+    //    ability_score: false,
+    //    feat: (false, ""),
+    //    hitpoints: false,
+    //    magic_item: false,
+    //    powers: [(false, ""), (false, "")], // ... etc, can be more or less than 2 entries, will need to let the user keep adding more fields?
+    //    skills: (false, ""),
+    //    icon_relation: false
 
-        // all false by defualt, if false no name needed?
-        ability_score: false,
-        feat: (false, ""),
-        hitpoints: false,
-        magic_item: false,
-        powers: [(false, ""), (false, "")], // ... etc, can be more or less than 2 entries, will need to let the user keep adding more fields?
-        skills: (false, ""),
-        icon_relation: false
-
-    }, // end of 5th page
+    //}, // end of 5th page
 
 
 
@@ -234,28 +237,28 @@ const charsheet = {
 // frankly I'm not sure if this is the correct way to do this
 // a separate object for powers, character power would be an array of these
 // frankly I'm not sure if this is the correct way to do this
-const power = {
+// const power = {
 
 
 
 
-    power_frequency_2: "None", // not applicatble by default, i.e. only one frequncy
-    power_uses_2: 0,
+//     power_frequency_2: "None", // not applicatble by default, i.e. only one frequncy
+//     power_uses_2: 0,
 
-    power_description: {
+//     power_description: {
 
-        power_action_type: "Standard Action", // Standard action is default if not specified, other options like "Ranged Spell", Close-Quarters Spell", etc.
-        power_range: "", // no defualt, something like "One nearby enemy", "Enemy with most hitpoints", etc.
+//         power_action_type: "Standard Action", // Standard action is default if not specified, other options like "Ranged Spell", Close-Quarters Spell", etc.
+//         power_range: "", // no defualt, something like "One nearby enemy", "Enemy with most hitpoints", etc.
 
-        power_target: "One Engaged Creature", // all powers I've seen have a target at least, but maybe allow this to be blank just in case
-        power_attack: "", // can be left blank as not all powers have an attack
-        power_hit: "", // can be left blank
-        power_miss: "", // can be left blank
+//         power_target: "One Engaged Creature", // all powers I've seen have a target at least, but maybe allow this to be blank just in case
+//         power_attack: "", // can be left blank as not all powers have an attack
+//         power_hit: "", // can be left blank
+//         power_miss: "", // can be left blank
 
-        power_other: ["", ""] // array of strings (?) so the user can write any information not covered above
-    }
+//         power_other: ["", ""] // array of strings (?) so the user can write any information not covered above
+//     }
 
-}
+// }
 
 
 export default charsheet;
