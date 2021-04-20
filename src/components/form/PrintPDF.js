@@ -126,7 +126,14 @@ export default class PrintPDF extends  React.Component
     doc.text(7,280 + HEIGHT_DIFFER, "JOURNAL / BACKSTORY");
     doc.addImage(sword_image(),'PNG',7,225 + HEIGHT_DIFFER, 570,30);
 
-    doc.save("My_Character.pdf");
+
+      var filename = "My_Character.pdf";
+
+      if (this.props.data.basic_info.name != "") {
+          filename = this.props.data.basic_info.name + ".pdf";
+      }
+
+      doc.save(filename);
     }
 
   /**
@@ -164,7 +171,13 @@ export default class PrintPDF extends  React.Component
 
     var jsonBlob = new Blob([jsonString], { type: "text/plain;charset=utf-8" });
 
-    FileSaver.saveAs(jsonBlob, "My_Character.txt");
+        var filename = "My_Character.txt";
+
+        if (this.props.data.basic_info.name != "") {
+            filename = this.props.data.basic_info.name + ".txt";
+        }
+
+    FileSaver.saveAs(jsonBlob, filename);
   }
 
   render(){
