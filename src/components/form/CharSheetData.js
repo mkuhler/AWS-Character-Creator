@@ -83,6 +83,9 @@ const charsheet = {
         saving_throws_hard: 16,
         saving_throws_optional: "", // optional descriptive text for user to include some mention of their character specific calculations
 
+        recoveries: "", // how many recoveries the player has, for example "3d6+3"
+        recoveries_optional: "", // optional description of recoveries, for example: "Feat: Reroll three dice and take higher result"
+
         death_saves_max: "", // ***** not sure how to calculate. in Tim's sheets these are skulls / checkboxes for user to scratch off, a number may suffice but wouldn't be as visually appealling
         death_saves_current: "", // DO NOT SHOW THIS FIELD TO USER. final sheet should have this always be blank so user can write in values
     }, // end of 2nd page
@@ -143,23 +146,23 @@ const charsheet = {
     }, // end 4th page
 
 
+    // currently not in use, to be added in a later implementation
+    //incremental_advances: { // 5th page dealing with incremental advances, I thought it may be best to have this page be after powers/etc. because incremental advances are related to those things
 
-    incremental_advances: { // 5th apge dealing with incremental advances, I thought it may be best to have this page be after powers/etc. because incremental advances are related to those things
+    //    // values in incremental advances will have at minimum a boolean keeping track of if that advance is selected or not
+    //    // some values may require a string for the name of the advance and as such are represented as tuples - (bool, "str")
+    //    // There is no limit on the number of powers on which advances can be taken, so this will need to be dynamic array of tuples
 
-        // values in incremental advances will have at minimum a boolean keeping track of if that advance is selected or not
-        // some values may require a string for the name of the advance and as such are represented as tuples - (bool, "str")
-        // There is no limit on the number of powers on which advances can be taken, so this will need to be dynamic array of tuples
+    //    // all false by defualt, if false no name needed?
+    //    ability_score: false,
+    //    feat: (false, ""),
+    //    hitpoints: false,
+    //    magic_item: false,
+    //    powers: [(false, ""), (false, "")], // ... etc, can be more or less than 2 entries, will need to let the user keep adding more fields?
+    //    skills: (false, ""),
+    //    icon_relation: false
 
-        // all false by defualt, if false no name needed?
-        ability_score: false,
-        feat: (false, ""),
-        hitpoints: false,
-        magic_item: false,
-        powers: [(false, ""), (false, "")], // ... etc, can be more or less than 2 entries, will need to let the user keep adding more fields?
-        skills: (false, ""),
-        icon_relation: false
-
-    }, // end of 5th page
+    //}, // end of 5th page
 
 
 
