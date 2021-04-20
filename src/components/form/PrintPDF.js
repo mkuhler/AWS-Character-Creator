@@ -152,7 +152,7 @@ export default class PrintPDF extends  React.Component
 
     }
 
-
+    var sectionTitle = "";
     var currentRow = 0;
     var currentCol = 0;
     var colSpace_0 = powers.Y;
