@@ -121,9 +121,9 @@ const charsheet = {
         // the number can modify some values, but is likely context specific and would best be left to the user
         // there doesn't seem to be a specific minimum or maximum number of backgrounds a character can have (most of Tim's have 2 or 3), so we may need to allow the user to add more fields
         // 3 sets fields by default may be good, if the user doesn't input values print blank?
-        //background_numbers: [],
-        //background_names: [],
-        backgrounds: [(0, ""), (0, ""), (0, "")],
+        background_numbers: [],
+        background_names: [],
+        //backgrounds: [(0, ""), (0, ""), (0, "")],
 
         // talents and feautres are a bit to complex/specific to create one specific type of tuple or object, so they're best represented as an array of strings (at least for now)
         // example - ["Breath Weapon: (Racial) Once per batle, make a close - quarters breath weapon atack as a quick action against one nearby enemy +7 vs PD; 3d6 fire damage",
@@ -237,12 +237,28 @@ const charsheet = {
 // frankly I'm not sure if this is the correct way to do this
 // a separate object for powers, character power would be an array of these
 // frankly I'm not sure if this is the correct way to do this
-const power = {
+// const power = {
 
 
 
 
-}
+//     power_frequency_2: "None", // not applicatble by default, i.e. only one frequncy
+//     power_uses_2: 0,
+
+//     power_description: {
+
+//         power_action_type: "Standard Action", // Standard action is default if not specified, other options like "Ranged Spell", Close-Quarters Spell", etc.
+//         power_range: "", // no defualt, something like "One nearby enemy", "Enemy with most hitpoints", etc.
+
+//         power_target: "One Engaged Creature", // all powers I've seen have a target at least, but maybe allow this to be blank just in case
+//         power_attack: "", // can be left blank as not all powers have an attack
+//         power_hit: "", // can be left blank
+//         power_miss: "", // can be left blank
+
+//         power_other: ["", ""] // array of strings (?) so the user can write any information not covered above
+//     }
+
+// }
 
 
 export default charsheet;
