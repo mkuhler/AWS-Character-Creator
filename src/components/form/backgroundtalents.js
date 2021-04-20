@@ -11,7 +11,8 @@ class BackgroundTalents extends React.Component {
         official: true,
           mage: false,
           numOfIcons: Math.max(this.props.data.background_talents.icon_relationship_names.length, 3),
-          numOfTalents: Math.max(this.props.data.background_talents.talents_and_features_names.length, 5)
+          numOfTalents: Math.max(this.props.data.background_talents.talents_and_features_names.length, 5),
+          numOfBackgrounds: Math.max(this.props.data.background_talents.background_names.length, 2)
       };
 
       this.checkboxChange = this.checkboxChange.bind(this);
@@ -21,6 +22,9 @@ class BackgroundTalents extends React.Component {
 
       this.addOneTalent = this.addOneTalent.bind(this);
       this.subOneTalent = this.subOneTalent.bind(this);
+
+      this.addOneBackground = this.addOneBackground.bind(this);
+      this.subOneBackground = this.subOneBackground.bind(this);
     }
 
 
@@ -72,7 +76,7 @@ class BackgroundTalents extends React.Component {
             inputs.push(
                 <Form.Row>
                     <Col xs={5} >
-                        <Form.Control name="talents_and_features_names" type="text" arrayindex={i} value={this.props.data.background_talents.talents_and_features_names[i]} placeholder="Feat name" onChange={this.props.handleChange} />
+                        <Form.Control name="talents_and_features_names" type="text" arrayindex={i} value={this.props.data.background_talents.talents_and_features_names[i]} placeholder="Name" onChange={this.props.handleChange} />
                     </Col>
                     <Col xs={7}>
                         <Form.Control name="talents_and_features_descriptions" type="text" arrayindex={i} value={this.props.data.background_talents.talents_and_features_descriptions[i]} placeholder="Description" onChange={this.props.handleChange} />
@@ -98,6 +102,24 @@ class BackgroundTalents extends React.Component {
           </Col>
           <Col xs = {5}>
                     <Form.Control name="icon_relationship_statuses" type="text" arrayindex={i} value={this.props.data.background_talents.icon_relationship_statuses[i]} placeholder="Status" onChange={this.props.handleChange}/>
+          </Col>
+          </Form.Row>)
+
+        inputs.push()
+      }
+      return inputs;
+    }
+
+    createBackgrounds(){
+      var inputs = []
+      for(var i = 0; i < this.state.numOfBackgrounds; i++){
+        inputs.push(
+          <Form.Row>
+                <Col xs={3} >
+                    <Form.Control name="background_numbers" type="text" arrayindex={i} value={this.props.data.background_talents.background_numbers[i]} placeholder="Points" onChange={this.props.handleChange} />
+          </Col>
+          <Col xs = {5}>
+                    <Form.Control name="background_names" type="text" arrayindex={i} value={this.props.data.background_talents.background_names[i]} placeholder="Name" onChange={this.props.handleChange} />
           </Col>
           </Form.Row>)
 
@@ -152,9 +174,28 @@ class BackgroundTalents extends React.Component {
           }
         })
       }
+    }
 
+    addOneBackground(){
+      if (this.state.numOfBackgrounds < 15) {
+        this.setState((prevState) => {
+            return {
+              ...prevState,
+              numOfBackgrounds: prevState.numOfBackgrounds + 1
+            }
+        })
+      }
+    }
 
-
+    subOneBackground(){
+      if(this.state.numOfBackgrounds > 1){
+        this.setState((prevState) => {
+          return{
+            ...prevState,
+            numOfBackgrounds: prevState.numOfBackgrounds - 1
+          }
+        })
+      }
     }
 
 
@@ -208,6 +249,7 @@ class BackgroundTalents extends React.Component {
 
                         <Form.Row>
                             <Col xs={5}>
+                            <br></br>
                                 <Form.Label>One Unique Thing</Form.Label>
                                 <Form.Control type="text"
                                     name="one_unique_thing"
@@ -215,7 +257,7 @@ class BackgroundTalents extends React.Component {
                                     onChange={this.props.handleChange} />
                             </Col>
                         </Form.Row>
-
+                        <br></br>
                         <Form.Row>
                             <Col xs={5}>
                                 <Form.Label>Talents and Features</Form.Label>
@@ -225,6 +267,18 @@ class BackgroundTalents extends React.Component {
                                 <Button variant="outline-success" size="sm" onClick={this.addOneTalent}> + </Button>{' '}
 
                                 <Button variant="outline-danger" size="sm" onClick={this.subOneTalent}> - </Button>{' '}
+                            </Col>
+                        </Form.Row>
+                        <br></br>
+                        <Form.Row>
+                            <Col xs={5}>
+                                <Form.Label>Backgrounds</Form.Label>
+                                {this.createBackgrounds()}
+                            </Col>
+                            <Col>
+                                <Button variant="outline-success" size="sm" onClick={this.addOneBackground}> + </Button>{' '}
+
+                                <Button variant="outline-danger" size="sm" onClick={this.subOneBackground}> - </Button>{' '}
                             </Col>
                         </Form.Row>
                     </Form.Group>
