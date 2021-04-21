@@ -81,7 +81,7 @@ const charsheet = {
         saving_throws_easy: 6,
         saving_throws_medium: 11, // not entirely sure how these are calcultated, every single sheet Tim has sent has 6/11/16 as the values
         saving_throws_hard: 16,
-        saving_throws_optional: "", // optional descriptive text for user to include some mention of their character specific calculations
+        saving_throws_optional: "Feat: Reroll three dice and take the higher result", // optional descriptive text for user to include some mention of their character specific calculations
 
         recoveries: "", // how many recoveries the player has, for example "3d6+3"
         recoveries_optional: "", // optional description of recoveries, for example: "Feat: Reroll three dice and take higher result"
@@ -121,8 +121,8 @@ const charsheet = {
         // the number can modify some values, but is likely context specific and would best be left to the user
         // there doesn't seem to be a specific minimum or maximum number of backgrounds a character can have (most of Tim's have 2 or 3), so we may need to allow the user to add more fields
         // 3 sets fields by default may be good, if the user doesn't input values print blank?
-        background_numbers: [],
-        background_names: [],
+        background_numbers: [""],
+        background_names: [""],
         //backgrounds: [(0, ""), (0, ""), (0, "")],
 
         // talents and feautres are a bit to complex/specific to create one specific type of tuple or object, so they're best represented as an array of strings (at least for now)
@@ -138,12 +138,12 @@ const charsheet = {
     // powers may have to be their own class / data type so that we may more easily keep adding more ?
     // Most powers seem to have a name, one or more frequencies and a description typically consisting of information such: an action type, a range, a target, an effect and an "other" array of strings
     // that serves as a catch all for any misc information a power may have that isnt covered by the previous fields
-    character_powers: { // 4th page, deals with information relating to powers
+    //character_powers: { // 4th page, deals with information relating to powers
 
-        // an array of power objects, see below. Not sure if this will work ???
-        powers: []
+    //    // an array of power objects, see below. Not sure if this will work ???
+    //    powers: []
 
-    }, // end 4th page
+    //}, // end 4th page
 
 
     // currently not in use, to be added in a later implementation
@@ -177,6 +177,9 @@ const charsheet = {
         feats: [""] // array of strings, generally the name of the feat and the tier, example - "Elemental Healer (A)"
     }, // end of 6th page
 
+    // powers may have to be their own class / data type so that we may more easily keep adding more ?
+    // Most powers seem to have a name, one or more frequencies and a description typically consisting of information such: an action type, a range, a target, an effect and an "other" array of strings
+    // that serves as a catch all for any misc information a power may have that isnt covered by the previous fields
     power_description: {
 
         power_name: [""], // *****
