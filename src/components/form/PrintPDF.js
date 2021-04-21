@@ -106,26 +106,24 @@ export default class PrintPDF extends  React.Component
       doc.setFont('arial').setTextColor('').text(375, 225, ": " + saving_throws_optional); //reset font and color
     }
 
-    var sectionText = "";
+    var sectionTitle = "";
     var i;
     var offset = (page.PAGE_MARGIN / 2);
     var boxWidth = (page.PAGE_WIDTH / 3) - offset - 40;
     var height = 280;
     var line = "";
-
+    
     for (i = 0; i < 3; i++) {
-      var sectionText = [];
+      var sectionText = [""];
 
       switch(i) {
         case 0:
           sectionTitle = "Icon Relationships";
-          
-          // Loop through relationships and add to array of strings
-          // ICON_RELATIONSHIP OBJ WITH ARRAYS IN EACH
-          /*for(relationship in icon_relationships) {
-            line = relationship.name + ": " + relationship.points + " " + relationship.status;
+          // NOTE: This HEAVILY depends on all of the icon arrays being the same length
+          for (var j = 0; j < icon_names.length; j++) {
+            line = icon_names[j] + ": " + icon_points[j] + " " + icon_statuses[j];
             sectionText.push(line);
-          }*/
+          }
 
           break;
         case 1:
