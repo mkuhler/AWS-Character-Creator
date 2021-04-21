@@ -141,7 +141,7 @@ class CharacterAttributes extends React.Component {
                                     onChange={this.props.handleChange} />
                             </Col>
 
-                            <Col xs={3}>
+                            <Col xs={6}>
                                 <Form.Label>Recoveries Description</Form.Label>
                                 <Form.Control type="text"
                                     name="recoveries_optional"

@@ -118,7 +118,7 @@ class BackgroundTalents extends React.Component {
                 <Col xs={3} >
                     <Form.Control name="background_numbers" type="text" arrayindex={i} value={this.props.data.background_talents.background_numbers[i]} placeholder="Points" onChange={this.props.handleChange} />
           </Col>
-          <Col xs = {5}>
+          <Col xs = {9}>
                     <Form.Control name="background_names" type="text" arrayindex={i} value={this.props.data.background_talents.background_names[i]} placeholder="Name" onChange={this.props.handleChange} />
           </Col>
           </Form.Row>)
