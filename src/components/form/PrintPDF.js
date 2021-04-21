@@ -88,7 +88,9 @@ export default class PrintPDF extends  React.Component
 
 
     //Character Attributes
-    var init_description = createParagraph(doc,initiative_description, 90)
+    createParagraph(doc, "", 90, 3)
+    var init_description = createParagraph(doc, initiative_description, 90, 3)
+    doc.setFontSize(8).setTextColor("#808080").text(532, 85, init_description, 'center');
 
     if(initiative != 0){ doc.setFontSize(20).text(530, 58, initiative + '', 'center'); }
     doc.setFontSize(8).setTextColor("#808080").text(532, 85, init_description, 'center');
@@ -109,7 +111,7 @@ export default class PrintPDF extends  React.Component
     }
 
     //recoveries
-    var recoveryDescription = createParagraph(doc, recovery_description, 90)
+    var recoveryDescription = createParagraph(doc, recovery_description, 90, 3)
 
     doc.setFontSize(10).text(170, 185, recoveries, 'center');
     doc.setFontSize(8).setTextColor("#808080").text(172,210, recoveryDescription, 'center');

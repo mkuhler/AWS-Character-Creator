@@ -12,7 +12,7 @@ import { font, page, feat_magic_gear, powers, journal } from './PDFConstants.js'
 /**
  * Measure the text width of a string
  * @param  {String} name the string name
- * 
+ *
  * @return {Number}    the width size of the string
  */
 function measureInputText(name)
@@ -27,8 +27,8 @@ function measureInputText(name)
  * Checks to see if the string surpasses its textarea. If so minimize its font size
  * @param  {String} name        the string name
  * @param  {Number} min_length  the minimum width of the string
- * @param  {Number} max_length  the maximum width of the string 
- * 
+ * @param  {Number} max_length  the maximum width of the string
+ *
  * @return {Number}             the font size
  */
 export function lengthy_entry(entry, min_length, max_length)
@@ -53,9 +53,9 @@ export function lengthy_entry(entry, min_length, max_length)
 /**
  * If name is to long add ellispis at the end of its corresponding textarea
  * @param  {String} name        the string name
- * @param  {Number} max_length  the maximum width of the string 
- * 
- * @return {String}             the original or modified string with ellispis 
+ * @param  {Number} max_length  the maximum width of the string
+ *
+ * @return {String}             the original or modified string with ellispis
  */
 export function get_ellispis(name, max_length)
 {
@@ -128,11 +128,21 @@ export function getTextHeight(text,  fontSize = font.font_size.DEFAULT_FONT_SIZE
  * @param  {String} font          = font.font_type.DEFAULT, text font
  * @return {Array}                Array of string lines split by maxLineWidth
  */
- export function createParagraph(doc, text, maxLineWidth, fontType = font.font_type.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
-  //var textLines = doc.splitTextToSize(text, maxLineWidth);
-  //console.log(fontType);
-  return  doc.setFontSize(fontSize)
-             .splitTextToSize(text, maxLineWidth);
+ export function createParagraph(doc, text, maxLineWidth, maxLines,fontType = font.font_type.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
+   var lines = doc.setFontSize(fontSize)
+                  .splitTextToSize(text, maxLineWidth)
+
+   maxLines = lines.length - maxLines
+
+   if(maxLines > 0 )
+   {
+     return lines.slice(0, -maxLines);
+   }
+   else
+   {
+      return lines;
+   }
+
 }
 
 /**
@@ -152,7 +162,7 @@ export function createJournalParagraph(doc, text, startHight, startWidth, maxLin
                    .setTextColor('')
                    .splitTextToSize(text, maxLineWidth)
 
-    if(lines.length > 44){      
+    if(lines.length > 44){
       var break_paragraph = lines.length - journal.MAX_PARAGRAPH_LENGTH
 
       var lines = doc.setFontSize(fontSize)
@@ -191,12 +201,12 @@ export function createTextBox(doc, x, y, width, height, text = "", padding = pag
 
 /**
  * @brief Given the power type, returns the appropriate color code
- * @param {String} type 
- * @returns 
+ * @param {String} type
+ * @returns
  */
 function getPowerColor(type) {
   let color = 'red';
-  
+
   switch(type) {
     case 'At-Will':
       color = powers.color.GREEN;
@@ -208,7 +218,7 @@ function getPowerColor(type) {
 
     case 'Battle-Based':
       color = powers.color.RED;
-      break; 
+      break;
 
     case 'Recharge':
       color = powers.color.PURPLE;
@@ -217,11 +227,11 @@ function getPowerColor(type) {
     case 'Daily':
       color = powers.color.BLUE;
       break;
-    
+
     case 'Other':
       color = powers.color.ORANGE;
       break;
-    
+
     default:
       color = powers.color.CYAN;
       break;
@@ -254,11 +264,11 @@ export function createPowerHeader(doc, x, y, name, frequency) {
 }
 
 /**
- * 
- * @param {jsPDF} doc 
- * @param {Number} x 
- * @param {Number} y 
- * @param {String} description 
+ *
+ * @param {jsPDF} doc
+ * @param {Number} x
+ * @param {Number} y
+ * @param {String} description
  * @returns The total height of the body
  */
 export function createPowerBody(doc, x, y, description) {
@@ -277,9 +287,9 @@ export function createPowerBody(doc, x, y, description) {
     }
 
     keyName = keyName.charAt(0).toUpperCase() + keyName.slice(1);
-    
+
     // Break up the value into lines based on the maximum width of powers
-    value = createParagraph(doc, (keyName + ": " + value), powers.WIDTH, font.font_type.DEFAULT, powers.FONT_SIZE);
+    value = createParagraph(doc, (keyName + ": " + value), powers.WIDTH, 100,font.font_type.DEFAULT, powers.FONT_SIZE);
     value[0] = value[0].substring(value[0].indexOf(": ") + 3);
 
     let value_x = doc.getTextWidth(keyName);
@@ -298,17 +308,17 @@ export function createPowerBody(doc, x, y, description) {
        .setFontSize(powers.FONT_SIZE)
        .setFont(font.font_type.DEFAULT, 'bold')
        .text(keyName, x, line_y);
-    
-    // Loop through each line of the value text and add to the page, checking with max height. 
+
+    // Loop through each line of the value text and add to the page, checking with max height.
     let line_x = x + value_x;
-    
+
     value.forEach((line, lineIndex) => {
       line_x = (lineIndex === 0) ? x + value_x : x;
 
       doc.setFont(font.font_type.DEFAULT, 'normal')
          .text(line, line_x, line_y + (lineIndex * font.LINE_HEIGHT));
     });
-    
+
     // Compute total height of the power's body
     heightTotal += font.LINE_HEIGHT * value.length;
   });
@@ -318,10 +328,10 @@ export function createPowerBody(doc, x, y, description) {
 
 /**
  * @brief Creates a power on the page with a header and body
- * @param {jsPDF}   doc 
- * @param {int}     row 
- * @param {int}     col 
- * @param {Object}  power 
+ * @param {jsPDF}   doc
+ * @param {int}     row
+ * @param {int}     col
+ * @param {Object}  power
  */
 export function createPower(doc, row, col, height, power) {
 
@@ -330,14 +340,14 @@ export function createPower(doc, row, col, height, power) {
   let body_y = Number(header_y + powers.header.HEIGHT + page.PAGE_MARGIN);
 
   createPowerHeader(doc, x, header_y, power.power_name, power.power_frequency_1);
-  let bodyHeight = createPowerBody(doc, x, body_y, power.power_description); 
-  
+  let bodyHeight = createPowerBody(doc, x, body_y, power.power_description);
+
   return header_y + bodyHeight;
 }
 
   /**
-  * Adds items from array to pdf while checking to see if the text is to long 
-  * 
+  * Adds items from array to pdf while checking to see if the text is to long
+  *
   * @param  {Array}    items              the list that will be added to document
   * @param  {jsPDF}    doc                the pdf document
   * @param  {Number}   x_Cord             x-cord on where to begin entering the list
@@ -347,7 +357,7 @@ export function createPower(doc, row, col, height, power) {
   * @return         void
   */
    export function add_items(items, doc, x_Cord, y_Cord, box_hight, hight_difference)
-   { 
+   {
     for(var i = 0; i <items.length && i < 20; i++)
     {
       var material = get_ellispis(items[i], 400)
@@ -371,7 +381,7 @@ export function createPower(doc, row, col, height, power) {
 
   /**
   * Returns boolean if entry exceeds its capacity while also finding the height difference
-  * 
+  *
   * @param  {jsPDF}    doc                  the pdf document
   * @param  {Array}    entry                the list that will be added to document
   * @param  {Number}   y_cord               the pdf document
@@ -401,7 +411,7 @@ export function createPower(doc, row, col, height, power) {
 
   if(feat_magic_gear.FIXED_HEIGHT < journal.MAX_HEIGHT){
     feat_magic_gear.HEIGHT_DIFFER = feat_magic_gear.FIXED_HEIGHT - feat_magic_gear.HEIGHT_DIFFER;
-    
+
     journal.MAX_PARAGRAPH_LENGTH-=journal.LINES
   }
   else{
@@ -419,7 +429,7 @@ export function createPower(doc, row, col, height, power) {
   * @param  {Number}   offset      the cordinate to start place the string
   * @param  {Number}   page_width  fixed size of the textfield area, usually the same are box_height
   * @return                        void
-  * 
+  *
   */
   export function add_jounrnal_page(doc, offset, page_width)
   {
@@ -437,15 +447,15 @@ export function createPower(doc, row, col, height, power) {
   }
 
   /**
-  * Long narritve placed by the user. If the user enters a long entry, it'll be divided 
-  * by multiple pages. 
+  * Long narritve placed by the user. If the user enters a long entry, it'll be divided
+  * by multiple pages.
   *
   * @param  {Number}   story_lines number of lines within the story
   * @param  {jsPDF}    doc         the pdf document
   * @param  {Number}   offset      the cordinate to start place the string
   * @param  {Number}   page_width  fixed size of the textfield area, usually the same are box_height
   * @return                        void
-  * 
+  *
   */
     export function epic_story(story_lines, doc, offset, page_width){
       if(story_lines > 66)
@@ -465,7 +475,7 @@ export function createPower(doc, row, col, height, power) {
   * @param {jsPDF}  doc           PDF document object
   * @param {Number}   fontSize  = font.font_size.DEFAULT_FONT_SIZE, option to modify font siz
   * @return void
-  * 
+  *
   */
  export function add_page_number(doc, fontSize = font.font_size.DEFAULT_FONT_SIZE){
   doc.setFont('fantasy')
