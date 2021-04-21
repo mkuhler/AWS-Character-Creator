@@ -129,20 +129,18 @@ export function getTextHeight(text,  fontSize = font.font_size.DEFAULT_FONT_SIZE
  * @param  {String} font          = font.font_type.DEFAULT, text font
  * @return {Array}                Array of string lines split by maxLineWidth
  */
- export function createParagraph(doc, text, maxLineWidth, maxLines,fontType = font.font_type.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
+ export function createParagraph(doc, text, maxLineWidth, maxLines = (page.PAGE_HEIGHT / font.LINE_HEIGHT),fontType = font.font_type.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
    var lines = doc.setFontSize(fontSize)
                   .splitTextToSize(text, maxLineWidth)
 
-   maxLines = lines.length - maxLines
 
-   if(maxLines > 0 )
-   {
-     return lines.slice(0, -maxLines);
-   }
-   else
-   {
-      return lines;
-   }
+    console.log(lines);
+    console.log("BEFORE" + maxLines);
+
+   maxLines = lines.length - maxLines;
+   console.log("AFTER" + maxLines);
+   console.log(lines.slice(0, -maxLines));
+   return lines.slice(0, -maxLines);
 
 }
 
@@ -290,7 +288,7 @@ export function createPowerBody(doc, x, y, description) {
     keyName = keyName.charAt(0).toUpperCase() + keyName.slice(1);
 
     // Break up the value into lines based on the maximum width of powers
-    value = createParagraph(doc, (keyName + ": " + value), powers.WIDTH, 100,font.font_type.DEFAULT, powers.FONT_SIZE);
+    value = createParagraph(doc, (keyName + ": " + value), powers.WIDTH, (page.PAGE_HEIGHT / font.LINE_HEIGHT),font.font_type.DEFAULT, powers.FONT_SIZE);
     value[0] = value[0].substring(value[0].indexOf(": ") + 3);
 
     let value_x = doc.getTextWidth(keyName);
