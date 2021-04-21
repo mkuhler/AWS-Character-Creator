@@ -40,6 +40,7 @@ export default class PrintPDF extends  React.Component
 
 
     var initiative = charsheet.character_attributes.initiative;
+    var initiative_description = charsheet.character_attributes.initiative_description;
     var hitpoints_max = charsheet.character_attributes.hitpoints_max;
     var recoveries = charsheet.character_attributes.recoveries;
     var recovery_description = charsheet.character_attributes.recoveries_optional;
@@ -87,7 +88,15 @@ export default class PrintPDF extends  React.Component
 
 
     //Character Attributes
+    createParagraph(doc, "",page.descriptions.SIZE, page.descriptions.MAX_LINES) //needs to be called first in order to work. Need to look more into it.
+    
+    var init_description = createParagraph(doc, initiative_description, page.descriptions.SIZE, page.descriptions.MAX_LINES)
+    doc.setFontSize(8).setTextColor("#808080").text(532, 85, init_description, 'center');
+
     if(initiative != 0){ doc.setFontSize(20).text(530, 58, initiative + '', 'center'); }
+    doc.setFontSize(8).setTextColor("#808080").text(532, 85, init_description, 'center');
+
+
     if(hitpoints_max != 0){ doc.setFontSize(20).text(105, 205, hitpoints_max + '', 'center'); }
 
     if(death_saves_max != 0){ doc.setFontSize(18).text(290, 205, death_saves_max + '', 'center'); }
@@ -103,13 +112,13 @@ export default class PrintPDF extends  React.Component
     }
 
     //recoveries
-    var recoveryDescription = doc.setFontSize(8).splitTextToSize(recovery_description, 90)
+    var recoveryDescription = createParagraph(doc, recovery_description, page.descriptions.SIZE, page.descriptions.MAX_LINES)
 
     doc.setFontSize(10).text(170, 185, recoveries, 'center');
-    doc.setFontSize(8).setTextColor("#808080").text(175,210, recoveryDescription, 'center');
+    doc.setFontSize(8).setTextColor("#808080").text(172,210, recoveryDescription, 'center');
 
 
-    doc.setFontSize(8).text(360, 181, ": " + saving_throws_easy);
+    doc.setFontSize(8).text(360, 18, ": " + saving_throws_easy);
     doc.setFontSize(8).text(360, 197, ": " + saving_throws_medium);
     doc.setFontSize(8).text(360, 212, ": " + saving_throws_hard);
 
