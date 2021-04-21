@@ -56,7 +56,7 @@ export default class PrintPDF extends  React.Component
     var icon_relationships_other = charsheet.background_talents.icon_relationships_other;
     var backgrounds = charsheet.background_talents.backgrounds;
     var feat_name = charsheet.background_talents.talents_and_features_names;
-    var feat_description = charsheet.background_talents.talents_and_features_descriptionss;
+    var feat_description = charsheet.background_talents.talents_and_features_descriptions;
     //var powers = charsheet.character_powers.powers;
 
     doc.addImage(basic_info(),'PNG',7,15, 570,247);
