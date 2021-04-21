@@ -31,8 +31,9 @@ class MasterForm extends React.Component {
 
       this.handleChange = this.handleChange.bind(this)
       this.objectAssign = this.objectAssign.bind(this)
-  this.dataChange = this.dataChange.bind(this)
-  this.onFileChange = this.onFileChange.bind(this)
+      this.dataChange = this.dataChange.bind(this)
+      this.onFileChange = this.onFileChange.bind(this)
+      this.handlePower = this.handlePower.bind(this)
   }
 
   nextStep = () => {
@@ -50,6 +51,58 @@ class MasterForm extends React.Component {
       data: charsheet
 
     })
+  }
+
+
+  handlePower(event){
+    console.log("BEGIN")
+    console.log(this.state.data.powers)
+
+    const {name, value } = event.target
+    let index = event.target.getAttribute('arrayIndex')
+
+    if(this.state.data.powers[index] == null){
+      let newPowerObj = {
+        power_name: "",
+        power_description: {
+          power_frequency_1: "", // *****
+          power_uses_1: "", // -1 means "infinite use" such as an At-Will or Cyclical power; Battle-Based needs an int from 1-5, Recharge from 1-20, Daily from 1-5, Other is up to the player
+
+          power_frequency_2: "", // not applicatble by default, i.e. only one frequncy
+          power_uses_2: "",
+
+          power_action_type: "", // Standard action is default if not specified, other options like "Ranged Spell", Close-Quarters Spell", etc.
+          power_range: "", // no defualt, something like "One nearby enemy", "Enemy with most hitpoints", etc.
+
+          power_target: "", // all powers I've seen have a target at least, but maybe allow this to be blank just in case
+          power_attack:"", // can be left blank as not all powers have an attack
+          power_hit: "", // can be left blank
+          power_miss: "", // can be left blank
+
+          power_other: "", // array of strings (?) so the user can write any information not covered above
+
+          power_text: ""
+        }
+      }
+
+      this.state.data.powers[index] = newPowerObj;
+
+
+
+    }
+
+    this.state.data.powers[index].[name] = value
+    //this.state.data.powers[i]
+
+
+
+    console.log(this.state.data.powers)
+    console.log("END")
+
+
+
+
+
   }
 
 
@@ -162,6 +215,7 @@ class MasterForm extends React.Component {
       this.state.data.[category].[name] = parseInt(value)
     } else if(arrayindex != null){
       this.state.data.[category].[name][arrayindex] = value
+
     }else {
       this.state.data.[category].[name] = value
     }
@@ -260,7 +314,7 @@ class MasterForm extends React.Component {
 
   render() {
     const { step } = this.state;
-    switch (step) {
+    switch (5) {
       case 1:
         return <Container>
           <ProgressBar now={0} />
@@ -370,7 +424,7 @@ class MasterForm extends React.Component {
             <Col xs={10}>
               <Powers
                 prevStep={this.prevStep}
-                handleChange={this.handleChange}
+                handleChange={this.handlePower}
                 data={this.state.data}
               />
             </Col>
