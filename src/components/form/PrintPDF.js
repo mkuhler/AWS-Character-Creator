@@ -54,6 +54,7 @@ export default class PrintPDF extends  React.Component
     var icon_points = charsheet.background_talents.icon_relationship_points;
     var icon_statuses = charsheet.background_talents.icon_relationship_statuses;
     var icon_relationships_other = charsheet.background_talents.icon_relationships_other;
+    var one_unique_thing = charsheet.background_talents.one_unique_thing;
     var backgrounds = charsheet.background_talents.backgrounds;
     var feat_name = charsheet.background_talents.talents_and_features_names;
     var feat_description = charsheet.background_talents.talents_and_features_descriptions;
@@ -124,12 +125,14 @@ export default class PrintPDF extends  React.Component
             line = icon_names[j] + ": " + icon_points[j] + " " + icon_statuses[j];
             sectionText.push(line);
           }
-
           break;
+
         case 1:
           sectionTitle = "One Unique Thing";
-          // sectionText = createParagraph(doc, charsheet.background_talents.one_unique_thing, boxWidth - page.DEFAULT_PADDING);
+          sectionText = createParagraph(doc, charsheet.background_talents.one_unique_thing, boxWidth - page.DEFAULT_PADDING);
+          console.log(sectionText[0]);
           break;
+        
         case 2:
           sectionTitle = "Backgrounds";
           
@@ -145,6 +148,7 @@ export default class PrintPDF extends  React.Component
       }
 
       // TODO: Figure out how to make the boxes full-width without the -25 in width for line 121
+      // TODO: Set ellipsis when the text exceeds the height of the box
       createTitle(doc, offset + (page.PAGE_WIDTH / 3 * i), height, sectionTitle);
       createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, sectionText);
 
