@@ -258,7 +258,6 @@ constructor(charProps){
                   <Form.Control as="select" onChange={this.abilityGenMethod}>
                           <option>Manual</option>
                           <option>Roll</option>
-                          <option>Point Buy</option>
                   </Form.Control>
                 </Col>
           </Form.Row>
