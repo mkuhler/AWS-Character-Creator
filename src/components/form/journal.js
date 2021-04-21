@@ -83,18 +83,20 @@ class Journal extends React.Component {
       return inputs;
     }
 
-    createFeatList(){
-      var inputs = []
-      for(var i = 0; i < this.state.numOfFeats; i++){
-        inputs.push(
-          <Form.Row>
-          <Col xs = {7} >
-                    <Form.Control name="feats" type="text" placeholder="Feat" arrayindex={i} value={this.props.data.inventory_feats_and_journal.feats[i]} onChange={this.props.handleChange}/>
-          </Col>
-          </Form.Row>)
-        inputs.push()
-      }
-      return inputs;
+    createFeatList() {
+        var inputs = []
+
+        for (var i = 0; i < this.state.numOfFeats; i++) {
+
+            inputs.push(
+                <Form.Row>
+                    <Col xs={7} >
+                        <Form.Control name="feats" type="text" placeholder="Feat" arrayindex={i} value={this.props.data.inventory_feats_and_journal.feats[i]} onChange={this.props.handleChange} />
+                    </Col>
+                </Form.Row>)
+            inputs.push()
+        }
+        return inputs;
     }
 
     addOneInventory() {

@@ -29,7 +29,8 @@ class MasterForm extends React.Component {
       fileUploadStatus: "Upload a File"
     };
 
-  this.handleChange = this.handleChange.bind(this)
+      this.handleChange = this.handleChange.bind(this)
+      this.objectAssign = this.objectAssign.bind(this)
   this.dataChange = this.dataChange.bind(this)
   this.onFileChange = this.onFileChange.bind(this)
   }
@@ -50,6 +51,8 @@ class MasterForm extends React.Component {
 
     })
   }
+
+
 
 
   onFileChange = event => {
@@ -87,8 +90,8 @@ class MasterForm extends React.Component {
                       if (keysMatch)
                       {
 
-                          Object.assign(this.state.data, parsedFile);
-
+                          //Object.assign(this.state.data, parsedFile);
+                          this.objectAssign(this.state.data, parsedFile);
 
                           //console.log(parsedFile);
                           console.log(this.state.data);
@@ -215,7 +218,18 @@ class MasterForm extends React.Component {
   }
 
 
-
+    objectAssign(destination, ...inputs) {
+        inputs.forEach(input => {
+            Object.keys(input).forEach(key => {
+                const inputValue = input[key]
+                const destinationValue = destination[key]
+                destination[key] = destinationValue && inputValue && typeof destinationValue === 'object' && typeof inputValue === 'object'
+                    ? this.objectAssign(destinationValue, inputValue)
+                    : inputValue
+            })
+        })
+        return destination
+    }
 
 
 
