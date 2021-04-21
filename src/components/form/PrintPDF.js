@@ -54,9 +54,11 @@ export default class PrintPDF extends  React.Component
     var icon_points = charsheet.background_talents.icon_relationship_points;
     var icon_statuses = charsheet.background_talents.icon_relationship_statuses;
     var icon_relationships_other = charsheet.background_talents.icon_relationships_other;
-    var backgrounds = charsheet.background_talents.backgrounds;
+    var one_unique_thing = charsheet.background_talents.one_unique_thing;
+    var background_names = charsheet.background_talents.background_names;
+    var background_numbers = charsheet.background_talents.background_numbers;
     var feat_name = charsheet.background_talents.talents_and_features_names;
-    var feat_description = charsheet.background_talents.talents_and_features_descriptionss;
+    var feat_description = charsheet.background_talents.talents_and_features_descriptions;
     //var powers = charsheet.character_powers.powers;
 
     doc.addImage(basic_info(),'PNG',7,15, 570,247);
@@ -106,47 +108,44 @@ export default class PrintPDF extends  React.Component
       doc.setFont('arial').setTextColor('').text(375, 225, ": " + saving_throws_optional); //reset font and color
     }
 
-    var sectionText = "";
+    var sectionTitle = "";
     var i;
     var offset = (page.PAGE_MARGIN / 2);
     var boxWidth = (page.PAGE_WIDTH / 3) - offset - 40;
     var height = 280;
     var line = "";
-
+    
     for (i = 0; i < 3; i++) {
-      var sectionText = [];
+      var sectionText = [""];
 
       switch(i) {
         case 0:
           sectionTitle = "Icon Relationships";
-          
-          // Loop through relationships and add to array of strings
-          // ICON_RELATIONSHIP OBJ WITH ARRAYS IN EACH
-          /*for(relationship in icon_relationships) {
-            line = relationship.name + ": " + relationship.points + " " + relationship.status;
+          // NOTE: This HEAVILY depends on all of the icon arrays being the same length
+          for (var j = 0; j < icon_names.length; j++) {
+            line = icon_names[j] + ": " + icon_points[j] + " " + icon_statuses[j];
             sectionText.push(line);
-          }*/
-
+          }
           break;
+
         case 1:
           sectionTitle = "One Unique Thing";
-          // sectionText = createParagraph(doc, charsheet.background_talents.one_unique_thing, boxWidth - page.DEFAULT_PADDING);
+          sectionText = createParagraph(doc, charsheet.background_talents.one_unique_thing, boxWidth - page.DEFAULT_PADDING);
           break;
+        
         case 2:
           sectionTitle = "Backgrounds";
           
-          // Loop through backgrounds and add to array of strings
-          /*var j; 
-          for (j = 0; j < backgrounds.length; j++) {
-            var background = backgrounds[j];
-            line = background[0] + " " + background[1];
-            console.log(background);
+          // Loop through backgrounds and add to array of strings 
+          for (var j = 0; j < background_names.length; j++) {
+            line = background_numbers[j]+ " " + background_names[j];
             sectionText.push(line);
-          }*/
+          }
           break;
       }
 
       // TODO: Figure out how to make the boxes full-width without the -25 in width for line 121
+      // TODO: Set ellipsis when the text exceeds the height of the box
       createTitle(doc, offset + (page.PAGE_WIDTH / 3 * i), height, sectionTitle);
       createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, sectionText);
 
