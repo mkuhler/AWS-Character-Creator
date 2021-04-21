@@ -15,7 +15,7 @@ export const page = {
   PAGE_WIDTH: 612,
   PAGE_HEIGHT: 792,
   PAGE_MARGIN: 12,
-  DEFAULT_PADDING: 12
+  DEFAULT_PADDING: 6
 };
 
 export const feat_magic_gear = {

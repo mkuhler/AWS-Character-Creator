@@ -182,7 +182,9 @@ export function createJournalParagraph(doc, text, startHight, startWidth, maxLin
  */
 export function createTextBox(doc, x, y, width, height, text = "", padding = page.DEFAULT_PADDING) {
   journal.MAX_HEIGHT = 0;
-  return doc.text(text, x + padding, y + padding)
+  return doc.setFontSize(font.font_size.MINIMUM_FONT_SIZE)
+            .setFont(font.font_type.DEFAULT, 'normal')
+            .text(text, x + padding, y + padding)
             .rect(x, y, width + padding, height + padding);
 
 }
@@ -234,7 +236,7 @@ export function createPowerHeader(doc, x, y, name, frequency) {
   let height = powers.header.HEIGHT - powers.MARGIN;
 
   doc.setFillColor(headerColor)
-     .rect(x, y, width, height, 'F')
+     .rect(x, y, width, height, 'F');
 
   // TODO: CHECK FOR NUMBER OF BOXES TO ADD
   let checkboxOffset = 0;
