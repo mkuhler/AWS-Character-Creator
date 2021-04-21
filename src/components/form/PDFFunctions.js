@@ -125,6 +125,7 @@ export function getTextHeight(text,  fontSize = font.font_size.DEFAULT_FONT_SIZE
  * @param  {jsPDF}  doc           PDF document object
  * @param  {String} text          Text to be split into multiple lines
  * @param  {Number} maxLineWidth  The maximum width of the text
+ * @param  {Number} maxLines      The maximum amount of lines paragraph can hold
  * @param  {String} font          = font.font_type.DEFAULT, text font
  * @return {Array}                Array of string lines split by maxLineWidth
  */
