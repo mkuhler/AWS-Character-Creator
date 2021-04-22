@@ -3,7 +3,7 @@ import CharacterDetails from './characterdetails.js';
 import {Button, Form, Col, Figure} from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import charsheet from './CharSheetData.js';
-import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph, createJournalParagraph, add_items, expand_textfield, createPower, add_jounrnal_page, add_page_number } from './PDFFunctions.js';
+import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph, createJournalParagraph, add_items, expand_textfield, createPower, add_jounrnal_page, add_page_number, createList } from './PDFFunctions.js';
 import { font, page, feat_magic_gear, powers } from './PDFConstants.js';
 import { basic_info, sword_image } from './encodebase64.js';
 import FileSaver from 'file-saver';
@@ -52,17 +52,6 @@ export default class PrintPDF extends  React.Component
     var saving_throws_hard = charsheet.character_attributes.saving_throws_hard;
     var saving_throws_optional = charsheet.character_attributes.saving_throws_optional;
     var death_saves_max = charsheet.character_attributes.death_saves_max;
-    // var icon_relationships = charsheet.background_talents.icon_relationships;
-    var icon_names = charsheet.background_talents.icon_relationship_names;
-    var icon_points = charsheet.background_talents.icon_relationship_points;
-    var icon_statuses = charsheet.background_talents.icon_relationship_statuses;
-    var icon_relationships_other = charsheet.background_talents.icon_relationships_other;
-    var one_unique_thing = charsheet.background_talents.one_unique_thing;
-    var background_names = charsheet.background_talents.background_names;
-    var background_numbers = charsheet.background_talents.background_numbers;
-    var feat_name = charsheet.background_talents.talents_and_features_names;
-    var feat_description = charsheet.background_talents.talents_and_features_descriptions;
-    //var powers = charsheet.character_powers.powers;
 
     doc.addImage(basic_info(),'PNG',7,15, 570,247);
 
@@ -125,14 +114,22 @@ export default class PrintPDF extends  React.Component
       doc.setFont('arial').setTextColor('').text(375, 225, ": " + saving_throws_optional); //reset font and color
     }
 
+    // Icon Relationships, One Unique Thing, Backgrounds
+    var icon_names = charsheet.background_talents.icon_relationship_names;
+    var icon_points = charsheet.background_talents.icon_relationship_points;
+    var icon_statuses = charsheet.background_talents.icon_relationship_statuses;
+    var icon_relationships_other = charsheet.background_talents.icon_relationships_other;
+    var one_unique_thing = charsheet.background_talents.one_unique_thing;
+    var background_names = charsheet.background_talents.background_names;
+    var background_numbers = charsheet.background_talents.background_numbers;
+    
     var sectionTitle = "";
-    var i;
+    var line = "";
     var offset = (page.PAGE_MARGIN / 2);
     var boxWidth = (page.PAGE_WIDTH / 3) - offset - 40;
     var height = 280;
-    var line = "";
 
-    for (i = 0; i < 3; i++) {
+    for (var i = 0; i < 3; i++) {
       var sectionText = [""];
 
       switch(i) {
@@ -147,7 +144,7 @@ export default class PrintPDF extends  React.Component
 
         case 1:
           sectionTitle = "One Unique Thing";
-          sectionText = createParagraph(doc, charsheet.background_talents.one_unique_thing, boxWidth - page.DEFAULT_PADDING);
+          sectionText = createParagraph(doc, one_unique_thing, boxWidth - page.DEFAULT_PADDING);
           break;
 
         case 2:
@@ -168,7 +165,20 @@ export default class PrintPDF extends  React.Component
 
     }
 
-    var sectionTitle = "";
+    // Talents and Features
+    var feat_name = charsheet.background_talents.talents_and_features_names;
+    var feat_description = charsheet.background_talents.talents_and_features_descriptions;
+    var feat_y = powers.Y + (page.PAGE_MARGIN * 2);
+    var feat_width = 180;
+    var feat_height = 420;
+    var sectionTitle = "Talents and Features";
+
+    // Creates list of talents and features based on the name and description arrays
+    createTitle(doc, page.PAGE_MARGIN, feat_y, sectionTitle);
+    createTextBox(doc, page.PAGE_MARGIN, feat_y + page.DEFAULT_PADDING, feat_width, feat_height);
+    createList(doc, page.PAGE_MARGIN + page.DEFAULT_PADDING, feat_y + (page.DEFAULT_PADDING * 2) + font.LINE_HEIGHT, feat_width, feat_name, feat_description);
+
+    // Powers
     var sectionTitle = "";
     var currentRow = 0;
     var currentCol = 0;
@@ -187,57 +197,6 @@ export default class PrintPDF extends  React.Component
       {power_name: "Vitality Drain", power_frequency_1: "Cyclical", power_description: {power_action_type: "Standard Action"}},
       {power_name: "Test Test", power_frequency_1: "Battle-Based", power_description: {power_action_type: "Standard Action"}}];
 
-      /*let power_arr = [
-              {power_name: "Cleave", power_frequency_1: "Daily", power_description: {power_action_type: "Maneuver"}},
-              {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-
-              {power_name: "Vitality Drain", power_frequency_1: "Cyclical", power_description: {power_action_type: "Standard Action"}},
-              {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-              {power_name: "Test Test", power_frequency_1: "Battle-Based", power_description: {power_action_type: "Standard Action"}}];
-    */
     let power_overflow = [];
 
     // Generate Powers
