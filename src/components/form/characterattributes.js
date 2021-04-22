@@ -23,13 +23,15 @@ class CharacterAttributes extends React.Component {
                         <h3>Character Attributes</h3>
 
                         <Form.Row>
-                            <Form.Label> {"(Level: " + this.props.data.basic_info.level + ")"} </Form.Label>
-                            <Form.Label> {"(STR Mod: " + this.props.data.ability_scores.strength_mod + ")"} </Form.Label>
-                            <Form.Label> {"(CON Mod: " + this.props.data.ability_scores.constitution_mod + ")"} </Form.Label>
-                            <Form.Label> {"(DEX Mod: " + this.props.data.ability_scores.dexterity_mod + ")"} </Form.Label>
-                            <Form.Label> {"(INT Mod: " + this.props.data.ability_scores.intelligence_mod + ")"} </Form.Label>
-                            <Form.Label> {"(WIS Mod: " + this.props.data.ability_scores.wisdom_mod + ")"} </Form.Label>
-                            <Form.Label> {"(CHA Mod: " + this.props.data.ability_scores.charisma_mod + ")"} </Form.Label>
+                            <Col xs={12}>
+                            <Form.Label> {"Level: " + this.props.data.basic_info.level +
+                                "   | STR Mod: " + this.props.data.ability_scores.strength_mod +
+                                "   |   CON Mod: " + this.props.data.ability_scores.constitution_mod +
+                                "   |   DEX Mod: " + this.props.data.ability_scores.dexterity_mod +
+                                "   |   INT Mod: " + this.props.data.ability_scores.intelligence_mod +
+                                "   |   WIS Mod: " + this.props.data.ability_scores.wisdom_mod + 
+                                "   |   CHA Mod: " + this.props.data.ability_scores.charisma_mod} </Form.Label>
+                            </Col>
                         </Form.Row>
 
 
@@ -43,7 +45,7 @@ class CharacterAttributes extends React.Component {
                                     onChange={this.props.handleChange} />
                             </Col>
 
-                            <Col xs={3}>
+                            <Col xs={9}>
                                 <Form.Label>Initiative Description</Form.Label>
                                 <Form.Control type="text"
                                     name="initiative_description"
@@ -69,8 +71,7 @@ class CharacterAttributes extends React.Component {
                                     value={this.props.data.character_attributes.armor_class}
                                     onChange={this.props.handleChange} />
                             </Col>
-                        </Form.Row>
-                        <Form.Row>
+
                             <Col xs={3}>
                                 <Form.Label>Physical Defense</Form.Label>
                                 <Form.Control type="text"
@@ -87,7 +88,13 @@ class CharacterAttributes extends React.Component {
                                     onChange={this.props.handleChange} />
                             </Col>
                         </Form.Row>
-                        <br></br>
+
+                        <Form.Row>
+                            <Col xs={12}>
+                                <hr />
+                            </Col>
+                        </Form.Row>
+
                         <h3>Saving Throws</h3>
 
                         <Form.Row>
