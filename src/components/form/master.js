@@ -42,15 +42,14 @@ class MasterForm extends React.Component {
   initPower(){
     if(this.state.data.powers[0] == null){
         let newPowerObj = {
+
           power_name: "",
           power_frequency_1: "", // *****
+          power_uses_1: "", // -1 means "infinite use" such as an At-Will or Cyclical power; Battle-Based needs an int from 1-5, Recharge from 1-20, Daily from 1-5, Other is up to the player
+          power_frequency_2: "", // not applicatble by default, i.e. only one frequncy
+          power_uses_2: "",
 
           power_description: {
-
-            power_uses_1: "", // -1 means "infinite use" such as an At-Will or Cyclical power; Battle-Based needs an int from 1-5, Recharge from 1-20, Daily from 1-5, Other is up to the player
-
-            power_frequency_2: "", // not applicatble by default, i.e. only one frequncy
-            power_uses_2: "",
 
             power_action_type: "", // Standard action is default if not specified, other options like "Ranged Spell", Close-Quarters Spell", etc.
             power_range: "", // no defualt, something like "One nearby enemy", "Enemy with most hitpoints", etc.
@@ -101,13 +100,14 @@ class MasterForm extends React.Component {
       let newPowerObj = {
         power_name: "",
         power_frequency_1: "", // *****
+        power_uses_1: "", // -1 means "infinite use" such as an At-Will or Cyclical power; Battle-Based needs an int from 1-5, Recharge from 1-20, Daily from 1-5, Other is up to the player
+        power_frequency_2: "", // not applicatble by default, i.e. only one frequncy
+        power_uses_2: "",
 
         power_description: {
 
-          power_uses_1: "", // -1 means "infinite use" such as an At-Will or Cyclical power; Battle-Based needs an int from 1-5, Recharge from 1-20, Daily from 1-5, Other is up to the player
 
-          power_frequency_2: "", // not applicatble by default, i.e. only one frequncy
-          power_uses_2: "",
+
 
           power_action_type: "", // Standard action is default if not specified, other options like "Ranged Spell", Close-Quarters Spell", etc.
           power_range: "", // no defualt, something like "One nearby enemy", "Enemy with most hitpoints", etc.
@@ -142,6 +142,12 @@ class MasterForm extends React.Component {
       this.state.data.powers[index].power_name = value
     }else if(name == "power_frequency_1"){
       this.state.data.powers[index].power_frequency_1 = value
+    }else if(name == "power_uses_1"){
+      this.state.data.powers[index].power_uses_1 = value
+    }else if(name == "power_frequency_2"){
+        this.state.data.powers[index].power_frequency_2 = value
+    }else if(name == "power_uses_2"){
+      this.state.data.powers[index].power_uses_2 = value
     }else{
       this.state.data.powers[index].power_description.[name] = value
     }
