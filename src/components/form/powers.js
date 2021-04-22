@@ -18,8 +18,6 @@ class Powers extends React.Component {
         this.addOnePower = this.addOnePower.bind(this);
         this.subOnePower = this.subOnePower.bind(this);
         this.createPowers = this.createPowers.bind(this);
-        //this.powerHandleChange = this.powerHandleChange.bind(this);
-        this.checkPowerArray = this.checkPowerArray.bind(this);
 
 
 
@@ -28,12 +26,7 @@ class Powers extends React.Component {
 
 
 
-    checkPowerArray(name, index){
 
-      if(name == "power_name"){
-        return this.props.data.powers[index].power_name
-      }
-    }
 
 
 
@@ -221,9 +214,7 @@ class Powers extends React.Component {
                 <Button variant="outline-success" size="sm" onClick={this.addOnePower}> + </Button>{' '}
                 <Button variant="outline-danger" size="sm" onClick={this.subOnePower}> - </Button>{' '}
                     <Form.Group controlId="power_description">
-                        {console.log("hi")}
-                        {this.checkPowerArray("test", 0)}
-                        {console.log("bye")}
+
 
                         {this.createPowers()}
                         <datalist name ="frequency" id="frequency">
