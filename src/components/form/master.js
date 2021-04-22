@@ -37,7 +37,39 @@ class MasterForm extends React.Component {
       this.onFileChange = this.onFileChange.bind(this)
       this.handlePower = this.handlePower.bind(this)
       this.initPower = this.initPower.bind(this)
+      this.parsePowers = this.parsePowers.bind(this)
   }
+
+  parsePowers(){
+    console.log("testing: ")
+    console.log(this.state.data.powers)
+
+    //Parse uploaded powers array into powerArrayHolder for value's in Power.js
+    this.state.data.powers.map((power, index) => {
+
+      this.state.powerArrayHolder.power_name[index] = power.power_name
+      this.state.powerArrayHolder.power_frequency_1[index] = power.power_frequency_1
+      this.state.powerArrayHolder.power_frequency_2[index] = power.power_frequency_2
+      this.state.powerArrayHolder.power_uses_1[index] = power.power_uses_1
+      this.state.powerArrayHolder.power_uses_2[index] = power.power_uses_2
+
+      //power_description fields
+
+      this.state.powerArrayHolder.power_action_type[index] = power.power_description.power_action_type
+      this.state.powerArrayHolder.power_range[index] = power.power_description.power_range
+      this.state.powerArrayHolder.power_target[index] = power.power_description.power_target
+      this.state.powerArrayHolder.power_attack[index] = power.power_description.power_attack
+      this.state.powerArrayHolder.power_hit[index] = power.power_description.power_hit
+      this.state.powerArrayHolder.power_miss[index] = power.power_description.power_miss
+      this.state.powerArrayHolder.power_other[index] = power.power_description.power_other
+      this.state.powerArrayHolder.power_text[index] = power.power_description.power_text
+
+
+
+
+    });
+
+}
 
   initPower(){
     if(this.state.data.powers[0] == null){
@@ -93,6 +125,8 @@ class MasterForm extends React.Component {
   handlePower(event){
     console.log("BEGIN, the powers array currently looks like:")
     console.log(this.state.data.powers)
+    console.log("Now printing power array holder")
+    console.log(this.state.powerArrayHolder)
 
     const {name, value } = event.target
     let index = event.target.getAttribute('arrayIndex')
@@ -122,20 +156,8 @@ class MasterForm extends React.Component {
           power_text: ""
         }
       }
-
-
       this.state.data.powers[index] = newPowerObj;
-
-
-
-
-
-
     }
-
-
-
-
     //this.state.data.powers[i]
 
     if(name == "power_name"){
@@ -155,13 +177,11 @@ class MasterForm extends React.Component {
     //The following code is for the value fields in Power.JS
 
     this.state.powerArrayHolder.[name][index] = value;
-
+    console.log("Powers:")
     console.log(this.state.data.powers)
     console.log("END")
-
-
-
-
+    console.log(this.state.powerArrayHolder)
+    this.forceUpdate()
 
   }
 
@@ -206,6 +226,7 @@ class MasterForm extends React.Component {
                           //Object.assign(this.state.data, parsedFile);
                           this.objectAssign(this.state.data, parsedFile);
 
+                          this.parsePowers();
                           //console.log(parsedFile);
                           console.log(this.state.data);
                           //console.log("Charsheet: " + this.state.data);
