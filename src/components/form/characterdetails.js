@@ -260,7 +260,7 @@ constructor(charProps){
             <br></br>
             <h3>Ability Scores</h3>
             <Form.Row name="genMethod">
-                <Col xs={5}>
+                      <Col xs={4}>
                   <Form.Control as="select" onChange={this.abilityGenMethod}>
                           <option>Manual</option>
                           <option>Roll</option>
