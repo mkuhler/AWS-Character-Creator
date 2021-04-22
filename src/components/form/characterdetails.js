@@ -250,17 +250,12 @@ constructor(charProps){
             </Form.Row>
               </Form.Group>
 
-              <Form.Row>
-                  <Col xs={12}>
                       <hr />
-                  </Col>
-              </Form.Row>
 
         <Form.Group controlId="ability_scores" name="Manual"> 
-            <br></br>
             <h3>Ability Scores</h3>
             <Form.Row name="genMethod">
-                <Col xs={5}>
+                      <Col xs={4}>
                   <Form.Control as="select" onChange={this.abilityGenMethod}>
                           <option>Manual</option>
                           <option>Roll</option>
