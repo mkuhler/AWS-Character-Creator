@@ -180,7 +180,12 @@ const charsheet = {
     // powers may have to be their own class / data type so that we may more easily keep adding more ?
     // Most powers seem to have a name, one or more frequencies and a description typically consisting of information such: an action type, a range, a target, an effect and an "other" array of strings
     // that serves as a catch all for any misc information a power may have that isnt covered by the previous fields
-    powers: []
+
+    //Powers array that keeps track of powers for PDF generator
+    powers: [],
+
+
+
 
 
 
