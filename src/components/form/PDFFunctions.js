@@ -95,6 +95,13 @@ export function createTitle(doc, x, y, text, fontSize = font.font_size.DEFAULT_F
             .text(x, y, text.toUpperCase());
 }
 
+export function createListTitle(doc, x, y, title) {
+  doc.setFontSize(10)
+       .setTextColor('black')
+       .setFontSize(powers.FONT_SIZE)
+       .setFont(font.font_type.DEFAULT, 'bold')
+       .text(title, x, y);
+}
 /**
  * Convert inches value to points
  * @param  {Number} inches  Inches value
@@ -175,6 +182,47 @@ export function createJournalParagraph(doc, text, startHight, startWidth, maxLin
     doc.text(startHight, startWidth, lines);
 
     return lines;
+}
+
+/**
+ * @brief Creates a list formatted with bold titles and inline descriptions that conform to a max width
+ * @param {jsPDF}   doc 
+ * @param {Number}  x 
+ * @param {Number}  y 
+ * @param {Array}   titles 
+ * @param {Array}   descriptions 
+ */
+export function createList(doc, x, y, width, titles, descriptions) {
+  var current_y = y;
+
+  // Loop through each of the list items to add to the doc
+  for(var i = 0; i < titles.length; i++) {
+    var title = titles[i] + ": ";
+    var description = descriptions[i];
+    
+    
+    // Create bold title text on the page
+    createListTitle(doc, x, current_y, title);
+
+    // Add name to description, create paragraph to convert from string to array of strings, then remove name from array
+    description = createParagraph(doc, (title + description), width, (page.PAGE_HEIGHT / font.LINE_HEIGHT), font.font_type.DEFAULT, powers.FONT_SIZE);
+    //description[0] = description[0].substring(description[0].indexOf(title));
+    description[0] = description[0].replace(title,'');
+
+    // Get the width of the title to offset with the first line of descriptions
+    var description_x = doc.getTextWidth(title);
+
+    description.forEach((line, lineIndex) => {
+      var line_x = (lineIndex === 0) ? x + description_x : x;
+
+      doc.setFont(font.font_type.DEFAULT, 'normal')
+         .text(line, line_x, current_y + (lineIndex * font.LINE_HEIGHT));
+    });
+
+    // Update current height of the list
+    current_y += (description.length * font.LINE_HEIGHT) + page.DEFAULT_PADDING;
+  }
+
 }
 
 /**
