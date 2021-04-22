@@ -133,15 +133,12 @@ export function getTextHeight(text,  fontSize = font.font_size.DEFAULT_FONT_SIZE
    var lines = doc.setFontSize(fontSize)
                   .splitTextToSize(text, maxLineWidth)
 
+    maxLines = lines.length - maxLines ;
 
-    console.log(lines);
-    console.log("BEFORE" + maxLines);
-
-   maxLines = lines.length - maxLines;
-   console.log("AFTER" + maxLines);
-   console.log(lines.slice(0, -maxLines));
-   return lines.slice(0, -maxLines);
-
+    if(maxLines > 0)
+       return lines.slice(0, -maxLines);
+    else
+      return lines
 }
 
 /**
