@@ -251,7 +251,7 @@ class BackgroundTalents extends React.Component {
                             <Col xs={5}>
                             <br></br>
                                 <Form.Label>One Unique Thing</Form.Label>
-                                <Form.Control type="text"
+                                <Form.Control as="textarea" rows={3}
                                     name="one_unique_thing"
                                     value={this.props.data.background_talents.one_unique_thing}
                                     onChange={this.props.handleChange} />
