@@ -90,8 +90,12 @@ class MasterForm extends React.Component {
 
 
     }
+    if(name == "power_name"){
+      this.state.data.powers[index].[name] = value
+    }else{
+      this.state.data.powers[index].power_description.[name] = value
+    }
 
-    this.state.data.powers[index].[name] = value
     //this.state.data.powers[i]
 
 
@@ -314,7 +318,7 @@ class MasterForm extends React.Component {
 
   render() {
     const { step } = this.state;
-    switch (5) {
+    switch (step) {
       case 1:
         return <Container>
           <ProgressBar now={0} />
