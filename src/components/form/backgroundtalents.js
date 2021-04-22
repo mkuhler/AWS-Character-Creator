@@ -233,23 +233,17 @@ class BackgroundTalents extends React.Component {
                           <Button variant="outline-danger" size="sm" onClick={this.subOneIcon}> - </Button>{' '}
                         </Col>
                         </Form.Row>
-
-
-
                                 {this.createDropDown()}
                                 <datalist name="icon_relationships" id="icon_relationships">
 
 
                                 {this.createList()}
-                                </datalist>
+                        </datalist>
 
-
-
-
+                        <hr/>
 
                         <Form.Row>
-                            <Col xs={5}>
-                            <br></br>
+                            <Col xs={12}>
                                 <Form.Label>One Unique Thing</Form.Label>
                                 <Form.Control as="textarea" rows={3}
                                     name="one_unique_thing"
@@ -257,29 +251,38 @@ class BackgroundTalents extends React.Component {
                                     onChange={this.props.handleChange} />
                             </Col>
                         </Form.Row>
-                        <br></br>
+                        <hr />
                         <Form.Row>
-                            <Col xs={5}>
-                                <Form.Label>Talents and Features</Form.Label>
+                                <Col xs={3}>
+                                    <Form.Label>Talents and Features</Form.Label>
+                                </Col>
+                                <Col>
+                                    <Button variant="outline-success" size="sm" onClick={this.addOneTalent}> + </Button>{' '}
+
+                                    <Button variant="outline-danger" size="sm" onClick={this.subOneTalent}> - </Button>{' '}
+                                </Col>
+                            <Col xs={12}>
+                                
                                 {this.createTalentDropDown()}
                             </Col>
-                            <Col>
-                                <Button variant="outline-success" size="sm" onClick={this.addOneTalent}> + </Button>{' '}
-
-                                <Button variant="outline-danger" size="sm" onClick={this.subOneTalent}> - </Button>{' '}
-                            </Col>
+                            
                         </Form.Row>
-                        <br></br>
+                        <hr />
                         <Form.Row>
-                            <Col xs={5}>
+                            <Col xs={3}>
                                 <Form.Label>Backgrounds</Form.Label>
-                                {this.createBackgrounds()}
                             </Col>
                             <Col>
                                 <Button variant="outline-success" size="sm" onClick={this.addOneBackground}> + </Button>{' '}
 
                                 <Button variant="outline-danger" size="sm" onClick={this.subOneBackground}> - </Button>{' '}
                             </Col>
+
+                            <Col xs={12}>
+                                
+                                {this.createBackgrounds()}
+                            </Col>
+                            
                         </Form.Row>
                     </Form.Group>
                     <Button style={{ float: "left", marginBottom: 10 }} variant="primary" onClick={this.props.prevStep}>Previous</Button>
