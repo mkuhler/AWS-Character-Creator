@@ -40,7 +40,10 @@ export default class PrintPDF extends  React.Component
 
 
     var initiative = charsheet.character_attributes.initiative;
+    var initiative_description = charsheet.character_attributes.initiative_description;
     var hitpoints_max = charsheet.character_attributes.hitpoints_max;
+    var recoveries = charsheet.character_attributes.recoveries;
+    var recovery_description = charsheet.character_attributes.recoveries_optional;
     var armor_class = charsheet.character_attributes.armor_class;
     var physical_defense = charsheet.character_attributes.physical_defense;
     var mental_defense = charsheet.character_attributes.mental_defense;
@@ -54,9 +57,11 @@ export default class PrintPDF extends  React.Component
     var icon_points = charsheet.background_talents.icon_relationship_points;
     var icon_statuses = charsheet.background_talents.icon_relationship_statuses;
     var icon_relationships_other = charsheet.background_talents.icon_relationships_other;
-    var backgrounds = charsheet.background_talents.backgrounds;
+    var one_unique_thing = charsheet.background_talents.one_unique_thing;
+    var background_names = charsheet.background_talents.background_names;
+    var background_numbers = charsheet.background_talents.background_numbers;
     var feat_name = charsheet.background_talents.talents_and_features_names;
-    var feat_description = charsheet.background_talents.talents_and_features_descriptionss;
+    var feat_description = charsheet.background_talents.talents_and_features_descriptions;
     //var powers = charsheet.character_powers.powers;
 
     doc.addImage(basic_info(),'PNG',7,15, 570,247);
@@ -81,8 +86,15 @@ export default class PrintPDF extends  React.Component
     doc.text(395, 65, wis + '', 'center').text(460, 65, wis_mod + '', 'center');
     doc.text(395, 92, cha + '', 'center').text(460, 92, cha_mod + '', 'center');
 
+
     //Character Attributes
+    var init_description = createParagraph(doc, initiative_description, page.descriptions.SIZE, page.descriptions.MAX_LINES)
+    doc.setFontSize(8).setTextColor("#808080").text(532, 85, init_description, 'center');
+
     if(initiative != 0){ doc.setFontSize(20).text(530, 58, initiative + '', 'center'); }
+    doc.setFontSize(8).setTextColor("#808080").text(532, 85, init_description, 'center');
+
+
     if(hitpoints_max != 0){ doc.setFontSize(20).text(105, 205, hitpoints_max + '', 'center'); }
 
     if(death_saves_max != 0){ doc.setFontSize(18).text(290, 205, death_saves_max + '', 'center'); }
@@ -97,7 +109,14 @@ export default class PrintPDF extends  React.Component
       doc.setFontSize(14).text(438, 210, physical_defense + '', 'center');
     }
 
-    doc.setFontSize(8).text(360, 181, ": " + saving_throws_easy);
+    //recoveries
+    var recoveryDescription = createParagraph(doc, recovery_description, page.descriptions.SIZE, page.descriptions.MAX_LINES)
+
+    doc.setFontSize(10).text(170, 185, recoveries, 'center');
+    doc.setFontSize(8).setTextColor("#808080").text(172,210, recoveryDescription, 'center');
+
+
+    doc.setFontSize(8).text(360, 182, ": " + saving_throws_easy);
     doc.setFontSize(8).text(360, 197, ": " + saving_throws_medium);
     doc.setFontSize(8).text(360, 212, ": " + saving_throws_hard);
 
@@ -106,7 +125,7 @@ export default class PrintPDF extends  React.Component
       doc.setFont('arial').setTextColor('').text(375, 225, ": " + saving_throws_optional); //reset font and color
     }
 
-    var sectionText = "";
+    var sectionTitle = "";
     var i;
     var offset = (page.PAGE_MARGIN / 2);
     var boxWidth = (page.PAGE_WIDTH / 3) - offset - 40;
@@ -114,39 +133,36 @@ export default class PrintPDF extends  React.Component
     var line = "";
 
     for (i = 0; i < 3; i++) {
-      var sectionText = [];
+      var sectionText = [""];
 
       switch(i) {
         case 0:
           sectionTitle = "Icon Relationships";
-          
-          // Loop through relationships and add to array of strings
-          // ICON_RELATIONSHIP OBJ WITH ARRAYS IN EACH
-          /*for(relationship in icon_relationships) {
-            line = relationship.name + ": " + relationship.points + " " + relationship.status;
+          // NOTE: This HEAVILY depends on all of the icon arrays being the same length
+          for (var j = 0; j < icon_names.length; j++) {
+            line = icon_names[j] + ": " + icon_points[j] + " " + icon_statuses[j];
             sectionText.push(line);
-          }*/
-
+          }
           break;
+
         case 1:
           sectionTitle = "One Unique Thing";
-          // sectionText = createParagraph(doc, charsheet.background_talents.one_unique_thing, boxWidth - page.DEFAULT_PADDING);
+          sectionText = createParagraph(doc, charsheet.background_talents.one_unique_thing, boxWidth - page.DEFAULT_PADDING);
           break;
+
         case 2:
           sectionTitle = "Backgrounds";
-          
+
           // Loop through backgrounds and add to array of strings
-          /*var j; 
-          for (j = 0; j < backgrounds.length; j++) {
-            var background = backgrounds[j];
-            line = background[0] + " " + background[1];
-            console.log(background);
+          for (var j = 0; j < background_names.length; j++) {
+            line = background_numbers[j]+ " " + background_names[j];
             sectionText.push(line);
-          }*/
+          }
           break;
       }
 
       // TODO: Figure out how to make the boxes full-width without the -25 in width for line 121
+      // TODO: Set ellipsis when the text exceeds the height of the box
       createTitle(doc, offset + (page.PAGE_WIDTH / 3 * i), height, sectionTitle);
       createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, sectionText);
 
@@ -160,76 +176,76 @@ export default class PrintPDF extends  React.Component
     var colSpace_1 = powers.Y;
     var currentHeight = colSpace_0;
     var powerHeight = 0;
-    let power_arr = [ 
+    let power_arr = [
       {power_name: "Cleave", power_frequency_1: "Daily", power_description: {power_action_type: "Maneuver"}},
-      {power_name: "Melee Basic Attack", 
-      power_frequency_1: "At-Will", 
-      power_description: {power_action_type: "Standard Action", 
+      {power_name: "Melee Basic Attack",
+      power_frequency_1: "At-Will",
+      power_description: {power_action_type: "Standard Action",
                           power_target: "One Engaged Creature",
                           power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                          
+
       {power_name: "Vitality Drain", power_frequency_1: "Cyclical", power_description: {power_action_type: "Standard Action"}},
       {power_name: "Test Test", power_frequency_1: "Battle-Based", power_description: {power_action_type: "Standard Action"}}];
-    
-      /*let power_arr = [ 
+
+      /*let power_arr = [
               {power_name: "Cleave", power_frequency_1: "Daily", power_description: {power_action_type: "Maneuver"}},
-              {power_name: "Melee Basic Attack", 
-              power_frequency_1: "At-Will", 
-              power_description: {power_action_type: "Standard Action", 
+              {power_name: "Melee Basic Attack",
+              power_frequency_1: "At-Will",
+              power_description: {power_action_type: "Standard Action",
                                   power_target: "One Engaged Creature",
                                   power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  
+
               {power_name: "Vitality Drain", power_frequency_1: "Cyclical", power_description: {power_action_type: "Standard Action"}},
-              {power_name: "Melee Basic Attack", 
-              power_frequency_1: "At-Will", 
-              power_description: {power_action_type: "Standard Action", 
+              {power_name: "Melee Basic Attack",
+              power_frequency_1: "At-Will",
+              power_description: {power_action_type: "Standard Action",
                                   power_target: "One Engaged Creature",
                                   power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack", 
-              power_frequency_1: "At-Will", 
-              power_description: {power_action_type: "Standard Action", 
+                                  {power_name: "Melee Basic Attack",
+              power_frequency_1: "At-Will",
+              power_description: {power_action_type: "Standard Action",
                                   power_target: "One Engaged Creature",
                                   power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack", 
-              power_frequency_1: "At-Will", 
-              power_description: {power_action_type: "Standard Action", 
+                                  {power_name: "Melee Basic Attack",
+              power_frequency_1: "At-Will",
+              power_description: {power_action_type: "Standard Action",
                                   power_target: "One Engaged Creature",
                                   power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack", 
-              power_frequency_1: "At-Will", 
-              power_description: {power_action_type: "Standard Action", 
+                                  {power_name: "Melee Basic Attack",
+              power_frequency_1: "At-Will",
+              power_description: {power_action_type: "Standard Action",
                                   power_target: "One Engaged Creature",
                                   power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack", 
-              power_frequency_1: "At-Will", 
-              power_description: {power_action_type: "Standard Action", 
+                                  {power_name: "Melee Basic Attack",
+              power_frequency_1: "At-Will",
+              power_description: {power_action_type: "Standard Action",
                                   power_target: "One Engaged Creature",
                                   power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack", 
-              power_frequency_1: "At-Will", 
-              power_description: {power_action_type: "Standard Action", 
+                                  {power_name: "Melee Basic Attack",
+              power_frequency_1: "At-Will",
+              power_description: {power_action_type: "Standard Action",
                                   power_target: "One Engaged Creature",
                                   power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack", 
-              power_frequency_1: "At-Will", 
-              power_description: {power_action_type: "Standard Action", 
+                                  {power_name: "Melee Basic Attack",
+              power_frequency_1: "At-Will",
+              power_description: {power_action_type: "Standard Action",
                                   power_target: "One Engaged Creature",
                                   power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack", 
-              power_frequency_1: "At-Will", 
-              power_description: {power_action_type: "Standard Action", 
+                                  {power_name: "Melee Basic Attack",
+              power_frequency_1: "At-Will",
+              power_description: {power_action_type: "Standard Action",
                                   power_target: "One Engaged Creature",
                                   power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
               {power_name: "Test Test", power_frequency_1: "Battle-Based", power_description: {power_action_type: "Standard Action"}}];
     */
     let power_overflow = [];
-    
+
     // Generate Powers
     power_arr.map((power, key) => {
       currentCol = key % 2;
       currentRow = (key !== 0 && currentCol === 0) ? currentRow + 1 : currentRow;
-      currentHeight = (currentCol === 0) ? colSpace_0 : colSpace_1; 
-      
+      currentHeight = (currentCol === 0) ? colSpace_0 : colSpace_1;
+
       if ((currentHeight + powers.header.HEIGHT + powers.body.HEIGHT) > page.PAGE_HEIGHT) {
         // ADD TO ARRAY OF POWERS NOT PRESENT ON FIRST PAGE, RELEGATE TO ANOTHER
         power_overflow.push(power);
@@ -242,7 +258,7 @@ export default class PrintPDF extends  React.Component
           colSpace_1 = powerHeight + powers.header.HEIGHT;
         }
       }
-      
+
     });
 
 
@@ -266,7 +282,7 @@ export default class PrintPDF extends  React.Component
 
     doc.addPage();
     add_page_number(doc);
-    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0), inventory_height - 5, "FEATS"); 
+    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0), inventory_height - 5, "FEATS");
     createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 1), inventory_height - 5, "GEAR EQUIPMENT & MONEY");
     createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 2), inventory_height - 5, "MAGIC ITEMS");
 
@@ -279,18 +295,18 @@ export default class PrintPDF extends  React.Component
     createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 2), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
 
     //Height difference save to
-    journal_ycord = feat_magic_gear.HEIGHT_DIFFER 
-    doc.addImage(sword_image(),'PNG',7,230 + journal_ycord, 570,30);  
-  
+    journal_ycord = feat_magic_gear.HEIGHT_DIFFER
+    doc.addImage(sword_image(),'PNG',7,230 + journal_ycord, 570,30);
+
     let paragraphlength = createJournalParagraph(doc, background, offset + (page.PAGE_WIDTH / 3 * 0) + 5, 300 + journal_ycord, 570, '', 10 );
-    
-    
+
+
     createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0),280 + journal_ycord, "JOURNAL");
-    
+
     expand_textfield(doc,paragraphlength, 285 + journal_ycord, 150, 150, false, 13, 350);
-    
+
     createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), 285 + journal_ycord, (page.PAGE_WIDTH / 3) + 360, 150 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
-            
+
     add_jounrnal_page(doc, offset, page.PAGE_WIDTH);
 
     feat_magic_gear.FIXED_HEIGHT = 180;
