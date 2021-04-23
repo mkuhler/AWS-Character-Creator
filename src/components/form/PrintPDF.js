@@ -128,6 +128,7 @@ export default class PrintPDF extends  React.Component
     var offset = (page.PAGE_MARGIN / 2);
     var boxWidth = (page.PAGE_WIDTH / 3) - offset - 40;
     var height = 280;
+    var maxLines = (75 / font.LINE_HEIGHT) - 1;
 
     for (var i = 0; i < 3; i++) {
       var sectionText = [""];
@@ -146,7 +147,7 @@ export default class PrintPDF extends  React.Component
 
         case 1:
           sectionTitle = "One Unique Thing";
-          sectionText = createParagraph(doc, one_unique_thing, boxWidth - page.DEFAULT_PADDING, (75 / font.LINE_HEIGHT) - 1);
+          sectionText = createParagraph(doc, one_unique_thing, boxWidth - page.DEFAULT_PADDING, maxLines);
           break;
 
         case 2:
@@ -168,7 +169,7 @@ export default class PrintPDF extends  React.Component
         createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, sectionText, font.font_size.DEFAULT_FONT_SIZE);
       } else {
         createTextBox(doc,  offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75);
-        createList(doc, offset + (page.PAGE_WIDTH / 3 * i) + page.DEFAULT_PADDING, height + font.LINE_HEIGHT + (page.DEFAULT_PADDING * 2), (page.PAGE_WIDTH / 3) - offset - 40, sectionTextTitles, sectionText);
+        createList(doc, offset + (page.PAGE_WIDTH / 3 * i) + page.DEFAULT_PADDING, height + font.LINE_HEIGHT + (page.DEFAULT_PADDING * 2), (page.PAGE_WIDTH / 3) - offset - 40, sectionTextTitles, sectionText, maxLines);
       }
     
     }
@@ -179,12 +180,13 @@ export default class PrintPDF extends  React.Component
     var feat_y = powers.Y + (page.PAGE_MARGIN * 2);
     var feat_width = 180;
     var feat_height = 420;
+    var maxLines = (420 / font.LINE_HEIGHT) - 1;
     var sectionTitle = "Talents and Features";
 
     // Creates list of talents and features based on the name and description arrays
     createTitle(doc, page.PAGE_MARGIN, feat_y, sectionTitle);
     createTextBox(doc, page.PAGE_MARGIN, feat_y + page.DEFAULT_PADDING, feat_width, feat_height);
-    createList(doc, page.PAGE_MARGIN + page.DEFAULT_PADDING, feat_y + (page.DEFAULT_PADDING * 2) + font.LINE_HEIGHT, feat_width, feat_name, feat_description, ": ");
+    createList(doc, page.PAGE_MARGIN + page.DEFAULT_PADDING, feat_y + (page.DEFAULT_PADDING * 2) + font.LINE_HEIGHT, feat_width, feat_name, feat_description, maxLines, ": ");
 
     // Powers
     var sectionTitle = "";
@@ -217,8 +219,6 @@ export default class PrintPDF extends  React.Component
       }
 
     });
-
-    console.log(powerOverflow);
 
     ////////////////////////////////////////////////////////////////////////////////
     //SECOND PAGE INFORMATION
@@ -268,6 +268,45 @@ export default class PrintPDF extends  React.Component
     add_jounrnal_page(doc, offset, page.PAGE_WIDTH);
 
     feat_magic_gear.FIXED_HEIGHT = 180;
+
+    // Add Power Overflow to a new page
+    if (powerOverflow.length > 0) {
+      doc.addPage();
+          
+      var sectionTitle = "";
+      var currentRow = 0;
+      var currentCol = 0;
+      var colSpace_0 = powers.Y;
+      var colSpace_1 = powers.Y;
+      var currentHeight = colSpace_0;
+      var powerHeight = 0;
+      
+      // Generate Powers
+      for (var i = 0; i < powerOverflow.length; i++) {
+        let power = powerOverflow[i];
+        currentCol = i % 2;
+        currentRow = (i !== 0 && currentCol === 0) ? currentRow + 1 : currentRow;
+        currentHeight = (currentCol === 0) ? colSpace_0 : colSpace_1;
+
+        if ((currentHeight + powers.header.HEIGHT + powers.body.HEIGHT) > page.PAGE_HEIGHT) {
+          //Arbitrary break point for too many powers
+          if (i > 100) {
+            break;
+          }
+          // Create a new page and continue printing
+          doc.addPage();
+        }
+
+        powerHeight = createPower(doc, currentRow, currentCol, currentHeight, power);
+
+        if (currentCol === 0) {
+          colSpace_0 = powerHeight + powers.header.HEIGHT;    // Add a buffer space the size of the power's header
+        } else {
+          colSpace_1 = powerHeight + powers.header.HEIGHT;
+        }
+      }
+    }
+
     doc.save(filename);
     }
 

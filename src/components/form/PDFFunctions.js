@@ -191,12 +191,18 @@ export function createJournalParagraph(doc, text, startHight, startWidth, maxLin
  * @param {Array}   titles 
  * @param {Array}   descriptions 
  */
-export function createList(doc, x, y, width, titles, descriptions, separator = " ") {
+export function createList(doc, x, y, width, titles, descriptions, maxLines = (page.PAGE_HEIGHT / font.LINE_HEIGHT), separator = " ") {
   var current_y = y;
+  var lines = 0;
+  var listProperties = {
+    height: 0,
+    titleOverflow: [],
+    descriptionOverflow: []
+  };
 
   // Loop through each of the list items to add to the doc
   for(var i = 0; i < titles.length; i++) {
-    
+
     var description = descriptions[i];
 
     // Create bold title text on the page only if both title and description are filled out
@@ -214,6 +220,16 @@ export function createList(doc, x, y, width, titles, descriptions, separator = "
       // Get the width of the title to offset with the first line of descriptions
       var description_x = doc.getTextWidth(title);
 
+      lines += description.length;
+
+      // If we exceed the alloted number of lines, add the cut-off title/description combo to overflow
+      if (lines > maxLines) {
+        listProperties.titleOverflow = titles.slice(maxLines);
+        listProperties.descriptionOverflow = descriptions.slice(maxLines);
+        break;
+      }
+
+      // Otherwise, loop through the description and print lines
       description.forEach((line, lineIndex) => {
         var line_x = (lineIndex === 0) ? x + description_x : x;
 
@@ -223,9 +239,13 @@ export function createList(doc, x, y, width, titles, descriptions, separator = "
 
       // Update current height of the list
       current_y += (description.length * font.LINE_HEIGHT) + page.DEFAULT_PADDING;
+      
     }
   }
 
+  listProperties.height = current_y - y;
+  console.log(listProperties);
+  return listProperties;
 }
 
 /**
@@ -326,6 +346,7 @@ export function createPowerBody(doc, x, y, description) {
   let heightTotal = 0;
   let titles = [];
   let descriptions = [];
+  let maxLines = 20;
 
   // Loop through the power description object and print each
   Object.keys(description).forEach(function(key, index) {
@@ -345,11 +366,11 @@ export function createPowerBody(doc, x, y, description) {
     descriptions.push(value);
   });
   
-  createList(doc, x, y, powers.WIDTH, titles, descriptions);
-  heightTotal += descriptions.length * font.LINE_HEIGHT;
+  let list = createList(doc, x, y, powers.WIDTH, titles, descriptions, maxLines);
+  heightTotal += list.height;
   
   // TODO : LOOK INTO THIS RETURNING NAN
-  console.log(heightTotal + page.PADDING);
+  console.log("TOTAL " + (heightTotal + page.DEFAULT_PADDING));
   return heightTotal;
 }
 
@@ -369,6 +390,7 @@ export function createPower(doc, row, col, height, power) {
   createPowerHeader(doc, x, header_y, power.power_name, power.power_frequency_1);
   let bodyHeight = createPowerBody(doc, x, body_y, power.power_description);
 
+  console.log(bodyHeight);
   return header_y + bodyHeight;
 }
 
