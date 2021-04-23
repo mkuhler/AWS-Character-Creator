@@ -88,13 +88,20 @@ export function get_ellispis(name, max_length)
  * @return {String}         string containing text to format
  * @return {Number}         = font.font_size.DEFAULT_FONT_SIZE, option to modify font size
  */
-export function createTitle(doc, x, y, text, fontSize = font.font_size.DEFAULT_FONT_SIZE){
+export function createTitle(doc, x, y, text, fontSize = font.font_size.TITLE_FONT_SIZE){
   return doc.setFont('fantasy')
             .setTextColor("#808080")
             .setFontSize(fontSize)
             .text(x, y, text.toUpperCase());
 }
 
+export function createListTitle(doc, x, y, title) {
+  doc.setFontSize(10)
+       .setTextColor('black')
+       .setFontSize(powers.FONT_SIZE)
+       .setFont(font.font_type.DEFAULT, 'bold')
+       .text(title, x, y);
+}
 /**
  * Convert inches value to points
  * @param  {Number} inches  Inches value
@@ -129,9 +136,8 @@ export function getTextHeight(text,  fontSize = font.font_size.DEFAULT_FONT_SIZE
  * @param  {String} font          = font.font_type.DEFAULT, text font
  * @return {Array}                Array of string lines split by maxLineWidth
  */
- export function createParagraph(doc, text, maxLineWidth, maxLines = (page.PAGE_HEIGHT / font.LINE_HEIGHT),fontType = font.font_type.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
-   var lines = doc.setFontSize(fontSize)
-                  .splitTextToSize(text, maxLineWidth)
+ export function createParagraph(doc, text, maxLineWidth, maxLines = (page.PAGE_HEIGHT / font.LINE_HEIGHT)) {
+   var lines = doc.splitTextToSize(text, maxLineWidth)
 
     maxLines = lines.length - maxLines ;
 
@@ -178,6 +184,71 @@ export function createJournalParagraph(doc, text, startHight, startWidth, maxLin
 }
 
 /**
+ * @brief Creates a list formatted with bold titles and inline descriptions that conform to a max width
+ * @param {jsPDF}   doc
+ * @param {Number}  x
+ * @param {Number}  y
+ * @param {Array}   titles
+ * @param {Array}   descriptions
+ */
+export function createList(doc, x, y, width, titles, descriptions, maxLines = (page.PAGE_HEIGHT / font.LINE_HEIGHT), separator = " ") {
+  var current_y = y;
+  var lines = 0;
+  var listProperties = {
+    height: 0,
+    titleOverflow: [],
+    descriptionOverflow: []
+  };
+
+  // Loop through each of the list items to add to the doc
+  for(var i = 0; i < titles.length; i++) {
+
+    var description = descriptions[i];
+
+    // Create bold title text on the page only if both title and description are filled out
+    if (description !== "" && title !== "") {
+      // Create bold title text on the page
+      var title = titles[i] + separator;
+      createListTitle(doc, x, current_y, title);
+    }
+
+    if (description !== "") {
+      // Add name to description, create paragraph to convert from string to array of strings, then remove name from array
+      description = createParagraph(doc, (title + description), width, (page.PAGE_HEIGHT / font.LINE_HEIGHT), font.font_type.DEFAULT, powers.FONT_SIZE);
+      description[0] = description[0].replace(title,'');
+
+      // Get the width of the title to offset with the first line of descriptions
+      var description_x = doc.getTextWidth(title);
+
+      lines += description.length;
+
+      // If we exceed the alloted number of lines, add the cut-off title/description combo to overflow
+      if (lines > maxLines) {
+        listProperties.titleOverflow = titles.slice(maxLines);
+        listProperties.descriptionOverflow = descriptions.slice(maxLines);
+        break;
+      }
+
+      // Otherwise, loop through the description and print lines
+      description.forEach((line, lineIndex) => {
+        var line_x = (lineIndex === 0) ? x + description_x : x;
+
+        doc.setFont(font.font_type.DEFAULT, 'normal')
+          .text(line, line_x, current_y + (lineIndex * font.LINE_HEIGHT));
+      });
+
+      // Update current height of the list
+      current_y += (description.length * font.LINE_HEIGHT) + page.DEFAULT_PADDING;
+      
+    }
+  }
+
+  listProperties.height = current_y - y;
+  console.log(listProperties);
+  return listProperties;
+}
+
+/**
  * Create a box around text
   * @param {Number} x               x-coordinate of the text
  * @param  {Number} y               y-coordinate of the text
@@ -186,11 +257,15 @@ export function createJournalParagraph(doc, text, startHight, startWidth, maxLin
  * @param  {Number} padding       = page.DEFAULT_PADDING, Padding of the text box
  * @return {jsPDF}                  Rectangle around text
  */
-export function createTextBox(doc, x, y, width, height, text = "", padding = page.DEFAULT_PADDING) {
+export function createTextBox(doc, x, y, width, height, text = "", fontSize = font.font_size.MINIMUM_FONT_SIZE, fontType = font.font_type.DEFAULT) {
   journal.MAX_HEIGHT = 0;
-  return doc.setFontSize(font.font_size.MINIMUM_FONT_SIZE)
-            .setFont(font.font_type.DEFAULT, 'normal')
-            .text(text, x + padding, y + padding)
+  let padding = page.DEFAULT_PADDING;
+  let fontColor = font.font_size.MINIMUM_FONT_SIZE;
+
+  return doc.setFontSize(fontSize)
+            .setTextColor(fontColor)
+            .setFont(fontType, 'normal')
+            .text(text, x + padding, y + (padding * 2))
             .rect(x, y, width + padding, height + padding);
 
 }
@@ -229,7 +304,7 @@ function getPowerColor(type) {
       break;
 
     default:
-      color = powers.color.CYAN;
+      color = powers.color.GREY;
       break;
   }
   return color;
@@ -269,6 +344,9 @@ export function createPowerHeader(doc, x, y, name, frequency) {
  */
 export function createPowerBody(doc, x, y, description) {
   let heightTotal = 0;
+  let titles = [];
+  let descriptions = [];
+  let maxLines = 20;
 
   // Loop through the power description object and print each
   Object.keys(description).forEach(function(key, index) {
@@ -276,49 +354,23 @@ export function createPowerBody(doc, x, y, description) {
     let value = description[key];
 
     if (key === 'power_action_type') {
-      keyName = description[key];
-      value = '';
+      keyName = "";
+      value = description[key];
     } else if (key.startsWith(powers.KEY_PREFIX)) {
-      keyName = key.slice((powers.KEY_PREFIX).length).replace('_', ' ') + ': ';
+      keyName = key.slice((powers.KEY_PREFIX).length).replace('_', ' ');
+      keyName = keyName.charAt(0).toUpperCase() + keyName.slice(1) + ': ';
     }
 
-    keyName = keyName.charAt(0).toUpperCase() + keyName.slice(1);
-
-    // Break up the value into lines based on the maximum width of powers
-    value = createParagraph(doc, (keyName + ": " + value), powers.WIDTH, (page.PAGE_HEIGHT / font.LINE_HEIGHT),font.font_type.DEFAULT, powers.FONT_SIZE);
-    value[0] = value[0].substring(value[0].indexOf(": ") + 3);
-
-    let value_x = doc.getTextWidth(keyName);
-    let line_y = Number(y + (font.LINE_HEIGHT * index));
-
-    // If the text of our power starts to exceed the maximum, break
-    if ((heightTotal + font.LINE_HEIGHT)  >= powers.body.HEIGHT) {
-      doc.text('...', x + value_x, line_y + (index * line_y));
-      return heightTotal;
-    }
-
-    // TODO: SET TEXT SMALLER OR ELIPSIS IF IT EXCEEDS THE BOUNDARIES
-    // TODO: SCALE BASED ON HOW MUCH ROOM LEFT
-    doc.setFontSize(10)
-       .setTextColor('black')
-       .setFontSize(powers.FONT_SIZE)
-       .setFont(font.font_type.DEFAULT, 'bold')
-       .text(keyName, x, line_y);
-
-    // Loop through each line of the value text and add to the page, checking with max height.
-    let line_x = x + value_x;
-
-    value.forEach((line, lineIndex) => {
-      line_x = (lineIndex === 0) ? x + value_x : x;
-
-      doc.setFont(font.font_type.DEFAULT, 'normal')
-         .text(line, line_x, line_y + (lineIndex * font.LINE_HEIGHT));
-    });
-
-    // Compute total height of the power's body
-    heightTotal += font.LINE_HEIGHT * value.length;
+    // Add the title and description of the list item to arrays to be passed to createList
+    titles.push(keyName);
+    descriptions.push(value);
   });
-
+  
+  let list = createList(doc, x, y, powers.WIDTH, titles, descriptions, maxLines);
+  heightTotal += list.height;
+  
+  // TODO : LOOK INTO THIS RETURNING NAN
+  console.log("TOTAL " + (heightTotal + page.DEFAULT_PADDING));
   return heightTotal;
 }
 
@@ -338,6 +390,7 @@ export function createPower(doc, row, col, height, power) {
   createPowerHeader(doc, x, header_y, power.power_name, power.power_frequency_1);
   let bodyHeight = createPowerBody(doc, x, body_y, power.power_description);
 
+  console.log(bodyHeight);
   return header_y + bodyHeight;
 }
 
@@ -362,12 +415,15 @@ export function createPower(doc, row, col, height, power) {
                                   lengthy_entry(items[i], 150, 200)
                                  )
                      .setTextColor('')
-                     .splitTextToSize(material, 170)
+                     .splitTextToSize(material, 160)
 
       doc.text(x_Cord, y_Cord, goods);
 
       if(goods.length > 1){
         y_Cord += 25;
+      }
+      else if(goods.length > 2){
+        y_Cord += 35;
       }
       else
         y_Cord += 15;

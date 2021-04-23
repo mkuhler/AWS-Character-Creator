@@ -3,7 +3,7 @@ import CharacterDetails from './characterdetails.js';
 import {Button, Form, Col, Figure} from 'react-bootstrap';
 import { jsPDF } from 'jspdf';
 import charsheet from './CharSheetData.js';
-import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph, createJournalParagraph, add_items, expand_textfield, createPower, add_jounrnal_page, add_page_number } from './PDFFunctions.js';
+import { lengthy_entry, get_ellispis, createTextBox, createTitle, createParagraph, createJournalParagraph, add_items, expand_textfield, createPower, add_jounrnal_page, add_page_number, createList } from './PDFFunctions.js';
 import { font, page, feat_magic_gear, powers } from './PDFConstants.js';
 import { basic_info, sword_image } from './encodebase64.js';
 import FileSaver from 'file-saver';
@@ -52,17 +52,6 @@ export default class PrintPDF extends  React.Component
     var saving_throws_hard = charsheet.character_attributes.saving_throws_hard;
     var saving_throws_optional = charsheet.character_attributes.saving_throws_optional;
     var death_saves_max = charsheet.character_attributes.death_saves_max;
-    // var icon_relationships = charsheet.background_talents.icon_relationships;
-    var icon_names = charsheet.background_talents.icon_relationship_names;
-    var icon_points = charsheet.background_talents.icon_relationship_points;
-    var icon_statuses = charsheet.background_talents.icon_relationship_statuses;
-    var icon_relationships_other = charsheet.background_talents.icon_relationships_other;
-    var one_unique_thing = charsheet.background_talents.one_unique_thing;
-    var background_names = charsheet.background_talents.background_names;
-    var background_numbers = charsheet.background_talents.background_numbers;
-    var feat_name = charsheet.background_talents.talents_and_features_names;
-    var feat_description = charsheet.background_talents.talents_and_features_descriptions;
-    //var powers = charsheet.character_powers.powers;
 
     doc.addImage(basic_info(),'PNG',7,15, 570,247);
 
@@ -125,29 +114,40 @@ export default class PrintPDF extends  React.Component
       doc.setFont('arial').setTextColor('').text(375, 225, ": " + saving_throws_optional); //reset font and color
     }
 
+    // Icon Relationships, One Unique Thing, Backgrounds
+    var icon_names = charsheet.background_talents.icon_relationship_names;
+    var icon_points = charsheet.background_talents.icon_relationship_points;
+    var icon_statuses = charsheet.background_talents.icon_relationship_statuses;
+    var icon_relationships_other = charsheet.background_talents.icon_relationships_other;
+    var one_unique_thing = charsheet.background_talents.one_unique_thing;
+    var background_names = charsheet.background_talents.background_names;
+    var background_numbers = charsheet.background_talents.background_numbers;
+
     var sectionTitle = "";
-    var i;
+    var line = "";
     var offset = (page.PAGE_MARGIN / 2);
     var boxWidth = (page.PAGE_WIDTH / 3) - offset - 40;
     var height = 280;
-    var line = "";
+    var maxLines = (75 / font.LINE_HEIGHT) - 1;
 
-    for (i = 0; i < 3; i++) {
+    for (var i = 0; i < 3; i++) {
       var sectionText = [""];
+      var sectionTextTitles = [""];
 
       switch(i) {
         case 0:
           sectionTitle = "Icon Relationships";
           // NOTE: This HEAVILY depends on all of the icon arrays being the same length
           for (var j = 0; j < icon_names.length; j++) {
-            line = icon_names[j] + ": " + icon_points[j] + " " + icon_statuses[j];
+            line = icon_points[j] + " " + icon_statuses[j];
             sectionText.push(line);
+            sectionTextTitles.push(icon_names[j] + ": ");
           }
           break;
 
         case 1:
           sectionTitle = "One Unique Thing";
-          sectionText = createParagraph(doc, charsheet.background_talents.one_unique_thing, boxWidth - page.DEFAULT_PADDING);
+          sectionText = createParagraph(doc, one_unique_thing, boxWidth - page.DEFAULT_PADDING, maxLines);
           break;
 
         case 2:
@@ -155,8 +155,8 @@ export default class PrintPDF extends  React.Component
 
           // Loop through backgrounds and add to array of strings
           for (var j = 0; j < background_names.length; j++) {
-            line = background_numbers[j]+ " " + background_names[j];
-            sectionText.push(line);
+            sectionTextTitles.push(background_numbers[j]);
+            sectionText.push(background_names[j]);
           }
           break;
       }
@@ -164,11 +164,31 @@ export default class PrintPDF extends  React.Component
       // TODO: Figure out how to make the boxes full-width without the -25 in width for line 121
       // TODO: Set ellipsis when the text exceeds the height of the box
       createTitle(doc, offset + (page.PAGE_WIDTH / 3 * i), height, sectionTitle);
-      createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, sectionText);
-
+      
+      if (i === 1) {
+        createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, sectionText, font.font_size.DEFAULT_FONT_SIZE);
+      } else {
+        createTextBox(doc,  offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75);
+        createList(doc, offset + (page.PAGE_WIDTH / 3 * i) + page.DEFAULT_PADDING, height + font.LINE_HEIGHT + (page.DEFAULT_PADDING * 2), (page.PAGE_WIDTH / 3) - offset - 40, sectionTextTitles, sectionText, maxLines);
+      }
+    
     }
 
-    var sectionTitle = "";
+    // Talents and Features
+    var feat_name = charsheet.background_talents.talents_and_features_names;
+    var feat_description = charsheet.background_talents.talents_and_features_descriptions;
+    var feat_y = powers.Y + (page.PAGE_MARGIN * 2);
+    var feat_width = 180;
+    var feat_height = 420;
+    var maxLines = (420 / font.LINE_HEIGHT) - 1;
+    var sectionTitle = "Talents and Features";
+
+    // Creates list of talents and features based on the name and description arrays
+    createTitle(doc, page.PAGE_MARGIN, feat_y, sectionTitle);
+    createTextBox(doc, page.PAGE_MARGIN, feat_y + page.DEFAULT_PADDING, feat_width, feat_height);
+    createList(doc, page.PAGE_MARGIN + page.DEFAULT_PADDING, feat_y + (page.DEFAULT_PADDING * 2) + font.LINE_HEIGHT, feat_width, feat_name, feat_description, maxLines, ": ");
+
+    // Powers
     var sectionTitle = "";
     var currentRow = 0;
     var currentCol = 0;
@@ -176,79 +196,18 @@ export default class PrintPDF extends  React.Component
     var colSpace_1 = powers.Y;
     var currentHeight = colSpace_0;
     var powerHeight = 0;
-    let power_arr = [
-      {power_name: "Cleave", power_frequency_1: "Daily", power_description: {power_action_type: "Maneuver"}},
-      {power_name: "Melee Basic Attack",
-      power_frequency_1: "At-Will",
-      power_description: {power_action_type: "Standard Action",
-                          power_target: "One Engaged Creature",
-                          power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-
-      {power_name: "Vitality Drain", power_frequency_1: "Cyclical", power_description: {power_action_type: "Standard Action"}},
-      {power_name: "Test Test", power_frequency_1: "Battle-Based", power_description: {power_action_type: "Standard Action"}}];
-
-      /*let power_arr = [
-              {power_name: "Cleave", power_frequency_1: "Daily", power_description: {power_action_type: "Maneuver"}},
-              {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-
-              {power_name: "Vitality Drain", power_frequency_1: "Cyclical", power_description: {power_action_type: "Standard Action"}},
-              {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-                                  {power_name: "Melee Basic Attack",
-              power_frequency_1: "At-Will",
-              power_description: {power_action_type: "Standard Action",
-                                  power_target: "One Engaged Creature",
-                                  power_effect: "Make a fighter melee attack. You may move to engage first if your move action is available."}},
-              {power_name: "Test Test", power_frequency_1: "Battle-Based", power_description: {power_action_type: "Standard Action"}}];
-    */
-    let power_overflow = [];
-
+    let powerOverflow = [];
+    let powerObjects = charsheet.powers;
+    
     // Generate Powers
-    power_arr.map((power, key) => {
+    powerObjects.map((power, key) => {
       currentCol = key % 2;
       currentRow = (key !== 0 && currentCol === 0) ? currentRow + 1 : currentRow;
       currentHeight = (currentCol === 0) ? colSpace_0 : colSpace_1;
 
       if ((currentHeight + powers.header.HEIGHT + powers.body.HEIGHT) > page.PAGE_HEIGHT) {
         // ADD TO ARRAY OF POWERS NOT PRESENT ON FIRST PAGE, RELEGATE TO ANOTHER
-        power_overflow.push(power);
+        powerOverflow.push(power);
       } else {
         powerHeight = createPower(doc, currentRow, currentCol, currentHeight, power);
 
@@ -260,7 +219,6 @@ export default class PrintPDF extends  React.Component
       }
 
     });
-
 
     ////////////////////////////////////////////////////////////////////////////////
     //SECOND PAGE INFORMATION
@@ -282,17 +240,20 @@ export default class PrintPDF extends  React.Component
 
     doc.addPage();
     add_page_number(doc);
-    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0), inventory_height - 5, "FEATS");
-    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 1), inventory_height - 5, "GEAR EQUIPMENT & MONEY");
-    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 2), inventory_height - 5, "MAGIC ITEMS");
+    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0) + 5, inventory_height - 5, "FEATS");
+    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 1) + 5, inventory_height - 5, "GEAR EQUIPMENT & MONEY");
+    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 2) + 5, inventory_height - 5, "MAGIC ITEMS");
 
+    console.log(feats);
     add_items(feats, doc, 10, 50, feat_magic_gear.FIXED_HEIGHT, 180);
+    console.log(inventory);
     add_items(inventory, doc, 215, 50, feat_magic_gear.FIXED_HEIGHT, 180);
+    console.log(magic);
     add_items(magic, doc, 418, 50, feat_magic_gear.FIXED_HEIGHT, 180);
 
-    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
-    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 1), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
-    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 2), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0) + 5, inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 1) + 5, inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 2) + 5, inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
 
     //Height difference save to
     journal_ycord = feat_magic_gear.HEIGHT_DIFFER
@@ -305,11 +266,50 @@ export default class PrintPDF extends  React.Component
 
     expand_textfield(doc,paragraphlength, 285 + journal_ycord, 150, 150, false, 13, 350);
 
-    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), 285 + journal_ycord, (page.PAGE_WIDTH / 3) + 360, 150 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), 285 + journal_ycord, (page.PAGE_WIDTH / 3) + 370, 150 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
 
     add_jounrnal_page(doc, offset, page.PAGE_WIDTH);
 
     feat_magic_gear.FIXED_HEIGHT = 180;
+
+    // Add Power Overflow to a new page
+    if (powerOverflow.length > 0) {
+      doc.addPage();
+          
+      var sectionTitle = "";
+      var currentRow = 0;
+      var currentCol = 0;
+      var colSpace_0 = powers.Y;
+      var colSpace_1 = powers.Y;
+      var currentHeight = colSpace_0;
+      var powerHeight = 0;
+      
+      // Generate Powers
+      for (var i = 0; i < powerOverflow.length; i++) {
+        let power = powerOverflow[i];
+        currentCol = i % 2;
+        currentRow = (i !== 0 && currentCol === 0) ? currentRow + 1 : currentRow;
+        currentHeight = (currentCol === 0) ? colSpace_0 : colSpace_1;
+
+        if ((currentHeight + powers.header.HEIGHT + powers.body.HEIGHT) > page.PAGE_HEIGHT) {
+          //Arbitrary break point for too many powers
+          if (i > 100) {
+            break;
+          }
+          // Create a new page and continue printing
+          doc.addPage();
+        }
+
+        powerHeight = createPower(doc, currentRow, currentCol, currentHeight, power);
+
+        if (currentCol === 0) {
+          colSpace_0 = powerHeight + powers.header.HEIGHT;    // Add a buffer space the size of the power's header
+        } else {
+          colSpace_1 = powerHeight + powers.header.HEIGHT;
+        }
+      }
+    }
+
     doc.save(filename);
     }
 
