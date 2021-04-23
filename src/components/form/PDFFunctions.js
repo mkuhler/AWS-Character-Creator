@@ -310,9 +310,19 @@ function getPowerColor(type) {
   return color;
 }
 
-export function createPowerHeader(doc, x, y, name, frequency) {
+/**
+ * @brief Creates the header for powers and sets correct color
+ * @param {jsPDF} doc 
+ * @param {Number} x 
+ * @param {Number} y 
+ * @param {String} name 
+ * @param {String} frequency 
+ * @param {String} uses 
+ */
+export function createPowerHeader(doc, x, y, name, frequency, uses) {
   let headerColor = getPowerColor(frequency);       // Power color-coded based on its frequency
-  var freqencyWidth = doc.getTextWidth(frequency);
+  let useFrequency = uses + " / " + frequency;
+  var useFreqencyWidth = doc.getTextWidth(useFrequency);
   let width = powers.WIDTH - powers.MARGIN;
   let height = powers.header.HEIGHT - powers.MARGIN;
 
@@ -327,11 +337,13 @@ export function createPowerHeader(doc, x, y, name, frequency) {
        .rect(x + (width - powers.PADDING), y + 4, 10, 10, 'FD');
   }
 
+  
+  
   doc.setTextColor('white')
      .setFontSize(powers.FONT_SIZE)
      .setFont(font.font_type.DEFAULT, 'bold')
      .text(name, x + powers.PADDING, y + powers.PADDING)
-     .text(frequency, x + width - (powers.PADDING + freqencyWidth + checkboxOffset), y + powers.PADDING);
+     .text(useFrequency, x + width - (powers.PADDING + useFreqencyWidth + checkboxOffset), y + powers.PADDING);
 }
 
 /**
@@ -387,10 +399,9 @@ export function createPower(doc, row, col, height, power) {
   let header_y = height + page.PAGE_MARGIN;
   let body_y = Number(header_y + powers.header.HEIGHT + page.PAGE_MARGIN);
 
-  createPowerHeader(doc, x, header_y, power.power_name, power.power_frequency_1);
+  createPowerHeader(doc, x, header_y, power.power_name, power.power_frequency_1, power.power_uses_1);
   let bodyHeight = createPowerBody(doc, x, body_y, power.power_description);
 
-  console.log(bodyHeight);
   return header_y + bodyHeight;
 }
 
