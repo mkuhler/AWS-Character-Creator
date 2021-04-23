@@ -88,7 +88,7 @@ export function get_ellispis(name, max_length)
  * @return {String}         string containing text to format
  * @return {Number}         = font.font_size.DEFAULT_FONT_SIZE, option to modify font size
  */
-export function createTitle(doc, x, y, text, fontSize = font.font_size.DEFAULT_FONT_SIZE){
+export function createTitle(doc, x, y, text, fontSize = font.font_size.TITLE_FONT_SIZE){
   return doc.setFont('fantasy')
             .setTextColor("#808080")
             .setFontSize(fontSize)
@@ -136,9 +136,8 @@ export function getTextHeight(text,  fontSize = font.font_size.DEFAULT_FONT_SIZE
  * @param  {String} font          = font.font_type.DEFAULT, text font
  * @return {Array}                Array of string lines split by maxLineWidth
  */
- export function createParagraph(doc, text, maxLineWidth, maxLines = (page.PAGE_HEIGHT / font.LINE_HEIGHT),fontType = font.font_type.DEFAULT, fontSize = font.font_size.MINIMUM_FONT_SIZE) {
-   var lines = doc.setFontSize(fontSize)
-                  .splitTextToSize(text, maxLineWidth)
+ export function createParagraph(doc, text, maxLineWidth, maxLines = (page.PAGE_HEIGHT / font.LINE_HEIGHT)) {
+   var lines = doc.splitTextToSize(text, maxLineWidth)
 
     maxLines = lines.length - maxLines ;
 
@@ -192,7 +191,7 @@ export function createJournalParagraph(doc, text, startHight, startWidth, maxLin
  * @param {Array}   titles 
  * @param {Array}   descriptions 
  */
-export function createList(doc, x, y, width, titles, descriptions) {
+export function createList(doc, x, y, width, titles, descriptions, separator = " ") {
   var current_y = y;
 
   // Loop through each of the list items to add to the doc
@@ -203,7 +202,7 @@ export function createList(doc, x, y, width, titles, descriptions) {
     // Create bold title text on the page only if both title and description are filled out
     if (description !== "" && title !== "") {
       // Create bold title text on the page
-      var title = titles[i] + " ";
+      var title = titles[i] + separator;
       createListTitle(doc, x, current_y, title);
     }
 
@@ -238,11 +237,15 @@ export function createList(doc, x, y, width, titles, descriptions) {
  * @param  {Number} padding       = page.DEFAULT_PADDING, Padding of the text box
  * @return {jsPDF}                  Rectangle around text
  */
-export function createTextBox(doc, x, y, width, height, text = "", padding = page.DEFAULT_PADDING) {
+export function createTextBox(doc, x, y, width, height, text = "", fontSize = font.font_size.MINIMUM_FONT_SIZE, fontType = font.font_type.DEFAULT) {
   journal.MAX_HEIGHT = 0;
-  return doc.setFontSize(font.font_size.MINIMUM_FONT_SIZE)
-            .setFont(font.font_type.DEFAULT, 'normal')
-            .text(text, x + padding, y + padding)
+  let padding = page.DEFAULT_PADDING;
+  let fontColor = font.font_size.MINIMUM_FONT_SIZE;
+
+  return doc.setFontSize(fontSize)
+            .setTextColor(fontColor)
+            .setFont(fontType, 'normal')
+            .text(text, x + padding, y + (padding * 2))
             .rect(x, y, width + padding, height + padding);
 
 }
@@ -281,7 +284,7 @@ function getPowerColor(type) {
       break;
 
     default:
-      color = powers.color.CYAN;
+      color = powers.color.GREY;
       break;
   }
   return color;
@@ -344,6 +347,8 @@ export function createPowerBody(doc, x, y, description) {
   
   createList(doc, x, y, powers.WIDTH, titles, descriptions);
   heightTotal += descriptions.length * font.LINE_HEIGHT;
+  
+  // TODO : LOOK INTO THIS RETURNING NAN
   console.log(heightTotal + page.PADDING);
   return heightTotal;
 }

@@ -131,20 +131,22 @@ export default class PrintPDF extends  React.Component
 
     for (var i = 0; i < 3; i++) {
       var sectionText = [""];
+      var sectionTextTitles = [""];
 
       switch(i) {
         case 0:
           sectionTitle = "Icon Relationships";
           // NOTE: This HEAVILY depends on all of the icon arrays being the same length
           for (var j = 0; j < icon_names.length; j++) {
-            line = icon_names[j] + ": " + icon_points[j] + " " + icon_statuses[j];
+            line = icon_points[j] + " " + icon_statuses[j];
             sectionText.push(line);
+            sectionTextTitles.push(icon_names[j] + ": ");
           }
           break;
 
         case 1:
           sectionTitle = "One Unique Thing";
-          sectionText = createParagraph(doc, one_unique_thing, boxWidth - page.DEFAULT_PADDING);
+          sectionText = createParagraph(doc, one_unique_thing, boxWidth - page.DEFAULT_PADDING, (75 / font.LINE_HEIGHT) - 1);
           break;
 
         case 2:
@@ -152,8 +154,8 @@ export default class PrintPDF extends  React.Component
 
           // Loop through backgrounds and add to array of strings
           for (var j = 0; j < background_names.length; j++) {
-            line = background_numbers[j]+ " " + background_names[j];
-            sectionText.push(line);
+            sectionTextTitles.push(background_numbers[j]);
+            sectionText.push(background_names[j]);
           }
           break;
       }
@@ -161,8 +163,14 @@ export default class PrintPDF extends  React.Component
       // TODO: Figure out how to make the boxes full-width without the -25 in width for line 121
       // TODO: Set ellipsis when the text exceeds the height of the box
       createTitle(doc, offset + (page.PAGE_WIDTH / 3 * i), height, sectionTitle);
-      createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, sectionText);
-
+      
+      if (i === 1) {
+        createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, sectionText, font.font_size.DEFAULT_FONT_SIZE);
+      } else {
+        createTextBox(doc,  offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75);
+        createList(doc, offset + (page.PAGE_WIDTH / 3 * i) + page.DEFAULT_PADDING, height + font.LINE_HEIGHT + (page.DEFAULT_PADDING * 2), (page.PAGE_WIDTH / 3) - offset - 40, sectionTextTitles, sectionText);
+      }
+    
     }
 
     // Talents and Features
@@ -176,7 +184,7 @@ export default class PrintPDF extends  React.Component
     // Creates list of talents and features based on the name and description arrays
     createTitle(doc, page.PAGE_MARGIN, feat_y, sectionTitle);
     createTextBox(doc, page.PAGE_MARGIN, feat_y + page.DEFAULT_PADDING, feat_width, feat_height);
-    createList(doc, page.PAGE_MARGIN + page.DEFAULT_PADDING, feat_y + (page.DEFAULT_PADDING * 2) + font.LINE_HEIGHT, feat_width, feat_name, feat_description);
+    createList(doc, page.PAGE_MARGIN + page.DEFAULT_PADDING, feat_y + (page.DEFAULT_PADDING * 2) + font.LINE_HEIGHT, feat_width, feat_name, feat_description, ": ");
 
     // Powers
     var sectionTitle = "";

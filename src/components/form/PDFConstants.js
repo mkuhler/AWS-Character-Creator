@@ -1,13 +1,15 @@
 export const font = {
     font_size:{
-        DEFAULT_FONT_SIZE: 12,
+        TITLE_FONT_SIZE: 12,
+        DEFAULT_FONT_SIZE: 10,
         MINIMUM_FONT_SIZE: 8
     },
     font_type:{
       DEFAULT: "helvetica",
       medieval: "truesdell"
     },
-    LINE_HEIGHT: 12
+    LINE_HEIGHT: 12,
+    FONT_COLOR: '#ffffff'
 };
 
 // Unit: Points
@@ -42,7 +44,7 @@ export const powers = {
     GREEN: '#90be6d',
     BLUE: '#118ab2',
     PURPLE: '#6a4c93',
-    CYAN: '#cbf3f0'
+    GREY: '#6d6a75'
   },
   FREQUENCY_CHECKBOX: ['Battle-Based', 'Recharge', 'Daily'],
   FONT_SIZE: 10,
