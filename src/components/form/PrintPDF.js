@@ -186,7 +186,7 @@ export default class PrintPDF extends  React.Component
     var colSpace_1 = powers.Y;
     var currentHeight = colSpace_0;
     var powerHeight = 0;
-    let power_arr = [
+    /*let power_arr = [
       {power_name: "Cleave", power_frequency_1: "Daily", power_description: {power_action_type: "Maneuver"}},
       {power_name: "Melee Basic Attack",
       power_frequency_1: "At-Will",
@@ -196,11 +196,14 @@ export default class PrintPDF extends  React.Component
 
       {power_name: "Vitality Drain", power_frequency_1: "Cyclical", power_description: {power_action_type: "Standard Action"}},
       {power_name: "Test Test", power_frequency_1: "Battle-Based", power_description: {power_action_type: "Standard Action"}}];
-
+      */
     let power_overflow = [];
-
+    let powerObjects = charsheet.powers;
+    
+    console.log(powerObjects);
+    
     // Generate Powers
-    power_arr.map((power, key) => {
+    powerObjects.map((power, key) => {
       currentCol = key % 2;
       currentRow = (key !== 0 && currentCol === 0) ? currentRow + 1 : currentRow;
       currentHeight = (currentCol === 0) ? colSpace_0 : colSpace_1;

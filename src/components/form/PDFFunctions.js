@@ -197,30 +197,34 @@ export function createList(doc, x, y, width, titles, descriptions) {
 
   // Loop through each of the list items to add to the doc
   for(var i = 0; i < titles.length; i++) {
-    var title = titles[i] + ": ";
+    
     var description = descriptions[i];
-    
-    
-    // Create bold title text on the page
-    createListTitle(doc, x, current_y, title);
 
-    // Add name to description, create paragraph to convert from string to array of strings, then remove name from array
-    description = createParagraph(doc, (title + description), width, (page.PAGE_HEIGHT / font.LINE_HEIGHT), font.font_type.DEFAULT, powers.FONT_SIZE);
-    //description[0] = description[0].substring(description[0].indexOf(title));
-    description[0] = description[0].replace(title,'');
+    // Create bold title text on the page only if both title and description are filled out
+    if (description !== "" && title !== "") {
+      // Create bold title text on the page
+      var title = titles[i] + " ";
+      createListTitle(doc, x, current_y, title);
+    }
 
-    // Get the width of the title to offset with the first line of descriptions
-    var description_x = doc.getTextWidth(title);
+    if (description !== "") {
+      // Add name to description, create paragraph to convert from string to array of strings, then remove name from array
+      description = createParagraph(doc, (title + description), width, (page.PAGE_HEIGHT / font.LINE_HEIGHT), font.font_type.DEFAULT, powers.FONT_SIZE);
+      description[0] = description[0].replace(title,'');
 
-    description.forEach((line, lineIndex) => {
-      var line_x = (lineIndex === 0) ? x + description_x : x;
+      // Get the width of the title to offset with the first line of descriptions
+      var description_x = doc.getTextWidth(title);
 
-      doc.setFont(font.font_type.DEFAULT, 'normal')
-         .text(line, line_x, current_y + (lineIndex * font.LINE_HEIGHT));
-    });
+      description.forEach((line, lineIndex) => {
+        var line_x = (lineIndex === 0) ? x + description_x : x;
 
-    // Update current height of the list
-    current_y += (description.length * font.LINE_HEIGHT) + page.DEFAULT_PADDING;
+        doc.setFont(font.font_type.DEFAULT, 'normal')
+          .text(line, line_x, current_y + (lineIndex * font.LINE_HEIGHT));
+      });
+
+      // Update current height of the list
+      current_y += (description.length * font.LINE_HEIGHT) + page.DEFAULT_PADDING;
+    }
   }
 
 }
@@ -317,6 +321,8 @@ export function createPowerHeader(doc, x, y, name, frequency) {
  */
 export function createPowerBody(doc, x, y, description) {
   let heightTotal = 0;
+  let titles = [];
+  let descriptions = [];
 
   // Loop through the power description object and print each
   Object.keys(description).forEach(function(key, index) {
@@ -324,48 +330,20 @@ export function createPowerBody(doc, x, y, description) {
     let value = description[key];
 
     if (key === 'power_action_type') {
-      keyName = description[key];
-      value = '';
+      keyName = "";
+      value = description[key];
     } else if (key.startsWith(powers.KEY_PREFIX)) {
-      keyName = key.slice((powers.KEY_PREFIX).length).replace('_', ' ') + ': ';
+      keyName = key.slice((powers.KEY_PREFIX).length).replace('_', ' ');
+      keyName = keyName.charAt(0).toUpperCase() + keyName.slice(1) + ': ';
     }
 
-    keyName = keyName.charAt(0).toUpperCase() + keyName.slice(1);
+    // Add the title and description of the list item to arrays to be passed to createList
+    titles.push(keyName);
+    descriptions.push(value);
 
-    // Break up the value into lines based on the maximum width of powers
-    value = createParagraph(doc, (keyName + ": " + value), powers.WIDTH, (page.PAGE_HEIGHT / font.LINE_HEIGHT),font.font_type.DEFAULT, powers.FONT_SIZE);
-    value[0] = value[0].substring(value[0].indexOf(": ") + 3);
-
-    let value_x = doc.getTextWidth(keyName);
-    let line_y = Number(y + (font.LINE_HEIGHT * index));
-
-    // If the text of our power starts to exceed the maximum, break
-    if ((heightTotal + font.LINE_HEIGHT)  >= powers.body.HEIGHT) {
-      doc.text('...', x + value_x, line_y + (index * line_y));
-      return heightTotal;
-    }
-
-    // TODO: SET TEXT SMALLER OR ELIPSIS IF IT EXCEEDS THE BOUNDARIES
-    // TODO: SCALE BASED ON HOW MUCH ROOM LEFT
-    doc.setFontSize(10)
-       .setTextColor('black')
-       .setFontSize(powers.FONT_SIZE)
-       .setFont(font.font_type.DEFAULT, 'bold')
-       .text(keyName, x, line_y);
-
-    // Loop through each line of the value text and add to the page, checking with max height.
-    let line_x = x + value_x;
-
-    value.forEach((line, lineIndex) => {
-      line_x = (lineIndex === 0) ? x + value_x : x;
-
-      doc.setFont(font.font_type.DEFAULT, 'normal')
-         .text(line, line_x, line_y + (lineIndex * font.LINE_HEIGHT));
-    });
-
-    // Compute total height of the power's body
-    heightTotal += font.LINE_HEIGHT * value.length;
   });
+  
+  createList(doc, x, y, powers.WIDTH, titles, descriptions);
 
   return heightTotal;
 }
