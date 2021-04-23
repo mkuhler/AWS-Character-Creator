@@ -239,7 +239,7 @@ export function createList(doc, x, y, width, titles, descriptions, maxLines = (p
 
       // Update current height of the list
       current_y += (description.length * font.LINE_HEIGHT) + page.DEFAULT_PADDING;
-      
+
     }
   }
 
@@ -365,10 +365,10 @@ export function createPowerBody(doc, x, y, description) {
     titles.push(keyName);
     descriptions.push(value);
   });
-  
+
   let list = createList(doc, x, y, powers.WIDTH, titles, descriptions, maxLines);
   heightTotal += list.height;
-  
+
   // TODO : LOOK INTO THIS RETURNING NAN
   console.log("TOTAL " + (heightTotal + page.DEFAULT_PADDING));
   return heightTotal;
@@ -417,6 +417,7 @@ export function createPower(doc, row, col, height, power) {
                      .setTextColor('')
                      .splitTextToSize(material, 160)
 
+      console.log(items);
       doc.text(x_Cord, y_Cord, goods);
 
       if(goods.length > 1){

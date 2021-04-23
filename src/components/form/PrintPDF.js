@@ -164,14 +164,14 @@ export default class PrintPDF extends  React.Component
       // TODO: Figure out how to make the boxes full-width without the -25 in width for line 121
       // TODO: Set ellipsis when the text exceeds the height of the box
       createTitle(doc, offset + (page.PAGE_WIDTH / 3 * i), height, sectionTitle);
-      
+
       if (i === 1) {
         createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75, sectionText, font.font_size.DEFAULT_FONT_SIZE);
       } else {
         createTextBox(doc,  offset + (page.PAGE_WIDTH / 3 * i), height + font.LINE_HEIGHT, (page.PAGE_WIDTH / 3) - offset - 40, 75);
         createList(doc, offset + (page.PAGE_WIDTH / 3 * i) + page.DEFAULT_PADDING, height + font.LINE_HEIGHT + (page.DEFAULT_PADDING * 2), (page.PAGE_WIDTH / 3) - offset - 40, sectionTextTitles, sectionText, maxLines);
       }
-    
+
     }
 
     // Talents and Features
@@ -198,7 +198,7 @@ export default class PrintPDF extends  React.Component
     var powerHeight = 0;
     let powerOverflow = [];
     let powerObjects = charsheet.powers;
-    
+
     // Generate Powers
     powerObjects.map((power, key) => {
       currentCol = key % 2;
@@ -225,9 +225,13 @@ export default class PrintPDF extends  React.Component
     ////////////////////////////////////////////////////////////////////////////////
 
     var feats = charsheet.inventory_feats_and_journal.feats;
+    console.log("Feats" + feats);
     var inventory = charsheet.inventory_feats_and_journal.inventory;
+    console.log("inventory" + inventory);
     var magic = charsheet.inventory_feats_and_journal.magic_items;
+    console.log("magic" + magic);
     var background = charsheet.inventory_feats_and_journal.journal_and_background_story;
+    console.log("background" + background);
     var inventory_height = 35;
     var journal_ycord = 0;
 
@@ -244,16 +248,13 @@ export default class PrintPDF extends  React.Component
     createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 1) + 5, inventory_height - 5, "GEAR EQUIPMENT & MONEY");
     createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 2) + 5, inventory_height - 5, "MAGIC ITEMS");
 
-    console.log(feats);
     add_items(feats, doc, 10, 50, feat_magic_gear.FIXED_HEIGHT, 180);
-    console.log(inventory);
     add_items(inventory, doc, 215, 50, feat_magic_gear.FIXED_HEIGHT, 180);
-    console.log(magic);
     add_items(magic, doc, 418, 50, feat_magic_gear.FIXED_HEIGHT, 180);
 
-    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0) + 5, inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
-    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 1) + 5, inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
-    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 2) + 5, inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0) + 5, inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 1) + 5, inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 2) + 5, inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER);
 
     //Height difference save to
     journal_ycord = feat_magic_gear.HEIGHT_DIFFER
@@ -266,7 +267,7 @@ export default class PrintPDF extends  React.Component
 
     expand_textfield(doc,paragraphlength, 285 + journal_ycord, 150, 150, false, 13, 350);
 
-    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), 285 + journal_ycord, (page.PAGE_WIDTH / 3) + 370, 150 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), 285 + journal_ycord, (page.PAGE_WIDTH / 3) + 370, 150 + feat_magic_gear.HEIGHT_DIFFER);
 
     add_jounrnal_page(doc, offset, page.PAGE_WIDTH);
 
@@ -275,7 +276,7 @@ export default class PrintPDF extends  React.Component
     // Add Power Overflow to a new page
     if (powerOverflow.length > 0) {
       doc.addPage();
-          
+
       var sectionTitle = "";
       var currentRow = 0;
       var currentCol = 0;
@@ -283,7 +284,7 @@ export default class PrintPDF extends  React.Component
       var colSpace_1 = powers.Y;
       var currentHeight = colSpace_0;
       var powerHeight = 0;
-      
+
       // Generate Powers
       for (var i = 0; i < powerOverflow.length; i++) {
         let power = powerOverflow[i];
@@ -311,6 +312,7 @@ export default class PrintPDF extends  React.Component
     }
 
     doc.save(filename);
+
     }
 
     jsonGenerator = () => {
