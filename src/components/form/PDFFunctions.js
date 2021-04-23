@@ -340,11 +340,11 @@ export function createPowerBody(doc, x, y, description) {
     // Add the title and description of the list item to arrays to be passed to createList
     titles.push(keyName);
     descriptions.push(value);
-
   });
   
   createList(doc, x, y, powers.WIDTH, titles, descriptions);
-
+  heightTotal += descriptions.length * font.LINE_HEIGHT;
+  console.log(heightTotal + page.PADDING);
   return heightTotal;
 }
 
