@@ -59,7 +59,7 @@ class Journal extends React.Component {
       for(var i = 0; i < this.state.numOfInventory; i++){
         inputs.push(
           <Form.Row>
-                <Col xs={7} >
+                <Col xs={12} >
                     <Form.Control name="inventory" type="text" placeholder="Item" arrayindex={i} value={this.props.data.inventory_feats_and_journal.inventory[i]} onChange={this.props.handleChange} />
           </Col>
           </Form.Row>)
@@ -74,7 +74,7 @@ class Journal extends React.Component {
       for(var i = 0; i < this.state.numOfMagicItems; i++){
         inputs.push(
           <Form.Row>
-                <Col xs={7} >
+                <Col xs={12} >
                     <Form.Control name="magic_items" type="text" placeholder="Magic item" arrayindex={i} value={this.props.data.inventory_feats_and_journal.magic_items[i]} onChange={this.props.handleChange} />
           </Col>
           </Form.Row>)
@@ -90,7 +90,7 @@ class Journal extends React.Component {
 
             inputs.push(
                 <Form.Row>
-                    <Col xs={7} >
+                    <Col xs={12} >
                         <Form.Control name="feats" type="text" placeholder="Feat" arrayindex={i} value={this.props.data.inventory_feats_and_journal.feats[i]} onChange={this.props.handleChange} />
                     </Col>
                 </Form.Row>)
@@ -201,15 +201,13 @@ class Journal extends React.Component {
                           <Button variant="outline-success" size="sm" onClick={this.addOneInventory}> + </Button>{' '}
                           <Button variant="outline-danger" size="sm" onClick={this.subOneInventory}> - </Button>{' '}
                         </Col>
-                      </Form.Row>
+                        <Col xs={12}>
+                            {this.createInventoryList()}
+                        </Col>
+                        </Form.Row>
 
+                        <hr />
 
-
-                    {this.createInventoryList()}
-
-                      <Form.Row>
-                        <br />
-                      </Form.Row>
                       <Form.Row>
                       <Col xs={3}>
                         <Form.Label>Magic Items</Form.Label>
@@ -221,18 +219,20 @@ class Journal extends React.Component {
 
                       </Col>
                       </Form.Row>
-                                {this.createMagicItemList()}
-                                <br />
-
-
+                        {this.createMagicItemList()} 
+                        <hr />
                         <Form.Row>
+
+                            <Col xs={12}>
                           <Form.Label>Journal & Background Story</Form.Label>
                           <Form.Control as="textarea" rows={3}
                                 name="journal_and_background_story"
                                 value={this.props.data.inventory_feats_and_journal.journal_and_background_story}
-                            onChange={this.props.handleChange}/>
+                                    onChange={this.props.handleChange} />
+                            </Col>
                         </Form.Row>
-                          <br />
+
+                        <hr />
                         <Form.Row>
 
                         <Col xs={3}>

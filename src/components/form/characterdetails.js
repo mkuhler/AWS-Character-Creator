@@ -175,7 +175,7 @@ constructor(charProps){
           <Form.Group controlId="basic_info">
             <h3>Basic Information</h3>
             <Form.Row>
-              <Col xs={5}>
+              <Col xs={6}>
                 <Form.Label>Character Name</Form.Label>
                           <Form.Control type="text"
                               name="name"
@@ -183,7 +183,7 @@ constructor(charProps){
                               onChange={this.props.handleChange}
                           />
               </Col>
-              <Col xs={5}>
+              <Col xs={6}>
                           <Form.Label>Race</Form.Label>
                           <Form.Control name="race" type="text" list="races" value={this.props.data.basic_info.race} onChange={this.props.handleChange} />
                   <datalist name="race" id="races">
@@ -195,7 +195,7 @@ constructor(charProps){
             </Form.Row>
             
             <Form.Row>
-              <Col xs={5}>
+              <Col xs={6}>
                 <Form.Label>Class</Form.Label>
                           <Form.Control name="class" type="text" list="classes" value={this.props.data.basic_info.class} onChange={this.props.handleChange}/>
                   <datalist name="class" id="classes">
@@ -204,7 +204,7 @@ constructor(charProps){
                       )}
                   </datalist>
               </Col>
-              <Col xs={5}>
+              <Col xs={6}>
                 <Form.Label>Level</Form.Label>
                 <Form.Control type="text"
                               name="level"
@@ -216,7 +216,7 @@ constructor(charProps){
 
             <Form.Row>
 
-              <Col xs={2}>
+              <Col xs={3}>
                 <Form.Label>Height</Form.Label>
                 <Form.Control type="text"
                               name="height"
@@ -224,7 +224,7 @@ constructor(charProps){
                               onChange={this.props.handleChange}/>
               </Col>
 
-              <Col xs={2}>
+              <Col xs={3}>
                 <Form.Label>Weight</Form.Label>
                 <Form.Control type="text"
                               name="weight"
@@ -232,7 +232,7 @@ constructor(charProps){
                                 onChange={this.props.handleChange}/>
               </Col>
 
-              <Col xs={2}>
+              <Col xs={3}>
                 <Form.Label>Age</Form.Label>
                 <Form.Control type="text"
                               name="age"
@@ -240,7 +240,7 @@ constructor(charProps){
                                   onChange={this.props.handleChange}/>
               </Col>
 
-              <Col xs={2}>
+              <Col xs={3}>
                 <Form.Label>Gender</Form.Label>
                 <Form.Control type="text"
                               name="gender"
@@ -248,13 +248,14 @@ constructor(charProps){
                                   onChange={this.props.handleChange}/>
               </Col>
             </Form.Row>
-        </Form.Group>
+              </Form.Group>
+
+                      <hr />
 
         <Form.Group controlId="ability_scores" name="Manual"> 
-            <br></br>
             <h3>Ability Scores</h3>
             <Form.Row name="genMethod">
-                <Col xs={5}>
+                      <Col xs={4}>
                   <Form.Control as="select" onChange={this.abilityGenMethod}>
                           <option>Manual</option>
                           <option>Roll</option>

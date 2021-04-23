@@ -185,11 +185,11 @@ export function createJournalParagraph(doc, text, startHight, startWidth, maxLin
 
 /**
  * @brief Creates a list formatted with bold titles and inline descriptions that conform to a max width
- * @param {jsPDF}   doc 
- * @param {Number}  x 
- * @param {Number}  y 
- * @param {Array}   titles 
- * @param {Array}   descriptions 
+ * @param {jsPDF}   doc
+ * @param {Number}  x
+ * @param {Number}  y
+ * @param {Array}   titles
+ * @param {Array}   descriptions
  */
 export function createList(doc, x, y, width, titles, descriptions, maxLines = (page.PAGE_HEIGHT / font.LINE_HEIGHT), separator = " ") {
   var current_y = y;
@@ -415,12 +415,15 @@ export function createPower(doc, row, col, height, power) {
                                   lengthy_entry(items[i], 150, 200)
                                  )
                      .setTextColor('')
-                     .splitTextToSize(material, 170)
+                     .splitTextToSize(material, 160)
 
       doc.text(x_Cord, y_Cord, goods);
 
       if(goods.length > 1){
         y_Cord += 25;
+      }
+      else if(goods.length > 2){
+        y_Cord += 35;
       }
       else
         y_Cord += 15;
