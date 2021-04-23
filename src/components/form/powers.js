@@ -241,20 +241,6 @@ class Powers extends React.Component {
     }
 }
 
-<<<<<<< HEAD
-                    // Or, to have powers just use one large text box rather than individual ones, use this
-
-                    //<Form.Row>
-                    //    <Form.Label>Power Description</Form.Label>
-                    //    <Form.Control as="textarea" rows={3}
-                    //        name="power_text"
-                    //        arrayindex={i}
-                    //        value={this.props.data.power_description.power_text[i]}
-                    //        onChange={this.props.handleChange} />
-                    //</Form.Row>
-
-=======
->>>>>>> a8253e636d338697264e17a5836f9cc1c617063a
 
 
 
