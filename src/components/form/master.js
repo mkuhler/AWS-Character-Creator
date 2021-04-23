@@ -11,6 +11,7 @@ import UploadButton from './UploadButton.js';
 import { parse } from '../../../node_modules/url/url.js';
 import Journal from './journal.js';
 import Powers from './powers.js';
+import powerholder from '../data/powerArrayHolders.js'
 
 
 //import the rest of form components
@@ -24,6 +25,7 @@ class MasterForm extends React.Component {
       currentMajorVersion: 1,
       currentMinorVersion: 0,
       data: charsheet,
+      powerArrayHolder: powerholder,
       defaultSheet: charsheet,
       fileState: null,
       fileUploadStatus: "Upload a File"
@@ -31,9 +33,76 @@ class MasterForm extends React.Component {
 
       this.handleChange = this.handleChange.bind(this)
       this.objectAssign = this.objectAssign.bind(this)
-  this.dataChange = this.dataChange.bind(this)
-  this.onFileChange = this.onFileChange.bind(this)
+      this.dataChange = this.dataChange.bind(this)
+      this.onFileChange = this.onFileChange.bind(this)
+      this.handlePower = this.handlePower.bind(this)
+      this.initPower = this.initPower.bind(this)
+      this.parsePowers = this.parsePowers.bind(this)
   }
+
+  parsePowers(){
+    console.log("testing: ")
+    console.log(this.state.data.powers)
+
+    //Parse uploaded powers array into powerArrayHolder for value's in Power.js
+    this.state.data.powers.map((power, index) => {
+
+      this.state.powerArrayHolder.power_name[index] = power.power_name
+      this.state.powerArrayHolder.power_frequency_1[index] = power.power_frequency_1
+      this.state.powerArrayHolder.power_frequency_2[index] = power.power_frequency_2
+      this.state.powerArrayHolder.power_uses_1[index] = power.power_uses_1
+      this.state.powerArrayHolder.power_uses_2[index] = power.power_uses_2
+
+      //power_description fields
+
+      this.state.powerArrayHolder.power_action_type[index] = power.power_description.power_action_type
+      this.state.powerArrayHolder.power_range[index] = power.power_description.power_range
+      this.state.powerArrayHolder.power_target[index] = power.power_description.power_target
+      this.state.powerArrayHolder.power_attack[index] = power.power_description.power_attack
+      this.state.powerArrayHolder.power_hit[index] = power.power_description.power_hit
+      this.state.powerArrayHolder.power_miss[index] = power.power_description.power_miss
+      this.state.powerArrayHolder.power_other[index] = power.power_description.power_other
+      this.state.powerArrayHolder.power_text[index] = power.power_description.power_text
+
+
+
+
+    });
+
+}
+
+  initPower(){
+    if(this.state.data.powers[0] == null){
+        let newPowerObj = {
+
+          power_name: "",
+          power_frequency_1: "", // *****
+          power_uses_1: "", // -1 means "infinite use" such as an At-Will or Cyclical power; Battle-Based needs an int from 1-5, Recharge from 1-20, Daily from 1-5, Other is up to the player
+          power_frequency_2: "", // not applicatble by default, i.e. only one frequncy
+          power_uses_2: "",
+
+          power_description: {
+
+            power_action_type: "", // Standard action is default if not specified, other options like "Ranged Spell", Close-Quarters Spell", etc.
+            power_range: "", // no defualt, something like "One nearby enemy", "Enemy with most hitpoints", etc.
+
+            power_target: "", // all powers I've seen have a target at least, but maybe allow this to be blank just in case
+            power_attack:"", // can be left blank as not all powers have an attack
+            power_hit: "", // can be left blank
+            power_miss: "", // can be left blank
+
+            power_other: "", // array of strings (?) so the user can write any information not covered above
+
+            power_text: ""
+          }
+        }
+
+        this.state.data.powers[0] = newPowerObj
+
+  }
+
+
+}
 
   nextStep = () => {
     const { step } = this.state
@@ -50,6 +119,70 @@ class MasterForm extends React.Component {
       data: charsheet
 
     })
+  }
+
+
+  handlePower(event){
+    console.log("BEGIN, the powers array currently looks like:")
+    console.log(this.state.data.powers)
+    console.log("Now printing power array holder")
+    console.log(this.state.powerArrayHolder)
+
+    const {name, value } = event.target
+    let index = event.target.getAttribute('arrayIndex')
+    if(this.state.data.powers[index] == null){
+      let newPowerObj = {
+        power_name: "",
+        power_frequency_1: "", // *****
+        power_uses_1: "", // -1 means "infinite use" such as an At-Will or Cyclical power; Battle-Based needs an int from 1-5, Recharge from 1-20, Daily from 1-5, Other is up to the player
+        power_frequency_2: "", // not applicatble by default, i.e. only one frequncy
+        power_uses_2: "",
+
+        power_description: {
+
+
+
+
+          power_action_type: "", // Standard action is default if not specified, other options like "Ranged Spell", Close-Quarters Spell", etc.
+          power_range: "", // no defualt, something like "One nearby enemy", "Enemy with most hitpoints", etc.
+
+          power_target: "", // all powers I've seen have a target at least, but maybe allow this to be blank just in case
+          power_attack:"", // can be left blank as not all powers have an attack
+          power_hit: "", // can be left blank
+          power_miss: "", // can be left blank
+
+          power_other: "", // array of strings (?) so the user can write any information not covered above
+
+          power_text: ""
+        }
+      }
+      this.state.data.powers[index] = newPowerObj;
+    }
+    //this.state.data.powers[i]
+
+    if(name == "power_name"){
+      this.state.data.powers[index].power_name = value
+    }else if(name == "power_frequency_1"){
+      this.state.data.powers[index].power_frequency_1 = value
+    }else if(name == "power_uses_1"){
+      this.state.data.powers[index].power_uses_1 = value
+    }else if(name == "power_frequency_2"){
+        this.state.data.powers[index].power_frequency_2 = value
+    }else if(name == "power_uses_2"){
+      this.state.data.powers[index].power_uses_2 = value
+    }else{
+      this.state.data.powers[index].power_description.[name] = value
+    }
+
+    //The following code is for the value fields in Power.JS
+
+    this.state.powerArrayHolder.[name][index] = value;
+    console.log("Powers:")
+    console.log(this.state.data.powers)
+    console.log("END")
+    console.log(this.state.powerArrayHolder)
+    this.forceUpdate()
+
   }
 
 
@@ -93,6 +226,7 @@ class MasterForm extends React.Component {
                           //Object.assign(this.state.data, parsedFile);
                           this.objectAssign(this.state.data, parsedFile);
 
+                          this.parsePowers();
                           //console.log(parsedFile);
                           console.log(this.state.data);
                           //console.log("Charsheet: " + this.state.data);
@@ -162,6 +296,7 @@ class MasterForm extends React.Component {
       this.state.data.[category].[name] = parseInt(value)
     } else if(arrayindex != null){
       this.state.data.[category].[name][arrayindex] = value
+
     }else {
       this.state.data.[category].[name] = value
     }
@@ -265,7 +400,7 @@ class MasterForm extends React.Component {
         return <Container>
           <ProgressBar now={0} />
           <Row>
-
+            {this.initPower()}
             <Col xs={8}>
               <CharacterDetails
                 nextStep = {this.nextStep}
@@ -370,7 +505,8 @@ class MasterForm extends React.Component {
             <Col xs={10}>
               <Powers
                 prevStep={this.prevStep}
-                handleChange={this.handleChange}
+                handleChange={this.handlePower}
+                powerArrayHolder = {this.state.powerArrayHolder}
                 data={this.state.data}
               />
             </Col>
