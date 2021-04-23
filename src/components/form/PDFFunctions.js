@@ -310,28 +310,63 @@ function getPowerColor(type) {
   return color;
 }
 
-export function createPowerHeader(doc, x, y, name, frequency) {
+/**
+ * @brief Creates the header for powers and sets correct color
+ * @param {jsPDF} doc 
+ * @param {Number} x 
+ * @param {Number} y 
+ * @param {String} name 
+ * @param {String} frequency 
+ * @param {String} uses 
+ */
+export function createPowerHeader(doc, x, y, name, frequency, uses) {
   let headerColor = getPowerColor(frequency);       // Power color-coded based on its frequency
-  var freqencyWidth = doc.getTextWidth(frequency);
+  let useFrequency = (uses !== "") ? uses + " / " + frequency : frequency;
+  let useFrequencyWidth = doc.getTextWidth(useFrequency);
   let width = powers.WIDTH - powers.MARGIN;
   let height = powers.header.HEIGHT - powers.MARGIN;
+  let fillHeight = height;
+  let checkboxOffset = (powers.FREQUENCY_CHECKBOX.includes(frequency)) ? 10 : 0;
+
+  let useFrequencyX = x + width - (powers.PADDING + useFrequencyWidth + checkboxOffset);
+  let useFrequencyY = y + powers.PADDING;
+
+  // If all of the text in the header exceeds the limit, add the text to a new line
+  if ((useFrequencyWidth + doc.getTextWidth(name) + checkboxOffset + (powers.PADDING * 2)) > width) {
+    useFrequencyX = x + powers.PADDING;
+    useFrequencyY += font.LINE_HEIGHT;
+    fillHeight += font.LINE_HEIGHT;
+  }
+
+  // If the name exceeds the limit for the power, cut off
+  if ((doc.getTextWidth(name) + checkboxOffset + (powers.PADDING * 2)) > width) {
+    let maxCharacters = 28;
+
+    name = name.substring(0, maxCharacters);
+    name += "...";
+    console.log("NAME: " + name);
+    console.log("LAST INDEX OF STRING " + maxCharacters);
+  }
 
   doc.setFillColor(headerColor)
-     .rect(x, y, width, height, 'F');
+     .rect(x, y, width, fillHeight, 'F');
 
   // TODO: CHECK FOR NUMBER OF BOXES TO ADD
-  let checkboxOffset = 0;
+  
   if (powers.FREQUENCY_CHECKBOX.includes(frequency)) {
     checkboxOffset = 10;
     doc.setFillColor('white')
        .rect(x + (width - powers.PADDING), y + 4, 10, 10, 'FD');
   }
-
+  
   doc.setTextColor('white')
      .setFontSize(powers.FONT_SIZE)
      .setFont(font.font_type.DEFAULT, 'bold')
      .text(name, x + powers.PADDING, y + powers.PADDING)
-     .text(frequency, x + width - (powers.PADDING + freqencyWidth + checkboxOffset), y + powers.PADDING);
+     .setTextColor("#ffffff")
+     .text(useFrequency, useFrequencyX, useFrequencyY);
+
+  return fillHeight + page.PAGE_MARGIN;
 }
 
 /**
@@ -369,8 +404,6 @@ export function createPowerBody(doc, x, y, description) {
   let list = createList(doc, x, y, powers.WIDTH, titles, descriptions, maxLines);
   heightTotal += list.height;
 
-  // TODO : LOOK INTO THIS RETURNING NAN
-  console.log("TOTAL " + (heightTotal + page.DEFAULT_PADDING));
   return heightTotal;
 }
 
@@ -385,12 +418,11 @@ export function createPower(doc, row, col, height, power) {
 
   let x = powers.X + (col * powers.WIDTH) + page.PAGE_MARGIN
   let header_y = height + page.PAGE_MARGIN;
-  let body_y = Number(header_y + powers.header.HEIGHT + page.PAGE_MARGIN);
+  let body_y = Number(header_y + page.PAGE_MARGIN);
 
-  createPowerHeader(doc, x, header_y, power.power_name, power.power_frequency_1);
-  let bodyHeight = createPowerBody(doc, x, body_y, power.power_description);
+  let headerHeight = createPowerHeader(doc, x, header_y, power.power_name, power.power_frequency_1, power.power_uses_1);
+  let bodyHeight = createPowerBody(doc, x, header_y + page.PAGE_MARGIN + headerHeight, power.power_description);
 
-  console.log(bodyHeight);
   return header_y + bodyHeight;
 }
 
