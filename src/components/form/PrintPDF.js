@@ -122,7 +122,7 @@ export default class PrintPDF extends  React.Component
     var one_unique_thing = charsheet.background_talents.one_unique_thing;
     var background_names = charsheet.background_talents.background_names;
     var background_numbers = charsheet.background_talents.background_numbers;
-    
+
     var sectionTitle = "";
     var line = "";
     var offset = (page.PAGE_MARGIN / 2);
@@ -241,17 +241,20 @@ export default class PrintPDF extends  React.Component
 
     doc.addPage();
     add_page_number(doc);
-    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0), inventory_height - 5, "FEATS");
-    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 1), inventory_height - 5, "GEAR EQUIPMENT & MONEY");
-    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 2), inventory_height - 5, "MAGIC ITEMS");
+    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 0) + 5, inventory_height - 5, "FEATS");
+    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 1) + 5, inventory_height - 5, "GEAR EQUIPMENT & MONEY");
+    createTitle(doc, offset + (page.PAGE_WIDTH / 3 * 2) + 5, inventory_height - 5, "MAGIC ITEMS");
 
+    console.log(feats);
     add_items(feats, doc, 10, 50, feat_magic_gear.FIXED_HEIGHT, 180);
+    console.log(inventory);
     add_items(inventory, doc, 215, 50, feat_magic_gear.FIXED_HEIGHT, 180);
+    console.log(magic);
     add_items(magic, doc, 418, 50, feat_magic_gear.FIXED_HEIGHT, 180);
 
-    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
-    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 1), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
-    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 2), inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0) + 5, inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 1) + 5, inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 2) + 5, inventory_height, (page.PAGE_WIDTH / 3) - offset - 40, 170 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
 
     //Height difference save to
     journal_ycord = feat_magic_gear.HEIGHT_DIFFER
@@ -264,7 +267,7 @@ export default class PrintPDF extends  React.Component
 
     expand_textfield(doc,paragraphlength, 285 + journal_ycord, 150, 150, false, 13, 350);
 
-    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), 285 + journal_ycord, (page.PAGE_WIDTH / 3) + 360, 150 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
+    createTextBox(doc, offset + (page.PAGE_WIDTH / 3 * 0), 285 + journal_ycord, (page.PAGE_WIDTH / 3) + 370, 150 + feat_magic_gear.HEIGHT_DIFFER, sectionText);
 
     add_jounrnal_page(doc, offset, page.PAGE_WIDTH);
 

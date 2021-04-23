@@ -3,17 +3,33 @@ import charsheet from './CharSheetData.js';
 import { Button, Form, Col, Container, ProgressBar } from 'react-bootstrap';
 import powerdata from "../data/powerdata.json";
 
+
+
 class Powers extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            numOfPowers: Math.max(this.props.data.power_description.power_name.length, 2),
+          numOfPowers: Math.max(this.props.powerArrayHolder.power_name.length, 2),
+
+
+
         };
         this.addOnePower = this.addOnePower.bind(this);
         this.subOnePower = this.subOnePower.bind(this);
         this.createPowers = this.createPowers.bind(this);
+
+
+
     }
+
+
+
+
+
+
+
+
 
     addOnePower() {
         this.setState((prevState) => {
@@ -43,13 +59,19 @@ class Powers extends React.Component {
                 <br/>
                 <h5>Power {i+1} </h5>
                     <Form.Row>
-                        <Col xs={6}>
+                        <Col xs={5}>
+
                             <Form.Label>Power Name</Form.Label>
                             <Form.Control type="text"
                                 name="power_name"
                                 arrayindex={i}
-                                value={this.props.data.power_description.power_name[i]}
-                                onChange={this.props.handleChange} />
+                                value={this.props.powerArrayHolder.power_name[i]}
+                                onChange={this.props.handleChange}
+
+
+                                 />
+
+
                         </Col>
 
                     </Form.Row>
@@ -59,7 +81,7 @@ class Powers extends React.Component {
                             <Form.Label>Power Frequency 1</Form.Label>
                             <Form.Control type="text"
                                 name="power_frequency_1"
-                                value={this.props.data.power_description.power_frequency_1[i]}
+                                value={this.props.powerArrayHolder.power_frequency_1[i]}
                                 arrayindex={i}
                                 onChange={this.props.handleChange}
                                 list ="frequency"
@@ -70,7 +92,7 @@ class Powers extends React.Component {
                             <Form.Label>Power Uses 1</Form.Label>
                             <Form.Control type="text"
                                 name="power_uses_1"
-                                value={this.props.data.power_description.power_uses_1[i]}
+                                value={this.props.powerArrayHolder.power_uses_1[i]}
                                 arrayindex={i}
                                 onChange={this.props.handleChange} />
                         </Col>
@@ -82,7 +104,7 @@ class Powers extends React.Component {
                             <Form.Control type="select"
                                 name="power_frequency_2"
                                 arrayindex={i}
-                                value={this.props.data.power_description.power_frequency_2[i]}
+                                value={this.props.powerArrayHolder.power_frequency_2[i]}
                                 onChange={this.props.handleChange}
                                 list="frequency"/>
                         </Col>
@@ -92,7 +114,7 @@ class Powers extends React.Component {
                             <Form.Control type="text"
                                 name="power_uses_2"
                                 arrayindex={i}
-                                value={this.props.data.power_description.power_uses_2[i]}
+                                value={this.props.powerArrayHolder.power_uses_2[i]}
                                 onChange={this.props.handleChange} />
                         </Col>
                     </Form.Row>
@@ -103,7 +125,7 @@ class Powers extends React.Component {
                             <Form.Control type="text"
                                 name="power_action_type"
                                 arrayindex={i}
-                                value = { this.props.data.power_description.power_action_type[i] }
+                                value={this.props.powerArrayHolder.power_action_type[i]}
                                 onChange={this.props.handleChange}
                                 list = "action_type" />
 
@@ -112,7 +134,7 @@ class Powers extends React.Component {
                             <Form.Label>Power Range</Form.Label>
                             <Form.Control type="text"
                                 name="power_range"
-                                value = { this.props.data.power_description.power_range[i] }
+                                value={this.props.powerArrayHolder.power_range[i]}
                                 arrayindex={i}
                                 onChange={this.props.handleChange} />
                         </Col>
@@ -124,14 +146,14 @@ class Powers extends React.Component {
                             <Form.Control type="text"
                                 name="power_target"
                                 arrayindex={i}
-                                value = { this.props.data.power_description.power_target[i] }
+                                value={this.props.powerArrayHolder.power_target[i]}
                                 onChange={this.props.handleChange} />
                         </Col>
                         <Col xs={6}>
                             <Form.Label>Power Attack</Form.Label>
                             <Form.Control type="text"
                                 name="power_attack"
-                                value = { this.props.data.power_description.power_attack[i] }
+                                value={this.props.powerArrayHolder.power_attack[i]}
                                 arrayindex={i}
                                 onChange={this.props.handleChange} />
                         </Col>
@@ -142,7 +164,7 @@ class Powers extends React.Component {
                             <Form.Label>Power Hit</Form.Label>
                             <Form.Control type="text"
                                 name="power_hit"
-                                value = { this.props.data.power_description.power_hit[i] }
+                            value={this.props.powerArrayHolder.power_hit[i]}
                                 arrayindex={i}
                                 onChange={this.props.handleChange} />
                         </Col>
@@ -150,7 +172,7 @@ class Powers extends React.Component {
                             <Form.Label>Power Miss</Form.Label>
                             <Form.Control type="text"
                                 name="power_miss"
-                                value = { this.props.data.power_description.power_miss[i] }
+                                value={this.props.powerArrayHolder.power_miss[i]}
                                 arrayindex={i}
                                 onChange={this.props.handleChange} />
                         </Col>
@@ -161,20 +183,20 @@ class Powers extends React.Component {
                             <Form.Label>Power Other</Form.Label>
                             <Form.Control as="textarea" rows={3}
                                 name="power_other"
-                                value = { this.props.data.power_description.power_other[i] }
+                                value={this.props.powerArrayHolder.power_other[i]}
                                 arrayindex={i}
                                 onChange={this.props.handleChange} />
                         </Col>
                      </Form.Row>
 
-                    {i < this.state.numOfPowers-1 &&              
+                    {i < this.state.numOfPowers-1 &&
                         <Form.Row>
                             <Col xs={12}>
                                 <hr/>
                             </Col>
                         </Form.Row>
                     }
-                    
+
                 </>)
         }
         return inputs
@@ -196,7 +218,7 @@ class Powers extends React.Component {
                     <text>Leave Frequencies or Uses blank if they are not applicable.</text>
                     <Form.Group controlId="power_description">
 
-                        {console.log(this.props.data.power_description)}
+
                         {this.createPowers()}
                         <datalist name ="frequency" id="frequency">
                           {powerdata.frequency.map((frequency) =>
@@ -219,6 +241,7 @@ class Powers extends React.Component {
     }
 }
 
+<<<<<<< HEAD
                     // Or, to have powers just use one large text box rather than individual ones, use this
 
                     //<Form.Row>
@@ -230,6 +253,8 @@ class Powers extends React.Component {
                     //        onChange={this.props.handleChange} />
                     //</Form.Row>
 
+=======
+>>>>>>> a8253e636d338697264e17a5836f9cc1c617063a
 
 
 
